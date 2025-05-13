@@ -1,0 +1,42 @@
+<svg width="600" height="260" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+  <!-- Content area -->
+  <rect x="0" y="0" width="600" height="200" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="20" y="30" font-family="Arial" font-size="16" font-weight="bold" fill="#333333">Sample Content</text>
+  <text x="20" y="60" font-family="Arial" font-size="14" fill="#666666">This is a preview of content with the new footer-style attribution badge.</text>
+  <text x="20" y="90" font-family="Arial" font-size="14" fill="#666666">The badge is much more visible and provides clear information about the</text>
+  <text x="20" y="120" font-family="Arial" font-size="14" fill="#666666">content's origin, placed at the bottom like a signature.</text>
+  
+  <!-- Footer badge (AI version) -->
+  <rect x="0" y="200" width="600" height="60" fill="#eef1f6" stroke="#445572" stroke-width="2" stroke-dasharray="0 600 600 0"/>
+  
+  <!-- Badge icon -->
+  <circle cx="40" cy="230" r="20" fill="#f0f0f0" stroke="#445572" stroke-width="1"/>
+  <circle cx="40" cy="230" r="10" fill="#445572"/>
+  <circle cx="40" cy="230" r="15" fill="none" stroke="#445572" stroke-width="1"/>
+  
+  <!-- Badge text -->
+  <text x="80" y="225" font-family="Arial" font-size="16" font-weight="bold" fill="#333333">AI Generated Content</text>
+  <text x="80" y="245" font-family="Arial" font-size="12" fill="#666666">This content was created with artificial intelligence assistance</text>
+  
+  <!-- attest.ink link -->
+  <text x="540" y="230" font-family="Arial" font-size="12" fill="#4a7bca">attest.ink</text>
+  
+  <!-- Link icon -->
+  <rect x="520" y="222" width="15" height="15" fill="none" stroke="#4a7bca" stroke-width="1"/>
+  <line x1="520" y1="237" x2="527" y2="230" stroke="#4a7bca" stroke-width="1"/>
+  <line x1="527" y1="230" x2="535" y2="222" stroke="#4a7bca" stroke-width="1"/>
+  
+  <!-- Animation hint (not real animation, just illustrative) -->
+  <path d="M520,237 Q530,240 540,237" stroke="#4a7bca" stroke-width="0.5" stroke-dasharray="2,2" fill="none"/>
+
+  <!-- Badge glow effect (illustrative) -->
+  <rect x="0" y="200" width="600" height="60" fill="url(#gradientGlow)" opacity="0.1"/>
+  
+  <defs>
+    <linearGradient id="gradientGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#445572" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#445572" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#445572" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
