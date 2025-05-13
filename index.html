@@ -3,55 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attest.ink - Professional Content Attribution Badges</title>
+    <title>attest.ink - Content Attribution Badges</title>
     <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-generated content">
-    
-    <!-- Global site variable for easy domain updates -->
-    <script>
-        window.ATTEST_INK_BASE_URL = 'https://statusdothealth.github.io/attest.ink';
-        // When domain changes, simply update above to:
-        // window.ATTEST_INK_BASE_URL = 'https://attest.ink';
-    </script>
-    
-    <!-- Favicon links -->
-    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="assets/favicon/apple-touch-icon.png">
-    
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="attest.ink - Content Attribution Badges">
+    <meta property="og:description" content="Clear, elegant badges for distinguishing human and AI-generated content">
+    <meta property="og:image" content="https://attest.ink/assets/og-image.png">
+    <meta property="og:url" content="https://attest.ink">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
+
 <body>
+    <!-- Animated background elements -->
     <div class="background-wave"></div>
     
     <header>
         <div class="container">
-            <div class="logo">
-                <img src="assets/img/logo.svg" alt="Attest.ink Logo" width="48" height="48">
-                <h1>Attest<span class="accent">.</span>ink</h1>
-            </div>
+            <h1 class="logo">attest<span class="accent">.</span>ink</h1>
             <p class="tagline">Transparent attribution for the AI era</p>
         </div>
     </header>
-
     <main>
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
                     <h2>Clear distinction between human and AI-generated content</h2>
                     <p>
-                        In an era where content origin matters more than ever, Attest.ink provides
-                        elegant, professional badges to distinguish human creativity from AI assistance.
+                        In an era where content origin matters more than ever, attest.ink provides
+                        elegant, professional badges to distinguish human-created content from
+                        AI-generated work across all digital platforms.
                     </p>
                     <div class="cta-buttons">
                         <a href="#implementation" class="btn primary">Get Started</a>
-                        <a href="#demo" class="btn secondary">See Demo</a>
+                        <a href="#demo" class="btn secondary">Try Interactive Demo</a>
                     </div>
                 </div>
                 <div class="badges-showcase">
@@ -60,7 +52,7 @@
                             <img src="assets/badges/human-generated.svg" alt="Human Generated Badge" width="240" height="60">
                         </div>
                         <h3>Human Generated</h3>
-                        <p>Content created by human creativity and effort</p>
+                        <p>Content created through human creativity and effort</p>
                     </div>
                     <div class="badge-card ai">
                         <div class="badge-image">
@@ -72,11 +64,10 @@
                 </div>
             </div>
         </section>
-
         <section id="implementation" class="implementation">
             <div class="container">
                 <h2>Simple <span class="highlight">Implementation</span></h2>
-                <p class="section-intro">Add these lightweight badges to any digital content with just a few lines of code.</p>
+                <p class="section-intro">Add these lightweight, animated badges to any digital content with just a few lines of code. Our badges work seamlessly across websites, documents, social media, and more.</p>
                 
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="html">HTML</button>
@@ -85,7 +76,18 @@
                 </div>
                 
                 <div class="tab-content active" id="html-tab">
-                    <pre><code id="html-code-sample"><!-- HTML code will be populated by JavaScript --></code></pre>
+                    <pre><code>&lt;!-- For human-generated content -->
+&lt;img src="https://attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
+
+&lt;!-- For AI-generated content -->
+&lt;img src="https://attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" width="120" height="30">
+
+&lt;!-- For specific AI platforms -->
+&lt;img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Generated" width="120" height="30">
+&lt;img src="https://attest.ink/assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated" width="120" height="30">
+&lt;img src="https://attest.ink/assets/badges/gemini-generated.svg" alt="Gemini Generated" width="120" height="30">
+&lt;img src="https://attest.ink/assets/badges/midjourney-generated.svg" alt="Midjourney Generated" width="120" height="30">
+&lt;img src="https://attest.ink/assets/badges/dalle-generated.svg" alt="DALL-E Generated" width="120" height="30"></code></pre>
                     <button class="copy-btn" data-target="html-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -93,7 +95,15 @@
                 </div>
                 
                 <div class="tab-content" id="markdown-tab">
-                    <pre><code id="markdown-code-sample"><!-- Markdown code will be populated by JavaScript --></code></pre>
+                    <pre><code>![Human Generated](https://attest.ink/assets/badges/human-generated.svg)
+![AI Generated](https://attest.ink/assets/badges/ai-generated.svg)
+
+<!-- For specific AI platforms -->
+![Claude AI Generated](https://attest.ink/assets/badges/claude-generated.svg)
+![ChatGPT Generated](https://attest.ink/assets/badges/chatgpt-generated.svg)
+![Gemini Generated](https://attest.ink/assets/badges/gemini-generated.svg)
+![Midjourney Generated](https://attest.ink/assets/badges/midjourney-generated.svg)
+![DALL-E Generated](https://attest.ink/assets/badges/dalle-generated.svg)</code></pre>
                     <button class="copy-btn" data-target="markdown-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -101,7 +111,24 @@
                 </div>
                 
                 <div class="tab-content" id="javascript-tab">
-                    <pre><code id="javascript-code-sample"><!-- JavaScript code will be populated by JavaScript --></code></pre>
+                    <pre><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
+&lt;script>
+  // Add a human-generated badge to an element
+  AttestInk.addBadge('human', '#my-human-content');
+  
+  // Add an AI-generated badge to an element
+  AttestInk.addBadge('ai', '#my-ai-content');
+  
+  // Add a specific AI platform badge (claude, chatgpt, gemini, midjourney, dalle)
+  AttestInk.addBadge('claude', '#claude-generated-content');
+  
+  // Advanced usage with options (position, size, style)
+  AttestInk.addBadge('human', '#custom-content', {
+    position: 'top-right',  // top-right, top-left, bottom-right, bottom-left, center-top, center-bottom
+    size: 'medium',         // small, medium, large
+    style: 'default'        // default, subtle, prominent
+  });
+&lt;/script></code></pre>
                     <button class="copy-btn" data-target="javascript-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -109,11 +136,10 @@
                 </div>
             </div>
         </section>
-
         <section id="demo" class="demo">
             <div class="container">
                 <h2>Interactive <span class="highlight">Demo</span></h2>
-                <p class="section-intro">See how the badges look and function in a real-world context.</p>
+                <p class="section-intro">See how the badges look and function in a real-world context. Try adding different badges to the content below and see how they seamlessly integrate with your content.</p>
                 
                 <div class="demo-controls">
                     <button id="add-human-badge" class="btn human-btn">Add Human Badge</button>
@@ -121,11 +147,13 @@
                     <button id="reset-demo" class="btn reset-btn">Reset</button>
                 </div>
                 
+                <!-- Platform selector will be injected here via JavaScript -->
+                
                 <div class="demo-content">
                     <div class="content-card" id="demo-block-1">
                         <div class="card-header">
                             <h3>Market Analysis Report</h3>
-                            <span class="date">May 12, 2025</span>
+                            <span class="date">May 10, 2025</span>
                         </div>
                         <div class="card-body">
                             <p>
@@ -160,58 +188,118 @@
                 </div>
             </div>
         </section>
-        
         <section class="why">
             <div class="container">
                 <h2>Why <span class="highlight">Attribution</span> Matters</h2>
-                <p class="section-intro">In today's digital landscape, understanding content origin provides valuable context.</p>
+                <p class="section-intro">In today's digital landscape, understanding content origin provides valuable context and builds trust between creators and audiences.</p>
                 
                 <div class="reasons-grid">
                     <div class="reason-card">
                         <div class="reason-icon transparency-icon"></div>
                         <h3>Transparency</h3>
-                        <p>Users have the right to know how content was created</p>
+                        <p>Users have the right to know how content was created, allowing for informed evaluation and interpretation</p>
                     </div>
                     <div class="reason-card">
                         <div class="reason-icon trust-icon"></div>
                         <h3>Trust</h3>
-                        <p>Clear attribution builds trust between creators and audiences</p>
+                        <p>Clear attribution builds credibility and trust between creators and audiences in digital spaces</p>
                     </div>
                     <div class="reason-card">
                         <div class="reason-icon value-icon"></div>
                         <h3>Value</h3>
-                        <p>Appropriately recognizing human creative effort</p>
+                        <p>Proper recognition acknowledges the unique value of human creative effort and AI capabilities</p>
                     </div>
                     <div class="reason-card">
                         <div class="reason-icon context-icon"></div>
                         <h3>Context</h3>
-                        <p>Providing important context for interpretation</p>
+                        <p>Understanding origin provides essential context for interpretation in an evolving media landscape</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="platforms">
+            <div class="container">
+                <h2>Platform-Specific <span class="highlight">Badges</span></h2>
+                <p class="section-intro">attest.ink provides specialized badges for content created with specific AI platforms, offering clear and consistent attribution across your digital ecosystem.</p>
+                
+                <div class="platform-badges">
+                    <div class="platform-badge">
+                        <div class="badge-image">
+                            <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>Claude</h3>
+                        <p>For content generated with Anthropic's Claude AI assistant</p>
+                        <button class="btn claude-btn small-btn">View Details</button>
+                    </div>
+                    
+                    <div class="platform-badge">
+                        <div class="badge-image">
+                            <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>ChatGPT</h3>
+                        <p>For content generated with OpenAI's ChatGPT models</p>
+                        <button class="btn chatgpt-btn small-btn">View Details</button>
+                    </div>
+                    
+                    <div class="platform-badge">
+                        <div class="badge-image">
+                            <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>Gemini</h3>
+                        <p>For content generated with Google's Gemini AI models</p>
+                        <button class="btn gemini-btn small-btn">View Details</button>
+                    </div>
+                    
+                    <div class="platform-badge">
+                        <div class="badge-image">
+                            <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>Midjourney</h3>
+                        <p>For images generated with Midjourney's AI</p>
+                        <button class="btn midjourney-btn small-btn">View Details</button>
+                    </div>
+                    
+                    <div class="platform-badge">
+                        <div class="badge-image">
+                            <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>DALL-E</h3>
+                        <p>For images generated with OpenAI's DALL-E</p>
+                        <button class="btn dalle-btn small-btn">View Details</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <h2>Attest<span class="accent">.</span>ink</h2>
+                    <h2>attest<span class="accent">.</span>ink</h2>
                     <p>Content attribution that matters</p>
                 </div>
                 <div class="footer-links">
-                    <a href="https://github.com/statusdothealth/attest.ink">GitHub</a>
-                    <a href="https://github.com/statusdothealth/attest.ink#contributing">Contribute</a>
-                    <a href="https://github.com/statusdothealth/attest.ink/blob/main/LICENSE">License</a>
+                    <a href="https://github.com/yourusername/attest.ink" class="link-animated">GitHub</a>
+                    <a href="https://github.com/yourusername/attest.ink#contributing" class="link-animated">Contribute</a>
+                    <a href="https://github.com/yourusername/attest.ink/blob/main/LICENSE" class="link-animated">License</a>
                 </div>
             </div>
             <div class="footer-copyright">
-                <p>&copy; 2025 Attest.ink &mdash; <a href="https://github.com/statusdothealth/attest.ink">View on GitHub</a></p>
+                <p>&copy; 2025 attest.ink &mdash; <a href="https://github.com/yourusername/attest.ink">View on GitHub</a></p>
             </div>
         </div>
     </footer>
 
+    <!-- Modal for platform details (hidden by default) -->
+    <div id="platform-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
     <script src="js/attest.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/platforms.js"></script>
 </body>
 </html>
