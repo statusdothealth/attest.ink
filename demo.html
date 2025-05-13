@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - attest.ink Content Attribution Badges</title>
+    <meta name="description" content="See how attest.ink badges look on different content types">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-logo">attest<span class="accent">.</span>ink</a>
+            
+            <!-- Hamburger menu for mobile -->
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Navigation links -->
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="demo.html" class="active">Demo</a></li>
+                <li><a href="index.html#implementation">Implementation</a></li>
+                <li><a href="mailto:info@attest.ink" class="contact-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <header class="demo-header">
+        <div class="container">
+            <h1>Interactive <span class="accent">Demo</span></h1>
+            <p class="tagline">See how attest.ink badges look on different content types</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="demo-controls">
+            <div class="container">
+                <div class="controls-container">
+                    <div class="content-type-selector">
+                        <h3>Select Content Type</h3>
+                        <div class="content-type-buttons">
+                            <button class="content-btn active" data-content="blog" id="blog">Blog Post</button>
+                            <button class="content-btn" data-content="text" id="text">Plain Text</button>
+                            <button class="content-btn" data-content="email" id="email">Email</button>
+                            <button class="content-btn" data-content="image" id="image">Image</button>
+                            <button class="content-btn" data-content="video" id="video">Video</button>
+                            <button class="content-btn" data-content="pdf" id="pdf">PDF</button>
+                        </div>
+                    </div>
+                    
+                    <div class="badge-type-selector">
+                        <h3>Select Badge Type</h3>
+                        <div class="badge-type-buttons">
+                            <button class="badge-btn active" data-badge="human">Human</button>
+                            <button class="badge-btn" data-badge="ai">AI</button>
+                            <button class="badge-btn" data-badge="claude" id="claude">Claude</button>
+                            <button class="badge-btn" data-badge="chatgpt" id="chatgpt">ChatGPT</button>
+                            <button class="badge-btn" data-badge="gemini" id="gemini">Gemini</button>
+                            <button class="badge-btn" data-badge="midjourney" id="midjourney">Midjourney</button>
+                            <button class="badge-btn" data-badge="dalle" id="dalle">DALL-E</button>
+                        </div>
+                    </div>
+                    
+                    <div class="badge-position-selector">
+                        <h3>Badge Position</h3>
+                        <select id="badge-position">
+                            <option value="top-right">Top Right</option>
+                            <option value="top-left">Top Left</option>
+                            <option value="bottom-right" selected>Bottom Right</option>
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="footer">Footer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="demo-preview">
+            <div class="container">
+                <div class="preview-container">
+                    <!-- Content will be loaded here -->
+                    <div id="content-preview" class="content-preview blog-preview">
+                        <!-- Default demo content (blog post) -->
+                        <div class="blog-header">
+                            <h2>The Future of Content Attribution in the AI Era</h2>
+                            <div class="blog-meta">
+                                <span class="author">By Sarah Johnson</span>
+                                <span class="date">May 10, 2025</span>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <p>In today's digital landscape, the line between human-created and AI-generated content continues to blur. As artificial intelligence tools become more sophisticated, the need for transparent attribution has never been more important.</p>
+                            
+                            <p>Content creators, publishers, and platforms are now facing new challenges in clearly identifying the origin of digital media. This is where standardized attribution badges can play a crucial role in maintaining transparency and trust.</p>
+                            
+                            <h3>Why Attribution Matters</h3>
+                            
+                            <p>Understanding content origin is important for several reasons:</p>
+                            
+                            <ul>
+                                <li>Transparency builds trust with your audience</li>
+                                <li>Attribution acknowledges both human creativity and AI capabilities</li>
+                                <li>Clear labeling helps prevent misunderstandings and false claims</li>
+                                <li>Readers gain important context for interpreting information</li>
+                            </ul>
+                            
+                            <p>As we navigate the evolving media landscape, establishing clear standards for content attribution will be essential for maintaining the value of human creativity while embracing the capabilities of artificial intelligence.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="implementation-example">
+                    <h3>Implementation Code</h3>
+                    <div class="tabs">
+                        <button class="example-tab-btn active" data-example-tab="html">HTML</button>
+                        <button class="example-tab-btn" data-example-tab="markdown">Markdown</button>
+                        <button class="example-tab-btn" data-example-tab="javascript">JavaScript</button>
+                    </div>
+                    
+                    <div class="example-tab-content active" id="example-html-tab">
+                        <pre><code id="html-code-example">&lt;!-- Add this to your blog post HTML -->
+&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
+  &lt;img src="https://attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
+  &lt;span class="badge-tooltip">Human-created content, verified by attest.ink&lt;/span>
+&lt;/a></code></pre>
+                        <button class="copy-btn" data-target="example-html-tab">
+                            <span class="copy-icon"></span>
+                            <span class="copy-text">Copy</span>
+                        </button>
+                    </div>
+                    
+                    <div class="example-tab-content" id="example-markdown-tab">
+                        <pre><code id="markdown-code-example">[![Human Generated](https://attest.ink/assets/badges/human-generated.svg)](https://attest.ink "Human-created content, verified by attest.ink")</code></pre>
+                        <button class="copy-btn" data-target="example-markdown-tab">
+                            <span class="copy-icon"></span>
+                            <span class="copy-text">Copy</span>
+                        </button>
+                    </div>
+                    
+                    <div class="example-tab-content" id="example-javascript-tab">
+                        <pre><code id="javascript-code-example">&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
+&lt;script>
+  // Add a human-generated badge to your blog post
+  AttestInk.addBadge('human', '.blog-content', {
+    position: 'bottom-right',
+    linkToAttestInk: true,
+    showTooltip: true
+  });
+&lt;/script></code></pre>
+                        <button class="copy-btn" data-target="example-javascript-tab">
+                            <span class="copy-icon"></span>
+                            <span class="copy-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-type-examples">
+            <div class="container">
+                <h2>How to Add Badges to Different Content Types</h2>
+                <div class="examples-grid">
+                    <div class="example-card" id="blog-example">
+                        <h3>Blog Posts</h3>
+                        <p>Add the badge at the end of your article or in the author byline section. For platforms like Medium, add the badge image to the end of your post.</p>
+                        <button class="view-code-btn" data-example="blog">View Code Example</button>
+                    </div>
+                    
+                    <div class="example-card" id="text-example">
+                        <h3>Plain Text</h3>
+                        <p>For plain text content, add the badge as a visual element at the beginning or end of your document.</p>
+                        <button class="view-code-btn" data-example="text">View Code Example</button>
+                    </div>
+                    
+                    <div class="example-card" id="email-example">
+                        <h3>Email</h3>
+                        <p>Add the badge to your email signature or at the end of your email content using HTML email formatting.</p>
+                        <button class="view-code-btn" data-example="email">View Code Example</button>
+                    </div>
+                    
+                    <div class="example-card" id="image-example">
+                        <h3>Images</h3>
+                        <p>Add the badge as an overlay to your image or place it directly beneath the image with attribution.</p>
+                        <button class="view-code-btn" data-example="image">View Code Example</button>
+                    </div>
+                    
+                    <div class="example-card" id="video-example">
+                        <h3>Videos</h3>
+                        <p>Add the badge to video thumbnails, include in end credits, or display as a lower-third overlay.</p>
+                        <button class="view-code-btn" data-example="video">View Code Example</button>
+                    </div>
+                    
+                    <div class="example-card" id="pdf-example">
+                        <h3>PDF Documents</h3>
+                        <p>Add the badge to your document header/footer or include on the title/signature page.</p>
+                        <button class="view-code-btn" data-example="pdf">View Code Example</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal for Code Examples -->
+        <div id="code-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <h2 id="modal-title">Code Example</h2>
+                <div class="modal-tabs">
+                    <button class="modal-tab-btn active" data-modal-tab="modal-html">HTML</button>
+                    <button class="modal-tab-btn" data-modal-tab="modal-markdown">Markdown</button>
+                    <button class="modal-tab-btn" data-modal-tab="modal-javascript">JavaScript</button>
+                </div>
+                <div class="modal-tab-content active" id="modal-html-tab">
+                    <pre><code id="modal-html-code"></code></pre>
+                    <button class="copy-btn" data-target="modal-html-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                <div class="modal-tab-content" id="modal-markdown-tab">
+                    <pre><code id="modal-markdown-code"></code></pre>
+                    <button class="copy-btn" data-target="modal-markdown-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                <div class="modal-tab-content" id="modal-javascript-tab">
+                    <pre><code id="modal-javascript-code"></code></pre>
+                    <button class="copy-btn" data-target="modal-javascript-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>attest<span class="accent">.</span>ink</h2>
+                    <p>Content attribution that matters</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html" class="link-animated">Home</a>
+                    <a href="demo.html" class="link-animated">Demo</a>
+                    <a href="index.html#implementation" class="link-animated">Implementation</a>
+                    <a href="mailto:info@attest.ink" class="link-animated">Contact</a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 attest.ink &mdash; Transparent attribution for the AI era</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Content templates (hidden) -->
+    <div class="content-templates" style="display: none;">
+        <!-- Email template -->
+        <div id="email-template" class="email-preview">
+            <div class="email-header">
+                <div class="email-meta">
+                    <div><strong>From:</strong> sarah.johnson@example.com</div>
+                    <div><strong>To:</strong> team@example.com</div>
+                    <div><strong>Subject:</strong> Project Update: Content Attribution Implementation</div>
+                    <div><strong>Date:</strong> May 12, 2025, 10:34 AM</div>
+                </div>
+            </div>
+            <div class="email-body">
+                <p>Hi Team,</p>
+                
+                <p>I wanted to share a quick update on our content attribution implementation. We've successfully integrated the attest.ink badges across our blog posts and marketing materials.</p>
+                
+                <p>The implementation was straightforward, and we're already seeing positive feedback from users who appreciate the transparency. For those of you who haven't added the badges to your content yet, I've included the implementation instructions below.</p>
+                
+                <p>Let me know if you have any questions or encounter any issues during implementation.</p>
+                
+                <p>Best regards,<br>Sarah</p>
+                
+                <div class="email-signature">
+                    <div>Sarah Johnson</div>
+                    <div>Content Strategy Lead</div>
+                    <div>Example Company</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Plain text template -->
+        <div id="text-template" class="text-preview">
+            <div class="text-content">
+                <h2>Content Attribution Guidelines</h2>
+                
+                <p>This document outlines our organization's guidelines for content attribution in the AI era. As we increasingly leverage AI tools for content creation, maintaining transparency with our audience is paramount.</p>
+                
+                <h3>Attribution Requirements</h3>
+                
+                <p>All content published by our organization must include appropriate attribution badges indicating whether the content was:</p>
+                
+                <ul>
+                    <li>Entirely human-created</li>
+                    <li>AI-assisted (with human editing/oversight)</li>
+                    <li>AI-generated (with minimal human intervention)</li>
+                </ul>
+                
+                <p>These attribution badges must be clearly visible on all published materials, including website content, social media posts, reports, and presentations.</p>
+                
+                <h3>Implementation</h3>
+                
+                <p>Our organization uses attest.ink badges for content attribution. Implementation guidelines and code examples can be found in our internal documentation portal.</p>
+                
+                <p>For questions about attribution policies, please contact the Content Strategy team.</p>
+            </div>
+        </div>
+        
+        <!-- Image template -->
+        <div id="image-template" class="image-preview">
+            <div class="image-container">
+                <img src="assets/examples/landscape-photo.jpg" alt="Scenic mountain landscape">
+                <div class="image-caption">Scenic mountain vista captured during sunrise</div>
+            </div>
+        </div>
+        
+        <!-- Video template -->
+        <div id="video-template" class="video-preview">
+            <div class="video-container">
+                <video controls poster="assets/examples/video-thumbnail.jpg">
+                    <source src="assets/examples/sample-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-title">Understanding Content Attribution</div>
+                <div class="video-meta">
+                    <span>4:32</span>
+                    <span>May 5, 2025</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PDF template -->
+        <div id="pdf-template" class="pdf-preview">
+            <div class="pdf-container">
+                <div class="pdf-header">
+                    <div class="pdf-title">Quarterly Report: Q1 2025</div>
+                    <div class="pdf-info">
+                        <span>Confidential</span>
+                        <span>Page 1 of 24</span>
+                    </div>
+                </div>
+                <div class="pdf-content">
+                    <h2>Executive Summary</h2>
+                    <p>This quarterly report provides an overview of our organization's performance in Q1 2025. The report includes financial highlights, key achievements, challenges, and strategic projections for the upcoming quarter.</p>
+                    
+                    <h3>Financial Highlights</h3>
+                    <ul>
+                        <li>Revenue: $4.2M (up 12% YoY)</li>
+                        <li>Operating Expenses: $2.9M (down 3% YoY)</li>
+                        <li>Net Profit: $1.3M (up 18% YoY)</li>
+                    </ul>
+                    
+                    <h3>Key Achievements</h3>
+                    <p>Our team successfully launched two new product features and expanded our customer base by 15% in emerging markets. Customer satisfaction scores increased by 8 points to an all-time high of 92/100.</p>
+                    
+                    <div class="pdf-footer">
+                        <div>Example Company • Confidential</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/attest.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/demo.js"></script>
+</body>
+</html>
