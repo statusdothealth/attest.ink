@@ -1,0 +1,75 @@
+/**
+ * Attest.ink - Content Attribution Badge System
+ * Simple JavaScript library for adding attribution badges to content
+ */
+
+const AttestInk = (function() {
+    // Badge URLs - update these to your actual GitHub Pages URLs
+    const badges = {
+        human: 'assets/badges/human-generated.svg',
+        ai: 'assets/badges/ai-generated.svg'
+    };
+
+    // Add a badge to a specified element
+    function addBadge(type, selector) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}. Use 'human' or 'ai'.`);
+            return;
+        }
+
+        const elements = document.querySelectorAll(selector);
+        if (elements.length === 0) {
+            console.error(`No elements found matching selector: ${selector}`);
+            return;
+        }
+
+        elements.forEach(element => {
+            // Don't add if badge already exists
+            if (element.querySelector('.attest-badge-container')) {
+                return;
+            }
+
+            // Set position relative if not already set
+            const computedStyle = window.getComputedStyle(element);
+            if (computedStyle.position === 'static') {
+                element.style.position = 'relative';
+            }
+
+            const badgeContainer = document.createElement('div');
+            badgeContainer.className = 'attest-badge-container';
+            badgeContainer.style.position = 'absolute';
+            badgeContainer.style.top = '-15px';
+            badgeContainer.style.right = '10px';
+            badgeContainer.style.zIndex = '100';
+
+            const badgeImg = document.createElement('img');
+            badgeImg.src = badges[type];
+            badgeImg.alt = type === 'human' ? 'Human Generated' : 'AI Generated';
+            badgeImg.className = 'attest-badge';
+            badgeImg.style.height = '30px';
+            badgeImg.style.display = 'block';
+
+            badgeContainer.appendChild(badgeImg);
+            element.appendChild(badgeContainer);
+        });
+    }
+
+    // Remove badge from element
+    function removeBadge(selector) {
+        const elements = document.querySelectorAll(selector);
+        
+        elements.forEach(element => {
+            const badgeContainer = element.querySelector('.attest-badge-container');
+            if (badgeContainer) {
+                badgeContainer.remove();
+            }
+        });
+    }
+
+    // Public API
+    return {
+        addBadge,
+        removeBadge,
+        getBadgeUrl: type => badges[type]
+    };
+})();
