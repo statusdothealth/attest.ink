@@ -125,6 +125,8 @@ function initializeViewCodeButtons() {
     const modal = document.getElementById('code-modal');
     const modalClose = document.querySelector('.modal-close');
     
+    if (!modal) return;
+    
     viewCodeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const exampleType = button.dataset.example;
@@ -179,10 +181,21 @@ function initializeCopyButtons() {
     copyButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetId = button.dataset.target;
-            const codeBlock = document.querySelector(`#${targetId} code`);
+            let codeElement;
             
-            if (codeBlock) {
-                navigator.clipboard.writeText(codeBlock.textContent)
+            if (targetId.includes('modal')) {
+                // For modal content
+                codeElement = document.querySelector(`#${targetId} code`);
+            } else if (targetId.includes('example')) {
+                // For example tab content
+                codeElement = document.querySelector(`#${targetId} code`);
+            } else {
+                // For individual code boxes
+                codeElement = button.previousElementSibling.querySelector('code');
+            }
+            
+            if (codeElement) {
+                navigator.clipboard.writeText(codeElement.textContent)
                     .then(() => {
                         const originalText = button.querySelector('.copy-text').textContent;
                         
@@ -211,6 +224,8 @@ function initializeCopyButtons() {
 // Change content preview based on content type
 function changeContentPreview(contentType) {
     const contentPreview = document.getElementById('content-preview');
+    
+    if (!contentPreview) return;
     
     // Remove existing content
     contentPreview.innerHTML = '';
@@ -262,6 +277,8 @@ function changeContentPreview(contentType) {
 // Apply badge to content preview
 function applyBadge(badgeType, position) {
     const contentPreview = document.getElementById('content-preview');
+    
+    if (!contentPreview) return;
     
     // Remove existing badge
     const existingBadge = contentPreview.querySelector('.attest-badge-container');
@@ -471,9 +488,7 @@ function updateCodeExamples(badgeType, contentType, position) {
             case 'video':
                 htmlCodeExample.textContent = `<!-- Add this to your video container -->
 <div style="position: relative;">
-  <video controls style="max-width: 100%;">
-    <source src="your-video.mp4" type="video/mp4">
-  </video>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <a href="https://attest.ink" target="_blank" style="position: absolute; ${position === 'top-right' ? 'top: 10px; right: 10px;' : position === 'top-left' ? 'top: 10px; left: 10px;' : position === 'bottom-left' ? 'bottom: 10px; left: 10px;' : 'bottom: 10px; right: 10px;'}" rel="noopener">
     <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30" style="border: 0;">
   </a>
@@ -534,6 +549,8 @@ function updateModalContent(exampleType, badgeType) {
     const modalMarkdownCode = document.getElementById('modal-markdown-code');
     const modalJavascriptCode = document.getElementById('modal-javascript-code');
     
+    if (!modalTitle || !modalHtmlCode || !modalMarkdownCode || !modalJavascriptCode) return;
+    
     // Badge information
     const badgeNames = {
         'human': 'Human Generated',
@@ -565,23 +582,20 @@ function updateModalContent(exampleType, badgeType) {
         'pdf': 'PDF Documents'
     };
     
-    if (modalTitle) {
-        modalTitle.textContent = `Code Example: ${exampleNames[exampleType] || exampleType}`;
-    }
+    modalTitle.textContent = `Code Example: ${exampleNames[exampleType] || exampleType}`;
     
     // Update HTML example
-    if (modalHtmlCode) {
-        switch(exampleType) {
-            case 'blog':
-                modalHtmlCode.textContent = `<!-- For blog posts like Medium, Wordpress, etc. -->
+    switch(exampleType) {
+        case 'blog':
+            modalHtmlCode.textContent = `<!-- For blog posts like Medium, Wordpress, etc. -->
 <!-- Add at the end of your article or in the author byline section -->
 <a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
   <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30">
   <span class="badge-tooltip">${badgeTooltips[badgeType]}</span>
 </a>`;
-                break;
-            case 'text':
-                modalHtmlCode.textContent = `<!-- For plain text documents converted to HTML -->
+            break;
+        case 'text':
+            modalHtmlCode.textContent = `<!-- For plain text documents converted to HTML -->
 <div class="document-content">
   <!-- Your content here -->
   <p>This is your document content...</p>
@@ -593,9 +607,9 @@ function updateModalContent(exampleType, badgeType) {
     </a>
   </div>
 </div>`;
-                break;
-            case 'email':
-                modalHtmlCode.textContent = `<!-- For HTML email templates -->
+            break;
+        case 'email':
+            modalHtmlCode.textContent = `<!-- For HTML email templates -->
 <!-- Add to your email signature -->
 <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
   <div style="font-family: Arial, sans-serif; margin-bottom: 15px;">
@@ -609,9 +623,9 @@ function updateModalContent(exampleType, badgeType) {
     <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30" style="border: 0;">
   </a>
 </div>`;
-                break;
-            case 'image':
-                modalHtmlCode.textContent = `<!-- For images with badge overlay -->
+            break;
+        case 'image':
+            modalHtmlCode.textContent = `<!-- For images with badge overlay -->
 <div style="position: relative; display: inline-block;">
   <img src="your-image-url.jpg" alt="Your image description" style="max-width: 100%;">
   <a href="https://attest.ink" target="_blank" style="position: absolute; bottom: 10px; right: 10px;" rel="noopener">
@@ -629,14 +643,11 @@ function updateModalContent(exampleType, badgeType) {
     </a>
   </figcaption>
 </figure>`;
-                break;
-            case 'video':
-                modalHtmlCode.textContent = `<!-- For videos with badge overlay -->
+            break;
+        case 'video':
+            modalHtmlCode.textContent = `<!-- For YouTube videos with badge overlay -->
 <div style="position: relative;">
-  <video controls style="max-width: 100%;">
-    <source src="your-video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/2kigO0bR16Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <a href="https://attest.ink" target="_blank" style="position: absolute; bottom: 10px; right: 10px;" rel="noopener">
     <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30" style="border: 0;">
   </a>
@@ -644,10 +655,7 @@ function updateModalContent(exampleType, badgeType) {
 
 <!-- For videos with badge underneath -->
 <div>
-  <video controls style="max-width: 100%;">
-    <source src="your-video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/2kigO0bR16Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
     <span>Your video title or description</span>
     <a href="https://attest.ink" target="_blank" rel="noopener">
@@ -655,9 +663,9 @@ function updateModalContent(exampleType, badgeType) {
     </a>
   </div>
 </div>`;
-                break;
-            case 'pdf':
-                modalHtmlCode.textContent = `<!-- For PDF embedded in website -->
+            break;
+        case 'pdf':
+            modalHtmlCode.textContent = `<!-- For PDF embedded in website -->
 <div style="position: relative;">
   <embed src="your-document.pdf" type="application/pdf" width="100%" height="600px">
   <a href="https://attest.ink" target="_blank" style="position: absolute; bottom: 10px; right: 10px;" rel="noopener">
@@ -668,21 +676,19 @@ function updateModalContent(exampleType, badgeType) {
 <!-- For adding to PDFs directly -->
 <!-- When creating your PDF, add this image to your header or footer template -->
 <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30">`;
-                break;
-            default:
-                modalHtmlCode.textContent = `<!-- Add this badge to your content -->
+            break;
+        default:
+            modalHtmlCode.textContent = `<!-- Add this badge to your content -->
 <a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
   <img src="https://attest.ink/assets/badges/${badgeType}-generated.svg" alt="${badgeNames[badgeType]}" width="120" height="30">
   <span class="badge-tooltip">${badgeTooltips[badgeType]}</span>
 </a>`;
-        }
     }
     
     // Update Markdown example
-    if (modalMarkdownCode) {
-        switch(exampleType) {
-            case 'blog':
-                modalMarkdownCode.textContent = `# Your Blog Post Title
+    switch(exampleType) {
+        case 'blog':
+            modalMarkdownCode.textContent = `# Your Blog Post Title
 
 Your blog post content here...
 
@@ -693,31 +699,29 @@ More content...
 ---
 
 [![${badgeNames[badgeType]}](https://attest.ink/assets/badges/${badgeType}-generated.svg)](https://attest.ink "${badgeTooltips[badgeType]}")`;
-                break;
-            case 'text':
-                modalMarkdownCode.textContent = `# Your Document Title
+            break;
+        case 'text':
+            modalMarkdownCode.textContent = `# Your Document Title
 
 Your document content here...
 
 ---
 
 [![${badgeNames[badgeType]}](https://attest.ink/assets/badges/${badgeType}-generated.svg)](https://attest.ink "${badgeTooltips[badgeType]}")`;
-                break;
-            case 'image':
-                modalMarkdownCode.textContent = `![Your image description](your-image-url.jpg)
+            break;
+        case 'image':
+            modalMarkdownCode.textContent = `![Your image description](your-image-url.jpg)
 
 [![${badgeNames[badgeType]}](https://attest.ink/assets/badges/${badgeType}-generated.svg)](https://attest.ink "${badgeTooltips[badgeType]}")`;
-                break;
-            default:
-                modalMarkdownCode.textContent = `[![${badgeNames[badgeType]}](https://attest.ink/assets/badges/${badgeType}-generated.svg)](https://attest.ink "${badgeTooltips[badgeType]}")`;
-        }
+            break;
+        default:
+            modalMarkdownCode.textContent = `[![${badgeNames[badgeType]}](https://attest.ink/assets/badges/${badgeType}-generated.svg)](https://attest.ink "${badgeTooltips[badgeType]}")`;
     }
     
     // Update JavaScript example
-    if (modalJavascriptCode) {
-        switch(exampleType) {
-            case 'blog':
-                modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
+    switch(exampleType) {
+        case 'blog':
+            modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
 <script>
   // Add badge to your blog post
   AttestInk.addBadge('${badgeType}', '.blog-post', {
@@ -732,9 +736,9 @@ Your document content here...
     customText: 'This blog post was created with ${badgeType === 'human' ? 'human creativity' : 'AI assistance'}'
   });
 <\/script>`;
-                break;
-            case 'image':
-                modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
+            break;
+        case 'image':
+            modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
 <script>
   // Add badge overlay to your image
   AttestInk.addBadge('${badgeType}', '.image-container', {
@@ -744,9 +748,9 @@ Your document content here...
     tooltip: '${badgeTooltips[badgeType]}'
   });
 <\/script>`;
-                break;
-            case 'video':
-                modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
+            break;
+        case 'video':
+            modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
 <script>
   // Add badge overlay to your video
   AttestInk.addBadge('${badgeType}', '.video-container', {
@@ -756,9 +760,9 @@ Your document content here...
     tooltip: '${badgeTooltips[badgeType]}'
   });
 <\/script>`;
-                break;
-            case 'pdf':
-                modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
+            break;
+        case 'pdf':
+            modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
 <script>
   // Add badge to your PDF viewer
   AttestInk.addBadge('${badgeType}', '.pdf-container', {
@@ -767,9 +771,9 @@ Your document content here...
     showTooltip: true
   });
 <\/script>`;
-                break;
-            default:
-                modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
+            break;
+        default:
+            modalJavascriptCode.textContent = `<script src="https://attest.ink/js/attest.js"><\/script>
 <script>
   // Add badge to your content
   AttestInk.addBadge('${badgeType}', '#your-content', {
@@ -779,6 +783,5 @@ Your document content here...
     tooltip: '${badgeTooltips[badgeType]}'
   });
 <\/script>`;
-        }
     }
 }

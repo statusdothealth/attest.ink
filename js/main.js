@@ -39,10 +39,21 @@ function initializeCopyButtons() {
     copyButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetId = button.dataset.target;
-            const codeBlock = document.querySelector(`#${targetId} code`);
+            let codeElement;
             
-            if (codeBlock) {
-                navigator.clipboard.writeText(codeBlock.textContent)
+            if (targetId.includes('css')) {
+                // For the CSS example
+                codeElement = document.querySelector('.css-example code');
+            } else if (targetId.includes('example')) {
+                // For tab content
+                codeElement = document.querySelector(`#${targetId} code`);
+            } else {
+                // For individual code boxes
+                codeElement = button.previousElementSibling.querySelector('code');
+            }
+            
+            if (codeElement) {
+                navigator.clipboard.writeText(codeElement.textContent)
                     .then(() => {
                         const originalText = button.querySelector('.copy-text').textContent;
                         

@@ -51,12 +51,30 @@
                     <div class="content-type-selector">
                         <h3>Select Content Type</h3>
                         <div class="content-type-buttons">
-                            <button class="content-btn active" data-content="blog" id="blog">Blog Post</button>
-                            <button class="content-btn" data-content="text" id="text">Plain Text</button>
-                            <button class="content-btn" data-content="email" id="email">Email</button>
-                            <button class="content-btn" data-content="image" id="image">Image</button>
-                            <button class="content-btn" data-content="video" id="video">Video</button>
-                            <button class="content-btn" data-content="pdf" id="pdf">PDF</button>
+                            <button class="content-btn active" data-content="blog" id="blog">
+                                <span class="content-icon blog"></span>
+                                Blog Post
+                            </button>
+                            <button class="content-btn" data-content="text" id="text">
+                                <span class="content-icon text"></span>
+                                Plain Text
+                            </button>
+                            <button class="content-btn" data-content="email" id="email">
+                                <span class="content-icon email"></span>
+                                Email
+                            </button>
+                            <button class="content-btn" data-content="image" id="image">
+                                <span class="content-icon image"></span>
+                                Image
+                            </button>
+                            <button class="content-btn" data-content="video" id="video">
+                                <span class="content-icon video"></span>
+                                Video
+                            </button>
+                            <button class="content-btn" data-content="pdf" id="pdf">
+                                <span class="content-icon pdf"></span>
+                                PDF
+                            </button>
                         </div>
                     </div>
                     
@@ -173,36 +191,42 @@
                 <h2>How to Add Badges to Different Content Types</h2>
                 <div class="examples-grid">
                     <div class="example-card" id="blog-example">
+                        <div class="example-icon blog-example-icon"></div>
                         <h3>Blog Posts</h3>
                         <p>Add the badge at the end of your article or in the author byline section. For platforms like Medium, add the badge image to the end of your post.</p>
                         <button class="view-code-btn" data-example="blog">View Code Example</button>
                     </div>
                     
                     <div class="example-card" id="text-example">
+                        <div class="example-icon text-example-icon"></div>
                         <h3>Plain Text</h3>
                         <p>For plain text content, add the badge as a visual element at the beginning or end of your document.</p>
                         <button class="view-code-btn" data-example="text">View Code Example</button>
                     </div>
                     
                     <div class="example-card" id="email-example">
+                        <div class="example-icon email-example-icon"></div>
                         <h3>Email</h3>
                         <p>Add the badge to your email signature or at the end of your email content using HTML email formatting.</p>
                         <button class="view-code-btn" data-example="email">View Code Example</button>
                     </div>
                     
                     <div class="example-card" id="image-example">
+                        <div class="example-icon image-example-icon"></div>
                         <h3>Images</h3>
                         <p>Add the badge as an overlay to your image or place it directly beneath the image with attribution.</p>
                         <button class="view-code-btn" data-example="image">View Code Example</button>
                     </div>
                     
                     <div class="example-card" id="video-example">
+                        <div class="example-icon video-example-icon"></div>
                         <h3>Videos</h3>
                         <p>Add the badge to video thumbnails, include in end credits, or display as a lower-third overlay.</p>
                         <button class="view-code-btn" data-example="video">View Code Example</button>
                     </div>
                     
                     <div class="example-card" id="pdf-example">
+                        <div class="example-icon pdf-example-icon"></div>
                         <h3>PDF Documents</h3>
                         <p>Add the badge to your document header/footer or include on the title/signature page.</p>
                         <button class="view-code-btn" data-example="pdf">View Code Example</button>
@@ -327,18 +351,14 @@
         <!-- Image template -->
         <div id="image-template" class="image-preview">
             <div class="image-container">
-                <img src="assets/examples/landscape-photo.jpg" alt="Scenic mountain landscape">
-                <div class="image-caption">Scenic mountain vista captured during sunrise</div>
+                <img src="assets/example/example.jpg" alt="Example landscape">
             </div>
         </div>
         
         <!-- Video template -->
         <div id="video-template" class="video-preview">
             <div class="video-container">
-                <video controls poster="assets/examples/video-thumbnail.jpg">
-                    <source src="assets/examples/sample-video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/2kigO0bR16Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <div class="video-title">Understanding Content Attribution</div>
                 <div class="video-meta">
                     <span>4:32</span>
