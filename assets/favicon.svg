@@ -1,19 +1,11 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle with subtle gradient -->
-  <circle cx="256" cy="256" r="256" fill="url(#bg-gradient)"/>
+  <!-- Background -->
+  <rect width="512" height="512" rx="128" fill="#4a7bca"/>
   
-  <!-- Stylized "A" shape -->
-  <path d="M256 120L144 392H184L208 328H304L328 392H368L256 120ZM226 288L256 208L286 288H226Z" 
-        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
-        
-  <!-- Ink dot -->
-  <circle cx="368" cy="392" r="32" fill="#333333"/>
+  <!-- Simple "A" -->
+  <path d="M256 128L160 384H208L224 336H288L304 384H352L256 128ZM240 288L256 240L272 288H240Z" 
+        fill="white" stroke="white" stroke-width="8" stroke-linejoin="round"/>
   
-  <!-- Gradient definitions -->
-  <defs>
-    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4a7bca"/>
-      <stop offset="100%" stop-color="#3a6abd"/>
-    </linearGradient>
-  </defs>
+  <!-- Simple dot -->
+  <circle cx="352" cy="384" r="24" fill="white"/>
 </svg>
