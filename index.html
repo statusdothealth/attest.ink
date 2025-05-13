@@ -139,140 +139,190 @@
         </section>
 
         <section id="demo" class="demo">
-            <div class="container">
-                <h2>Interactive <span class="highlight">Demo</span></h2>
-                <p class="section-intro">See how the badges look and function in a real-world context. Upload your own content or try our demo examples with different badge types.</p>
+    <div class="container">
+        <h2>Interactive <span class="highlight">Demo</span></h2>
+        <p class="section-intro">See how the badges look and function in a real-world context. Upload your own content or try our demo examples with different badge types.</p>
+        
+        <div class="content-upload">
+            <h3>Upload Your Content</h3>
+            <div class="upload-container">
+                <div class="file-upload-zone">
+                    <input type="file" id="content-file" accept="image/*,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,video/*,audio/*" class="file-input">
+                    <label for="content-file" class="file-label">
+                        <div class="upload-icon"></div>
+                        <span>Drag & drop or click to upload</span>
+                        <span class="upload-note">Supports images, text, PDF, DOC, video, and audio files</span>
+                    </label>
+                </div>
+                <div class="text-upload-zone">
+                    <textarea id="content-text" placeholder="Or paste your content here..."></textarea>
+                </div>
+            </div>
+            
+            <div id="file-type-indicator">Content Type: Text</div>
+            
+            <div class="badge-selection">
+                <h4>Select Content Type</h4>
+                <div class="badge-options">
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="human" checked>
+                        <span class="checkmark"></span>
+                        <span class="option-label">Human Generated</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="ai">
+                        <span class="checkmark"></span>
+                        <span class="option-label">AI Generated</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="claude">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Claude AI</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="chatgpt">
+                        <span class="checkmark"></span>
+                        <span class="option-label">ChatGPT</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="gemini">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Gemini</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="midjourney">
+                        <span class="checkmark"></span>
+                        <span class="option-label">Midjourney</span>
+                    </label>
+                    <label class="badge-option">
+                        <input type="radio" name="badge-type" value="dalle">
+                        <span class="checkmark"></span>
+                        <span class="option-label">DALL-E</span>
+                    </label>
+                </div>
                 
-                <div class="content-upload">
-                    <h3>Upload Your Content</h3>
-                    <div class="upload-container">
-                        <div class="file-upload-zone">
-                            <input type="file" id="content-file" accept="image/*,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="file-input">
-                            <label for="content-file" class="file-label">
-                                <div class="upload-icon"></div>
-                                <span>Drag & drop or click to upload</span>
-                                <span class="upload-note">Supports images, text, PDF, DOC files</span>
-                            </label>
-                        </div>
-                        <div class="text-upload-zone">
-                            <textarea id="content-text" placeholder="Or paste your content here..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="badge-selection">
-                        <h4>Select Content Type</h4>
-                        <div class="badge-options">
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="human" checked>
-                                <span class="checkmark"></span>
-                                <span class="option-label">Human Generated</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="ai">
-                                <span class="checkmark"></span>
-                                <span class="option-label">AI Generated</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="claude">
-                                <span class="checkmark"></span>
-                                <span class="option-label">Claude AI</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="chatgpt">
-                                <span class="checkmark"></span>
-                                <span class="option-label">ChatGPT</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="gemini">
-                                <span class="checkmark"></span>
-                                <span class="option-label">Gemini</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="midjourney">
-                                <span class="checkmark"></span>
-                                <span class="option-label">Midjourney</span>
-                            </label>
-                            <label class="badge-option">
-                                <input type="radio" name="badge-type" value="dalle">
-                                <span class="checkmark"></span>
-                                <span class="option-label">DALL-E</span>
-                            </label>
+                <div class="badge-options-container">
+                    <div class="position-size-options">
+                        <div class="option-group">
+                            <label for="badge-position">Badge Position</label>
+                            <select name="badge-position" id="badge-position">
+                                <option value="top-right">Top Right</option>
+                                <option value="top-left">Top Left</option>
+                                <option value="bottom-right" selected>Bottom Right</option>
+                                <option value="bottom-left">Bottom Left</option>
+                                <option value="center-top">Center Top</option>
+                                <option value="center-bottom">Center Bottom</option>
+                            </select>
+                            <div class="position-preview bottom-right">
+                                <div class="position-indicator"></div>
+                            </div>
                         </div>
                         
-                        <button id="apply-badge" class="btn primary">Apply Badge</button>
-                    </div>
-                </div>
-                
-                <div class="demo-divider">
-                    <span>or try our examples</span>
-                </div>
-                
-                <div class="demo-controls">
-                    <button id="add-human-badge" class="btn human-btn">Add Human Badge</button>
-                    <button id="add-ai-badge" class="btn ai-btn">Add AI Badge</button>
-                    <button id="reset-demo" class="btn reset-btn">Reset</button>
-                </div>
-                
-                <div class="platform-selector">
-                    <button class="platform-btn human active" data-platform="human">Human</button>
-                    <button class="platform-btn claude" data-platform="claude">Claude</button>
-                    <button class="platform-btn chatgpt" data-platform="chatgpt">ChatGPT</button>
-                    <button class="platform-btn gemini" data-platform="gemini">Gemini</button>
-                    <button class="platform-btn midjourney" data-platform="midjourney">Midjourney</button>
-                    <button class="platform-btn dalle" data-platform="dalle">DALL-E</button>
-                </div>
-                
-                <div class="demo-content">
-                    <div class="content-card" id="demo-block-1">
-                        <div class="card-header">
-                            <h3>Market Analysis Report</h3>
-                            <span class="date">May 10, 2025</span>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                In Q1 2025, market trends showed a significant shift towards sustainable products,
-                                with a 23% increase in consumer spending on eco-friendly alternatives. This represents
-                                a fundamental change in purchasing behavior compared to previous years.
-                            </p>
-                            <p>
-                                Analysts predict this trend will continue as environmental awareness grows among
-                                consumers globally, with particular strength in the 25-40 demographic.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="content-card" id="demo-block-2">
-                        <div class="card-header">
-                            <h3>Product Description</h3>
-                            <span class="date">May 12, 2025</span>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                Our new wireless headphones feature 40 hours of battery life, active noise cancellation,
-                                and premium memory foam ear cushions. The lightweight design ensures comfort during
-                                extended listening sessions.
-                            </p>
-                            <p>
-                                Compatible with all major devices via Bluetooth 6.0, these headphones deliver
-                                immersive sound quality with enhanced bass response and crystal-clear highs.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="user-content-preview" class="user-content-preview">
-                    <h3>Your Content Preview</h3>
-                    <div class="preview-container">
-                        <div id="preview-content" class="preview-content">
-                            <div class="preview-placeholder">
-                                <div class="placeholder-icon"></div>
-                                <p>Your content will appear here after uploading</p>
+                        <div class="option-group">
+                            <label for="badge-size">Badge Size</label>
+                            <select name="badge-size" id="badge-size">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                            <div class="size-preview">
+                                <div class="size-indicator small"></div>
+                                <div class="size-indicator medium"></div>
+                                <div class="size-indicator large"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                <button id="apply-badge" class="btn primary">Apply Badge</button>
+                
+                <div class="export-options">
+                    <div class="export-option" id="export-html">
+                        <button data-format="html" disabled>Export HTML</button>
+                    </div>
+                    <div class="export-option" id="export-markdown">
+                        <button data-format="markdown" disabled>Export Markdown</button>
+                    </div>
+                    <div class="export-option" id="export-text">
+                        <button data-format="text" disabled>Export Text</button>
+                    </div>
+                    <div class="export-option" id="export-image">
+                        <button data-format="image" disabled>Export with Badge</button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+        
+        <div class="demo-divider">
+            <span>or try our examples</span>
+        </div>
+        
+        <div class="demo-controls">
+            <button id="add-human-badge" class="btn human-btn">Add Human Badge</button>
+            <button id="add-ai-badge" class="btn ai-btn">Add AI Badge</button>
+            <button id="reset-demo" class="btn reset-btn">Reset</button>
+        </div>
+        
+        <div class="platform-selector">
+            <button class="platform-btn human active" data-platform="human">Human</button>
+            <button class="platform-btn claude" data-platform="claude">Claude</button>
+            <button class="platform-btn chatgpt" data-platform="chatgpt">ChatGPT</button>
+            <button class="platform-btn gemini" data-platform="gemini">Gemini</button>
+            <button class="platform-btn midjourney" data-platform="midjourney">Midjourney</button>
+            <button class="platform-btn dalle" data-platform="dalle">DALL-E</button>
+        </div>
+        
+        <div class="demo-content">
+            <div class="content-card" id="demo-block-1">
+                <div class="card-header">
+                    <h3>Market Analysis Report</h3>
+                    <span class="date">May 10, 2025</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                        In Q1 2025, market trends showed a significant shift towards sustainable products,
+                        with a 23% increase in consumer spending on eco-friendly alternatives. This represents
+                        a fundamental change in purchasing behavior compared to previous years.
+                    </p>
+                    <p>
+                        Analysts predict this trend will continue as environmental awareness grows among
+                        consumers globally, with particular strength in the 25-40 demographic.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="content-card" id="demo-block-2">
+                <div class="card-header">
+                    <h3>Product Description</h3>
+                    <span class="date">May 12, 2025</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Our new wireless headphones feature 40 hours of battery life, active noise cancellation,
+                        and premium memory foam ear cushions. The lightweight design ensures comfort during
+                        extended listening sessions.
+                    </p>
+                    <p>
+                        Compatible with all major devices via Bluetooth 6.0, these headphones deliver
+                        immersive sound quality with enhanced bass response and crystal-clear highs.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="user-content-preview" class="user-content-preview">
+            <h3>Your Content Preview</h3>
+            <div class="preview-container">
+                <div id="preview-content" class="preview-content">
+                    <div class="preview-placeholder">
+                        <div class="placeholder-icon"></div>
+                        <p>Your content will appear here after uploading</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
         
         <section class="why">
             <div class="container">
@@ -387,48 +437,73 @@
         </div>
     </div>
 
-    <!-- Share content modal (hidden by default) -->
-    <div id="share-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="share-content">
-                <h2>Share Your Content</h2>
-                <p>Your content has been successfully tagged with the attribution badge. You can now share it using one of the methods below:</p>
+    <!-- Enhanced Share Modal -->
+<div id="share-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="share-content">
+            <h2>Share Your Content</h2>
+            <p>Your content has been successfully tagged with the attribution badge. You can now share or export it using one of these options:</p>
+            
+            <div class="share-options">
+                <div class="share-option">
+                    <h3>Download Content</h3>
+                    <p>Download your content with the attribution badge included</p>
+                    <button id="download-button" class="btn primary">Download</button>
+                    
+                    <div class="download-options">
+                        <div class="download-type-selector">
+                            <button class="active" data-format="html">HTML</button>
+                            <button data-format="markdown">Markdown</button>
+                            <button data-format="text">Text</button>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="share-options">
-                    <div class="share-option">
-                        <h3>Download Image</h3>
-                        <p>Download your content with the attribution badge included</p>
-                        <button id="download-button" class="btn primary">Download</button>
+                <div class="share-option">
+                    <h3>Get Link</h3>
+                    <p>Get a shareable link to your content with the attribution badge</p>
+                    <div class="copy-link-container">
+                        <input type="text" id="share-link" readonly value="https://attest.ink/share/abc123">
+                        <button id="copy-link-button" class="btn secondary">Copy</button>
                     </div>
-                    
-                    <div class="share-option">
-                        <h3>Get Link</h3>
-                        <p>Get a shareable link to your content with the attribution badge</p>
-                        <div class="copy-link-container">
-                            <input type="text" id="share-link" readonly value="https://attest.ink/share/abc123">
-                            <button id="copy-link-button" class="btn secondary">Copy</button>
-                        </div>
+                </div>
+                
+                <div class="share-option">
+                    <h3>Embed Code</h3>
+                    <p>Embed your content with the badge on your website</p>
+                    <div class="copy-embed-container">
+                        <textarea id="embed-code" readonly></textarea>
+                        <button id="copy-embed-button" class="btn secondary">Copy</button>
                     </div>
-                    
-                    <div class="share-option">
-                        <h3>Embed Code</h3>
-                        <p>Embed your content with the badge on your website</p>
-                        <div class="copy-embed-container">
-                            <textarea id="embed-code" readonly></textarea>
-                            <button id="copy-embed-button" class="btn secondary">Copy</button>
-                        </div>
-                    </div>
-
-                    <div class="share-option">
-                        <h3>Download With Badge</h3>
-                        <p>Download your content with the attribution badge included</p>
-                        <button id="download-button" class="btn primary">Download</button>
-                    </div>
+                </div>
+            </div>
+            
+            <div class="attribution-examples">
+                <h3>How to Add Attribution Manually</h3>
+                <p>If you prefer to add the badge manually, you can use one of these methods:</p>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="manual-html">HTML</button>
+                    <button class="tab-btn" data-tab="manual-markdown">Markdown</button>
+                    <button class="tab-btn" data-tab="manual-text">Text</button>
+                </div>
+                
+                <div class="tab-content active" id="manual-html-tab">
+                    <pre><code id="manual-html-code"></code></pre>
+                </div>
+                
+                <div class="tab-content" id="manual-markdown-tab">
+                    <pre><code id="manual-markdown-code"></code></pre>
+                </div>
+                
+                <div class="tab-content" id="manual-text-tab">
+                    <pre><code id="manual-text-code"></code></pre>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <script src="js/attest.js"></script>
     <script src="js/main.js"></script>

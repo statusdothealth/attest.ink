@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize animations for elements entering viewport
     initializeScrollAnimations();
+
+    // New initializations
+    initializeBadgeOptionPreviews();
+    initializeShareModalExtras();
+
 });
 
 // Function to create floating background particles
@@ -335,4 +340,120 @@ function pulseBadge(container) {
             badge.style.animation = '';
         }, 2000);
     }
+}
+
+// Initialize badge position and size previews
+function initializeBadgeOptionPreviews() {
+    const positionSelect = document.getElementById('badge-position');
+    const sizeSelect = document.getElementById('badge-size');
+    const positionPreview = document.querySelector('.position-preview');
+    
+    if (positionSelect && positionPreview) {
+        // Update position preview when selection changes
+        positionSelect.addEventListener('change', function() {
+            // Remove all position classes
+            positionPreview.classList.remove('top-right', 'top-left', 'bottom-right', 'bottom-left', 'center-top', 'center-bottom');
+            // Add selected position class
+            positionPreview.classList.add(this.value);
+        });
+    }
+    
+    if (sizeSelect) {
+        // Update size preview when selection changes
+        sizeSelect.addEventListener('change', function() {
+            const sizeIndicators = document.querySelectorAll('.size-indicator');
+            
+            // Reset all size indicators
+            sizeIndicators.forEach(indicator => {
+                indicator.style.backgroundColor = '#e0e0e0';
+            });
+            
+            // Highlight selected size
+            const selectedIndex = this.selectedIndex;
+            if (sizeIndicators[selectedIndex]) {
+                sizeIndicators[selectedIndex].style.backgroundColor = 'var(--primary)';
+            }
+        });
+    }
+}
+
+// Initialize extra interactions for the share modal
+function initializeShareModalExtras() {
+    const downloadTypeButtons = document.querySelectorAll('.download-type-selector button');
+    
+    if (downloadTypeButtons) {
+        downloadTypeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                downloadTypeButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update download button text
+                const downloadButton = document.getElementById('download-button');
+                if (downloadButton) {
+                    downloadButton.textContent = `Download as ${this.dataset.format.toUpperCase()}`;
+                }
+            });
+        });
+    }
+}
+
+// Update manual code examples in share modal
+function updateManualCodeExamples(badgeType) {
+    const htmlCode = document.getElementById('manual-html-code');
+    const markdownCode = document.getElementById('manual-markdown-code');
+    const textCode = document.getElementById('manual-text-code');
+    
+    if (htmlCode) {
+        htmlCode.textContent = AttestInk.generateBadgeHTML(badgeType);
+    }
+    
+    if (markdownCode) {
+        markdownCode.textContent = AttestInk.generateBadgeMarkdown(badgeType);
+    }
+    
+    if (textCode) {
+        textCode.textContent = AttestInk.generateBadgeText(badgeType);
+    }
+}
+
+// Initialize function to update download options
+function updateDownloadOptions(badgeType, position, size) {
+    const downloadTypeButtons = document.querySelectorAll('.download-type-selector button');
+    const downloadButton = document.getElementById('download-button');
+    
+    if (downloadTypeButtons && downloadTypeButtons.length > 0) {
+        // Set the first button as active by default
+        downloadTypeButtons.forEach(btn => btn.classList.remove('active'));
+        downloadTypeButtons[0].classList.add('active');
+        
+        // Update download button to show the format
+        if (downloadButton) {
+            downloadButton.textContent = `Download as ${downloadTypeButtons[0].dataset.format.toUpperCase()}`;
+        }
+        
+        // Update the click handlers
+        downloadTypeButtons.forEach(button => {
+            button.onclick = function() {
+                // Update active state
+                downloadTypeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update download button
+                if (downloadButton) {
+                    downloadButton.textContent = `Download as ${this.dataset.format.toUpperCase()}`;
+                    
+                    // Update download handler
+                    downloadButton.onclick = function() {
+                        downloadWithBadge(getContentType(), badgeType, button.dataset.format);
+                        showCopyFeedback(downloadButton, 'Downloaded!');
+                    };
+                }
+            };
+        });
+    }
+    
+    // Update manual code examples
+    updateManualCodeExamples(badgeType);
 }

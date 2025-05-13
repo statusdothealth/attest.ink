@@ -1,10 +1,10 @@
 /**
  * attest.ink - Enhanced Content Attribution Badge System
- * Version 2.0 - Footer Badge Implementation
+ * Provides badges for both human and AI content attribution
  */
 
 const AttestInk = (function() {
-    // Badge URLs - update these to your actual deployment URLs
+    // Badge URLs - these paths must match your actual SVG files
     const badges = {
         human: 'assets/badges/human-generated.svg',
         ai: 'assets/badges/ai-generated.svg',
@@ -15,40 +15,19 @@ const AttestInk = (function() {
         dalle: 'assets/badges/dalle-generated.svg'
     };
 
-    // Badge labels and descriptions
-    const badgeInfo = {
-        human: {
-            title: 'Human Generated Content',
-            description: 'This content was created by human creativity and effort'
-        },
-        ai: {
-            title: 'AI Generated Content',
-            description: 'This content was created with artificial intelligence assistance'
-        },
-        claude: {
-            title: 'Claude AI Generated Content',
-            description: 'This content was created using Anthropic\'s Claude AI assistant'
-        },
-        chatgpt: {
-            title: 'ChatGPT Generated Content',
-            description: 'This content was created using OpenAI\'s ChatGPT'
-        },
-        gemini: {
-            title: 'Gemini Generated Content',
-            description: 'This content was created using Google\'s Gemini AI'
-        },
-        midjourney: {
-            title: 'Midjourney Generated Content',
-            description: 'This image was created using Midjourney\'s AI'
-        },
-        dalle: {
-            title: 'DALL-E Generated Content',
-            description: 'This image was created using OpenAI\'s DALL-E'
-        }
+    // Badge labels for accessibility and tooltips
+    const badgeLabels = {
+        human: 'Human Generated',
+        ai: 'AI Generated',
+        claude: 'Claude AI Generated',
+        chatgpt: 'ChatGPT Generated',
+        gemini: 'Gemini Generated',
+        midjourney: 'Midjourney Generated',
+        dalle: 'DALL-E Generated'
     };
 
-    // Add a corner badge to a specified element (legacy method)
-    function addCornerBadge(type, selector, options = {}) {
+    // Add a badge to a specified element with enhanced options
+    function addBadge(type, selector, options = {}) {
         // Validate badge type
         if (!badges[type]) {
             console.error(`Invalid badge type: ${type}. Use 'human', 'ai', 'claude', 'chatgpt', 'gemini', 'midjourney', or 'dalle'.`);
@@ -63,18 +42,18 @@ const AttestInk = (function() {
         }
 
         // Parse options and set defaults
-        const position = options.position || 'top-right';
+        const position = options.position || 'bottom-right';
         const size = options.size || 'medium';
         const style = options.style || 'default';
         
-        // Size mapping
+        // Size mapping with enhanced options
         const sizeMap = {
             small: '24px',
-            medium: '30px',
-            large: '36px'
+            medium: '36px',
+            large: '48px'
         };
         
-        // Position mapping
+        // Position mapping with enhanced options
         const positionMap = {
             'top-left': { top: '-15px', left: '10px', right: 'auto', bottom: 'auto' },
             'top-right': { top: '-15px', right: '10px', left: 'auto', bottom: 'auto' },
@@ -83,23 +62,21 @@ const AttestInk = (function() {
             'center-top': { top: '-15px', left: '50%', transform: 'translateX(-50%)', right: 'auto', bottom: 'auto' },
             'center-bottom': { bottom: '-15px', left: '50%', transform: 'translateX(-50%)', top: 'auto', right: 'auto' }
         };
-        
-        // Style mapping
+
+        // Style mapping for different badge styles
         const styleMap = {
-            default: { opacity: '1', filter: 'drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1))' },
-            subtle: { opacity: '0.85', filter: 'none' },
-            prominent: { opacity: '1', filter: 'drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2))' }
+            'default': {},
+            'subtle': { opacity: '0.8' },
+            'prominent': { 
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                transform: 'scale(1.05)'
+            }
         };
-        
-        // Get position, size and style settings
-        const positionSettings = positionMap[position] || positionMap['top-right'];
-        const sizeValue = sizeMap[size] || sizeMap.medium;
-        const styleSettings = styleMap[style] || styleMap.default;
 
         elements.forEach(element => {
             // Don't add if badge already exists
             if (element.querySelector('.attest-badge-container')) {
-                removeCornerBadge(selector);
+                removeBadge(selector);
             }
 
             // Set position relative if not already set
@@ -112,40 +89,40 @@ const AttestInk = (function() {
             badgeContainer.className = 'attest-badge-container';
             badgeContainer.style.position = 'absolute';
             badgeContainer.style.zIndex = '999';
-            badgeContainer.style.opacity = styleSettings.opacity;
-            badgeContainer.style.transition = 'all 0.3s ease';
             
             // Apply position settings
+            const positionSettings = positionMap[position] || positionMap['bottom-right'];
             Object.keys(positionSettings).forEach(key => {
                 badgeContainer.style[key] = positionSettings[key];
             });
 
             const badgeImg = document.createElement('img');
             badgeImg.src = badges[type];
-            badgeImg.alt = badgeInfo[type].title;
-            badgeImg.title = badgeInfo[type].title;
+            badgeImg.alt = badgeLabels[type];
+            badgeImg.title = badgeLabels[type];
             badgeImg.className = `attest-badge attest-${type}-badge`;
-            badgeImg.style.height = sizeValue;
+            badgeImg.style.height = sizeMap[size] || sizeMap.medium;
             badgeImg.style.display = 'block';
-            badgeImg.style.filter = styleSettings.filter;
-            badgeImg.style.transition = 'transform 0.3s ease';
             
-            // Add hover effect
-            badgeContainer.addEventListener('mouseenter', () => {
-                badgeImg.style.transform = 'scale(1.05)';
-            });
-            
-            badgeContainer.addEventListener('mouseleave', () => {
-                badgeImg.style.transform = '';
+            // Apply style settings
+            const styleSettings = styleMap[style] || styleMap.default;
+            Object.keys(styleSettings).forEach(key => {
+                badgeImg.style[key] = styleSettings[key];
             });
 
             badgeContainer.appendChild(badgeImg);
             element.appendChild(badgeContainer);
+            
+            // Add data attributes for future reference
+            badgeContainer.dataset.badgeType = type;
+            badgeContainer.dataset.badgePosition = position;
+            badgeContainer.dataset.badgeSize = size;
+            badgeContainer.dataset.badgeStyle = style;
         });
     }
 
-    // Remove corner badge from element
-    function removeCornerBadge(selector) {
+    // Remove badge from element
+    function removeBadge(selector) {
         const elements = document.querySelectorAll(selector);
         
         elements.forEach(element => {
@@ -155,224 +132,158 @@ const AttestInk = (function() {
             }
         });
     }
-    
-    // Add a footer badge to a specified element (new method)
-    function addFooterBadge(type, selector, options = {}) {
-        // Validate badge type
+
+   // Generate HTML code for a badge
+    function generateBadgeHTML(type, options = {}) {
         if (!badges[type]) {
-            console.error(`Invalid badge type: ${type}. Use 'human', 'ai', 'claude', 'chatgpt', 'gemini', 'midjourney', or 'dalle'.`);
-            return;
+            console.error(`Invalid badge type: ${type}.`);
+            return '';
         }
 
-        // Find elements
-        const elements = document.querySelectorAll(selector);
-        if (elements.length === 0) {
-            console.error(`No elements found matching selector: ${selector}`);
-            return;
-        }
+        const position = options.position || 'bottom-right';
+        const size = options.size || 'medium';
         
-        // Parse options
-        const includeLink = options.includeLink !== false; // Default to true
-        const downloadable = options.downloadable === true; // Default to false
+        const posMap = {
+            'top-left': { top: '-15px', left: '10px' },
+            'top-right': { top: '-15px', right: '10px' },
+            'bottom-left': { bottom: '-15px', left: '10px' },
+            'bottom-right': { bottom: '-15px', right: '10px' },
+            'center-top': { top: '-15px', left: '50%', transform: 'translateX(-50%)' },
+            'center-bottom': { bottom: '-15px', left: '50%', transform: 'translateX(-50%)' }
+        };
         
-        elements.forEach(element => {
-            // Remove existing footer badge if present
-            removeFooterBadge(selector);
-            
-            // If downloadable option is true, wrap the content in a container
-            if (downloadable) {
-                // Create wrapper if it doesn't exist
-                if (!element.parentElement.classList.contains('attest-download-wrapper')) {
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'attest-download-wrapper';
-                    
-                    // Create content container
-                    const contentContainer = document.createElement('div');
-                    contentContainer.className = 'attest-content-container';
-                    
-                    // Move the element inside the content container
-                    element.parentNode.insertBefore(wrapper, element);
-                    contentContainer.appendChild(element);
-                    wrapper.appendChild(contentContainer);
-                    
-                    // Set the element for the footer badge to the wrapper
-                    element = wrapper;
-                }
-            }
-            
-            // Create footer badge
-            const footerBadge = document.createElement('div');
-            footerBadge.className = `attest-footer-badge ${type}`;
-            
-            // Badge icon
-            const badgeIcon = document.createElement('div');
-            badgeIcon.className = 'attest-badge-icon';
-            
-            const badgeImg = document.createElement('img');
-            badgeImg.src = badges[type];
-            badgeImg.alt = badgeInfo[type].title;
-            
-            badgeIcon.appendChild(badgeImg);
-            footerBadge.appendChild(badgeIcon);
-            
-            // Badge text
-            const badgeText = document.createElement('div');
-            badgeText.className = 'attest-badge-text';
-            
-            const badgeTitle = document.createElement('div');
-            badgeTitle.className = 'attest-badge-title';
-            badgeTitle.textContent = badgeInfo[type].title;
-            
-            const badgeDescription = document.createElement('div');
-            badgeDescription.className = 'attest-badge-description';
-            badgeDescription.textContent = badgeInfo[type].description;
-            
-            badgeText.appendChild(badgeTitle);
-            badgeText.appendChild(badgeDescription);
-            footerBadge.appendChild(badgeText);
-            
-            // Add link to attest.ink if includeLink is true
-            if (includeLink) {
-                const badgeLink = document.createElement('a');
-                badgeLink.className = 'attest-badge-link';
-                badgeLink.href = 'https://attest.ink';
-                badgeLink.target = '_blank';
-                badgeLink.rel = 'noopener noreferrer';
-                
-                const badgeLinkIcon = document.createElement('div');
-                badgeLinkIcon.className = 'attest-badge-link-icon';
-                
-                badgeLink.appendChild(badgeLinkIcon);
-                badgeLink.appendChild(document.createTextNode('attest.ink'));
-                
-                footerBadge.appendChild(badgeLink);
-            }
-            
-            // Add footer badge to element
-            element.appendChild(footerBadge);
-        });
+        const sizeMap = {
+            'small': '24px',
+            'medium': '36px',
+            'large': '48px'
+        };
+        
+        const badgeURL = badges[type];
+        const badgeLabel = badgeLabels[type];
+        const posStyle = Object.entries(posMap[position] || posMap['bottom-right'])
+            .map(([key, value]) => `${key}: ${value};`)
+            .join(' ');
+        const heightValue = sizeMap[size] || sizeMap['medium'];
+        
+        return `<div style="position: relative;">
+    <!-- Your content here -->
+    <img src="${badgeURL}" alt="${badgeLabel}" style="position: absolute; ${posStyle} height: ${heightValue}; z-index: 10;">
+</div>`;
     }
-    
-    // Remove footer badge from element
-    function removeFooterBadge(selector) {
-        const elements = document.querySelectorAll(selector);
-        
-        elements.forEach(element => {
-            // If wrapped in download wrapper, target that instead
-            if (element.parentElement.classList.contains('attest-content-container') && 
-                element.parentElement.parentElement.classList.contains('attest-download-wrapper')) {
-                element = element.parentElement.parentElement;
-            }
-            
-            const footerBadge = element.querySelector('.attest-footer-badge');
-            if (footerBadge) {
-                footerBadge.remove();
-            }
-        });
-    }
-    
-    // Create a downloadable version of content with badge
-    function createDownloadable(type, selector, options = {}) {
-        // Validate badge type
+
+    // Generate Markdown code for a badge
+    function generateBadgeMarkdown(type) {
         if (!badges[type]) {
-            console.error(`Invalid badge type: ${type}. Use 'human', 'ai', 'claude', 'chatgpt', 'gemini', 'midjourney', or 'dalle'.`);
-            return;
+            console.error(`Invalid badge type: ${type}.`);
+            return '';
         }
         
-        // Find elements
-        const elements = document.querySelectorAll(selector);
-        if (elements.length === 0) {
-            console.error(`No elements found matching selector: ${selector}`);
-            return;
-        }
+        const badgeURL = badges[type];
+        const badgeLabel = badgeLabels[type];
         
-        // Parse options
-        const fileName = options.fileName || 'content-with-attribution';
-        const fileType = options.fileType || 'html';
-        
-        elements.forEach(element => {
-            // Create a clone of the element
-            const clone = element.cloneNode(true);
-            
-            // Create a downloadable HTML document with the badge
-            const html = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${badgeInfo[type].title}</title>
-                <style>
-                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-                    .content-container { padding: 20px; }
-                    .footer-badge {
-                        display: flex;
-                        align-items: center;
-                        gap: 15px;
-                        padding: 15px;
-                        border-top: 2px solid #4a7bca;
-                        background-color: #f5f9ff;
-                        margin-top: 30px;
-                    }
-                    .badge-text { flex-grow: 1; }
-                    .badge-title { font-weight: bold; margin-bottom: 5px; }
-                    .badge-link { color: #4a7bca; text-decoration: none; }
-                    .badge-link:hover { text-decoration: underline; }
-                </style>
-            </head>
-            <body>
-                <div class="content-container">
-                    ${clone.outerHTML}
-                </div>
-                <div class="footer-badge">
-                    <img src="${badges[type]}" alt="${badgeInfo[type].title}" height="40">
-                    <div class="badge-text">
-                        <div class="badge-title">${badgeInfo[type].title}</div>
-                        <div class="badge-description">${badgeInfo[type].description}</div>
-                    </div>
-                    <a href="https://attest.ink" target="_blank" class="badge-link">attest.ink</a>
-                </div>
-            </body>
-            </html>`;
-            
-            // Create a download link
-            const downloadLink = document.createElement('a');
-            downloadLink.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-            downloadLink.download = `${fileName}.html`;
-            
-            // Trigger download
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        });
+        return `![${badgeLabel}](${badgeURL})`;
     }
-    
-    // Add a badge (wrapper function that defaults to footer badge)
-    function addBadge(type, selector, options = {}) {
-        const badgeStyle = options.badgeStyle || 'footer'; // 'footer' or 'corner'
+
+    // Generate plain text attribution for a badge
+    function generateBadgeText(type) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}.`);
+            return '';
+        }
         
-        if (badgeStyle === 'corner') {
-            addCornerBadge(type, selector, options);
+        const badgeLabel = badgeLabels[type];
+        
+        return `[${badgeLabel}] - Content created with attribution by attest.ink`;
+    }
+
+    // Get badge data for a specific type
+    function getBadgeData(type) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}.`);
+            return null;
+        }
+        
+        return {
+            url: badges[type],
+            label: badgeLabels[type],
+            type: type
+        };
+    }
+
+    // Add footer attribution to html content
+    function addHTMLFooter(html, type) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}.`);
+            return html;
+        }
+        
+        const badgeURL = badges[type];
+        const badgeLabel = badgeLabels[type];
+        
+        const footer = `
+<div class="attest-ink-footer" style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee;">
+    <img src="${badgeURL}" alt="${badgeLabel}" style="height: 36px; margin-bottom: 10px;">
+    <p style="color: #666; font-size: 14px; margin-top: 5px;">This content was created with ${badgeLabel} assistance. Attribution provided by <a href="https://attest.ink" target="_blank">attest.ink</a>.</p>
+</div>`;
+        
+        // Check if the HTML content has a body tag
+        if (html.includes('</body>')) {
+            return html.replace('</body>', `${footer}</body>`);
         } else {
-            addFooterBadge(type, selector, options);
+            return html + footer;
         }
     }
-    
-    // Remove a badge (wrapper function)
-    function removeBadge(selector) {
-        removeCornerBadge(selector);
-        removeFooterBadge(selector);
+
+    // Add footer attribution to markdown content
+    function addMarkdownFooter(markdown, type) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}.`);
+            return markdown;
+        }
+        
+        const badgeURL = badges[type];
+        const badgeLabel = badgeLabels[type];
+        
+        const footer = `
+---
+
+![${badgeLabel}](${badgeURL})
+
+*This content was created with ${badgeLabel} assistance. Attribution provided by [attest.ink](https://attest.ink).*`;
+        
+        return markdown + footer;
+    }
+
+    // Add footer attribution to text content
+    function addTextFooter(text, type) {
+        if (!badges[type]) {
+            console.error(`Invalid badge type: ${type}.`);
+            return text;
+        }
+        
+        const badgeLabel = badgeLabels[type];
+        
+        const footer = `
+--------------------------------------------------
+This content was created with ${badgeLabel} assistance.
+Attribution provided by attest.ink (https://attest.ink)
+`;
+        
+        return text + footer;
     }
 
     // Public API
     return {
         addBadge,
         removeBadge,
-        addCornerBadge,
-        removeCornerBadge,
-        addFooterBadge,
-        removeFooterBadge,
-        createDownloadable,
-        getBadgeUrl: type => badges[type]
+        getBadgeUrl: type => badges[type],
+        getBadgeLabel: type => badgeLabels[type],
+        generateBadgeHTML,
+        generateBadgeMarkdown,
+        generateBadgeText,
+        getBadgeData,
+        addHTMLFooter,
+        addMarkdownFooter,
+        addTextFooter
     };
-})();
+})(); 
