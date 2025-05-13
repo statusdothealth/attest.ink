@@ -54,6 +54,7 @@ body {
     line-height: 1.6;
     color: var(--dark);
     background-color: var(--white);
+    overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 .container {
@@ -247,8 +248,8 @@ header {
 }
 
 .logo-image {
-    width: 220px;
-    height: 220px;
+    width: 120px;
+    height: 120px;
     margin-bottom: var(--space-md);
 }
 
@@ -400,6 +401,7 @@ header {
     margin-bottom: var(--space-md);
     border-bottom: 1px solid var(--border);
     position: relative;
+    flex-wrap: wrap; /* Allow tabs to wrap on mobile */
 }
 
 .tab-btn {
@@ -812,7 +814,7 @@ footer {
 /* === Media Queries === */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
     
     h2 {
@@ -826,6 +828,12 @@ footer {
     .cta-buttons {
         flex-direction: column;
         gap: var(--space-sm);
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
     }
     
     .badges-showcase {
@@ -851,7 +859,7 @@ footer {
         top: 0;
         right: -100%;
         height: 100vh;
-        width: 250px;
+        width: 80%; /* Increased from 250px to percentage for better mobile support */
         background-color: white;
         flex-direction: column;
         padding: 80px 30px 30px;
@@ -902,6 +910,7 @@ footer {
     
     .footer-links {
         justify-content: center;
+        flex-wrap: wrap;
     }
     
     .platform-row {
@@ -911,15 +920,28 @@ footer {
     .content-types-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Fix for smaller screens */
+    pre {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .copy-btn {
+        position: static;
+        margin-top: var(--space-xs);
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     h2 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
     
     .section-intro {
@@ -932,170 +954,35 @@ footer {
     
     .tab-btn {
         padding: var(--space-xs) var(--space-sm);
+        font-size: 0.9rem;
     }
     
     .cta-section h2 {
         font-size: 1.5rem;
     }
-}
 
-/* Additional styles for the redesigned implementation section */
-.badge-selector {
-    margin-bottom: 2rem;
-    text-align: center;
-}
+    /* Adjust container padding */
+    .container {
+        padding: 0 var(--space-sm);
+    }
 
-.badge-type-dropdown {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    min-width: 250px;
-    margin-left: 0.5rem;
-    cursor: pointer;
-}
+    /* Ensure images aren't too big */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 
-.implementation-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
+    /* Additional mobile-specific fixes */
+    .code-box {
+        padding: var(--space-xs);
+    }
 
-.implementation-card {
-    background-color: var(--white);
-    border-radius: var(--radius-md);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    padding: 1.5rem;
-    transition: all 0.3s;
-}
-
-.implementation-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.implementation-card h3 {
-    margin-bottom: 1rem;
-    text-align: center;
-    color: var(--primary);
-}
-
-.code-box {
-    background-color: #fafafa;
-    border-radius: var(--radius-sm);
-    padding: 0.5rem;
-    position: relative;
-    margin-bottom: 0.5rem;
-}
-
-.code-box pre {
-    margin: 0;
-    padding: 1rem;
-    overflow-x: auto;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-}
-
-/* Platform badges container styles */
-.platform-badges-container {
-    max-width: 100%;
-    margin: 2rem auto;
-}
-
-.platform-badge-row {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.platform-badge-item {
-    flex: 0 1 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: var(--white);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s;
-}
-
-.platform-badge-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.platform-badge-item h3 {
-    margin: 1rem 0 0.5rem;
-}
-
-.platform-badge-item p {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: var(--medium);
-}
-
-.platform-badge-item.try-demo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary-light);
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.modal.active {
-    display: block;
-    opacity: 1;
-}
-
-.modal-content {
-    position: relative;
-    background-color: var(--white);
-    margin: 10vh auto;
-    padding: 2rem;
-    width: 90%;
-    max-width: 800px;
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    max-height: 80vh;
-    overflow-y: auto;
-    transform: scale(0.9);
-    transition: transform 0.3s;
-}
-
-.modal.active .modal-content {
-    transform: scale(1);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .implementation-grid {
-        grid-template-columns: 1fr;
+    pre {
+        padding: var(--space-sm);
+        font-size: 0.8rem;
     }
     
-    .platform-badge-row {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .platform-badge-item {
-        width: 100%;
+    code {
+        font-size: 0.8rem;
     }
 }

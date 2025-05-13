@@ -18,9 +18,9 @@ function initializePlatformBadges() {
     // Platform-specific information
     const platformInfo = {
         claude: {
-            name: 'Claude AI Generated',
+            name: 'Claude AI Assisted',
             color: 'var(--claude-color)',
-            description: `The Claude AI Generated badge clearly identifies content created with Anthropic's Claude AI assistant. This animated badge features Anthropic's signature purple color scheme and a distinctive orbital design that represents Claude's thoughtful, nuanced approach to content generation.`,
+            description: `The Claude AI Assisted badge clearly identifies content created with Anthropic's Claude AI assistant. This animated badge features Anthropic's signature purple color scheme and a distinctive orbital design that represents Claude's thoughtful, nuanced approach to content generation.`,
             implementation: {
                 html: '<img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Generated" width="120" height="30">',
                 markdown: '![Claude AI Generated](https://attest.ink/assets/badges/claude-generated.svg)',
@@ -33,9 +33,9 @@ function initializePlatformBadges() {
             ]
         },
         chatgpt: {
-            name: 'ChatGPT Generated',
+            name: 'ChatGPT Assisted',
             color: 'var(--chatgpt-color)',
-            description: `The ChatGPT Generated badge identifies content created with OpenAI's ChatGPT models. This animated badge features OpenAI's recognizable teal color scheme and a hexagonal pattern symbolizing ChatGPT's neural network connections and knowledge structure.`,
+            description: `The ChatGPT Assisted badge identifies content created with OpenAI's ChatGPT models. This animated badge features OpenAI's recognizable teal color scheme and a hexagonal pattern symbolizing ChatGPT's neural network connections and knowledge structure.`,
             implementation: {
                 html: '<img src="https://attest.ink/assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated" width="120" height="30">',
                 markdown: '![ChatGPT Generated](https://attest.ink/assets/badges/chatgpt-generated.svg)',
@@ -48,9 +48,9 @@ function initializePlatformBadges() {
             ]
         },
         gemini: {
-            name: 'Gemini Generated',
+            name: 'Gemini Assisted',
             color: 'var(--gemini-color)',
-            description: `The Gemini Generated badge identifies content created with Google's Gemini AI models. This animated badge features a cosmic-inspired design with purple/violet tones that represent Google's Gemini branding, with star-like elements symbolizing the constellation.`,
+            description: `The Gemini Assisted badge identifies content created with Google's Gemini AI models. This animated badge features a cosmic-inspired design with purple/violet tones that represent Google's Gemini branding, with star-like elements symbolizing the constellation.`,
             implementation: {
                 html: '<img src="https://attest.ink/assets/badges/gemini-generated.svg" alt="Gemini Generated" width="120" height="30">',
                 markdown: '![Gemini Generated](https://attest.ink/assets/badges/gemini-generated.svg)',
@@ -63,9 +63,9 @@ function initializePlatformBadges() {
             ]
         },
         midjourney: {
-            name: 'Midjourney Generated',
+            name: 'Midjourney Assisted',
             color: 'var(--midjourney-color)',
-            description: `The Midjourney Generated badge identifies images created with Midjourney's AI image generation system. This animated badge features a distinctive blue color scheme with a stylized 'M' and creative particle effects that symbolize the artistic and imaginative nature of Midjourney's output.`,
+            description: `The Midjourney Assisted badge identifies images created with Midjourney's AI image generation system. This animated badge features a distinctive blue color scheme with a stylized 'M' and creative particle effects that symbolize the artistic and imaginative nature of Midjourney's output.`,
             implementation: {
                 html: '<img src="https://attest.ink/assets/badges/midjourney-generated.svg" alt="Midjourney Generated" width="120" height="30">',
                 markdown: '![Midjourney Generated](https://attest.ink/assets/badges/midjourney-generated.svg)',
@@ -78,9 +78,9 @@ function initializePlatformBadges() {
             ]
         },
         dalle: {
-            name: 'DALL-E Generated',
+            name: 'DALL-E Assisted',
             color: 'var(--dalle-color)',
-            description: `The DALL-E Generated badge identifies images created with OpenAI's DALL-E image generation system. This animated badge features a vibrant, colorful design with a characteristic eye-like symbol representing DALL-E's visual creativity and the kaleidoscopic range of images it can create.`,
+            description: `The DALL-E Assisted badge identifies images created with OpenAI's DALL-E image generation system. This animated badge features a vibrant, colorful design with a characteristic eye-like symbol representing DALL-E's visual creativity and the kaleidoscopic range of images it can create.`,
             implementation: {
                 html: '<img src="https://attest.ink/assets/badges/dalle-generated.svg" alt="DALL-E Generated" width="120" height="30">',
                 markdown: '![DALL-E Generated](https://attest.ink/assets/badges/dalle-generated.svg)',

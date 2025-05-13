@@ -19,23 +19,23 @@ const AttestInk = (function() {
     // Badge labels for accessibility and tooltips
     const badgeLabels = {
         human: 'Human Generated',
-        ai: 'AI Generated',
-        claude: 'Claude AI Generated',
-        chatgpt: 'ChatGPT Generated',
-        gemini: 'Gemini Generated',
-        midjourney: 'Midjourney Generated',
-        dalle: 'DALL-E Generated'
+        ai: 'AI Assisted',
+        claude: 'Claude AI Assisted',
+        chatgpt: 'ChatGPT Assisted',
+        gemini: 'Gemini Assisted',
+        midjourney: 'Midjourney Assisted',
+        dalle: 'DALL-E Assisted'
     };
     
     // Default badge tooltips
     const defaultTooltips = {
-        human: 'Human-created content, verified by attest.ink',
-        ai: 'AI-generated content, verified by attest.ink',
-        claude: 'Generated with Claude AI',
-        chatgpt: 'Generated with ChatGPT',
-        gemini: 'Generated with Gemini AI',
-        midjourney: 'Image generated with Midjourney',
-        dalle: 'Image generated with DALL-E'
+        human: 'Human-created content',
+        ai: 'AI-Assisted content',
+        claude: 'Assisted with Claude AI',
+        chatgpt: 'Assisted with ChatGPT',
+        gemini: 'Assisted with Gemini AI',
+        midjourney: 'Image assisted with Midjourney',
+        dalle: 'Image assisted with DALL-E'
     };
 
     // Add a badge to a specified element with enhanced options

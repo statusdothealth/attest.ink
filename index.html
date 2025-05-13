@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>attest.ink - Content Attribution Badges</title>
-    <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-generated content">
+    <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-assisted content">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/platform-carousel.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,6 +14,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
     <!-- Navigation -->
@@ -42,7 +44,7 @@
             <div class="hero-header">
                 <img src="assets/img/logo.svg" alt="attest.ink logo" class="logo-image">
                 <h1>Transparent attribution for the AI era</h1>
-                <p class="tagline">Clear, professional badges that distinguish human-created content from AI-generated work</p>
+                <p class="tagline">Clear, professional badges that distinguish human-created content from AI-assisted work</p>
             </div>
         </div>
     </header>
@@ -55,7 +57,7 @@
                     <p>
                         In an era where understanding content origin matters more than ever, attest.ink provides
                         elegant, professional badges to distinguish human-created content from
-                        AI-generated work across all digital platforms.
+                        AI-assisted work across all digital platforms.
                     </p>
                     <div class="cta-buttons">
                         <a href="#implementation" class="btn primary">Get Started</a>
@@ -74,7 +76,7 @@
                         <div class="badge-image">
                             <img src="assets/badges/ai-generated.svg" alt="AI Generated Badge" width="240" height="60">
                         </div>
-                        <h3>AI Generated</h3>
+                        <h3>AI Assisted</h3>
                         <p>Content created with artificial intelligence assistance</p>
                     </div>
                 </div>
@@ -91,12 +93,12 @@
                     <label for="badge-type-select">Select Badge Type:</label>
                     <select id="badge-type-select" class="badge-type-dropdown">
                         <option value="human">Human Generated</option>
-                        <option value="ai">AI Generated</option>
-                        <option value="claude">Claude AI Generated</option>
-                        <option value="chatgpt">ChatGPT Generated</option>
-                        <option value="gemini">Gemini Generated</option>
-                        <option value="midjourney">Midjourney Generated</option>
-                        <option value="dalle">DALL-E Generated</option>
+                        <option value="ai">AI Assisted</option>
+                        <option value="claude">Claude AI Assisted</option>
+                        <option value="chatgpt">ChatGPT Assisted</option>
+                        <option value="gemini">Gemini Assisted</option>
+                        <option value="midjourney">Midjourney Assisted</option>
+                        <option value="dalle">DALL-E Assisted</option>
                     </select>
                 </div>
                 
@@ -255,68 +257,85 @@
             </div>
         </section>
         
-        <section class="platforms">
-            <div class="container">
-                <h2>Platform-Specific <span class="highlight">Badges</span></h2>
-                <p class="section-intro">attest.ink provides specialized badges for content created with specific AI platforms, offering clear and consistent attribution across your digital ecosystem.</p>
-                
-                <!-- Platform badges displayed horizontally -->
-                <div class="platform-badges-container">
-                    <div class="platform-badge-row">
-                        <div class="platform-badge-item">
-                            <a href="demo.html#claude" class="badge-link">
-                                <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge" width="240" height="60">
-                                <span class="badge-tooltip">Content generated with Claude AI</span>
-                            </a>
-                            <h3>Claude</h3>
-                            <p>For content generated with Anthropic's Claude AI assistant</p>
-                        </div>
-                        
-                        <div class="platform-badge-item">
-                            <a href="demo.html#chatgpt" class="badge-link">
-                                <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge" width="240" height="60">
-                                <span class="badge-tooltip">Content generated with ChatGPT</span>
-                            </a>
-                            <h3>ChatGPT</h3>
-                            <p>For content generated with OpenAI's ChatGPT models</p>
-                        </div>
-                        
-                        <div class="platform-badge-item">
-                            <a href="demo.html#gemini" class="badge-link">
-                                <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge" width="240" height="60">
-                                <span class="badge-tooltip">Content generated with Gemini AI</span>
-                            </a>
-                            <h3>Gemini</h3>
-                            <p>For content generated with Google's Gemini AI models</p>
-                        </div>
-                    </div>
-                    
-                    <div class="platform-badge-row">
-                        <div class="platform-badge-item">
-                            <a href="demo.html#midjourney" class="badge-link">
-                                <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge" width="240" height="60">
-                                <span class="badge-tooltip">Images generated with Midjourney</span>
-                            </a>
-                            <h3>Midjourney</h3>
-                            <p>For images generated with Midjourney's AI</p>
-                        </div>
-                        
-                        <div class="platform-badge-item">
-                            <a href="demo.html#dalle" class="badge-link">
-                                <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge" width="240" height="60">
-                                <span class="badge-tooltip">Images generated with DALL-E</span>
-                            </a>
-                            <h3>DALL-E</h3>
-                            <p>For images generated with OpenAI's DALL-E</p>
-                        </div>
-                        
-                        <div class="platform-badge-item try-demo">
-                            <a href="demo.html" class="btn primary">Try Interactive Demo</a>
-                        </div>
-                    </div>
+        <section class="platforms-section" id="platforms">
+    <div class="platforms-container">
+        <div class="platforms-header">
+            <h2>Platform-Specific <span class="highlight">Badges</span></h2>
+            <p>attest.ink provides specialized badges for content created with specific AI platforms, offering clear and consistent attribution across your digital ecosystem.</p>
+        </div>
+
+        <div class="platforms-grid">
+            <div class="platform-card claude">
+                <div class="platform-card-header">
+                    <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge">
+                </div>
+                <div class="platform-card-body">
+                    <h3>Claude</h3>
+                    <p>For content generated with Anthropic's Claude AI assistant</p>
+                </div>
+                <div class="platform-card-footer">
+                    <a href="demo.html#claude" class="platform-btn">See Example</a>
                 </div>
             </div>
-        </section>
+
+            <div class="platform-card chatgpt">
+                <div class="platform-card-header">
+                    <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge">
+                </div>
+                <div class="platform-card-body">
+                    <h3>ChatGPT</h3>
+                    <p>For content generated with OpenAI's ChatGPT models</p>
+                </div>
+                <div class="platform-card-footer">
+                    <a href="demo.html#chatgpt" class="platform-btn">See Example</a>
+                </div>
+            </div>
+
+            <div class="platform-card gemini">
+                <div class="platform-card-header">
+                    <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge">
+                </div>
+                <div class="platform-card-body">
+                    <h3>Gemini</h3>
+                    <p>For content generated with Google's Gemini AI models</p>
+                </div>
+                <div class="platform-card-footer">
+                    <a href="demo.html#gemini" class="platform-btn">See Example</a>
+                </div>
+            </div>
+
+            <div class="platform-card midjourney">
+                <div class="platform-card-header">
+                    <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge">
+                </div>
+                <div class="platform-card-body">
+                    <h3>Midjourney</h3>
+                    <p>For images generated with Midjourney's AI</p>
+                </div>
+                <div class="platform-card-footer">
+                    <a href="demo.html#midjourney" class="platform-btn">See Example</a>
+                </div>
+            </div>
+
+            <div class="platform-card dalle">
+                <div class="platform-card-header">
+                    <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge">
+                </div>
+                <div class="platform-card-body">
+                    <h3>DALL-E</h3>
+                    <p>For images generated with OpenAI's DALL-E</p>
+                </div>
+                <div class="platform-card-footer">
+                    <a href="demo.html#dalle" class="platform-btn">See Example</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-btn-container">
+            <a href="demo.html" class="demo-btn">Try Interactive Demo</a>
+        </div>
+    </div>
+</section>
         
         <section class="cta-section">
             <div class="container">

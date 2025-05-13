@@ -278,7 +278,7 @@ function changeContentPreview(contentType) {
                 </div>
             </div>
             <div class="blog-content">
-                <p>In today's digital landscape, the line between human-created and AI-generated content continues to blur. As artificial intelligence tools become more sophisticated, the need for transparent attribution has never been more important.</p>
+                <p>In today's digital landscape, the line between human-created and AI-Assisted content continues to blur. As artificial intelligence tools become more sophisticated, the need for transparent attribution has never been more important.</p>
                 
                 <p>Content creators, publishers, and platforms are now facing new challenges in clearly identifying the origin of digital media. This is where standardized attribution badges can play a crucial role in maintaining transparency and trust.</p>
                 
@@ -322,12 +322,12 @@ function applyBadge(badgeType, position) {
         // Add footer badge
         const badgeNames = {
             'human': 'Human Generated',
-            'ai': 'AI Generated',
-            'claude': 'Claude AI Generated',
-            'chatgpt': 'ChatGPT Generated',
-            'gemini': 'Gemini Generated',
-            'midjourney': 'Midjourney Generated',
-            'dalle': 'DALL-E Generated'
+            'ai': 'AI Assisted',
+            'claude': 'Claude AI Assisted',
+            'chatgpt': 'ChatGPT Assisted',
+            'gemini': 'Gemini Assisted',
+            'midjourney': 'Midjourney Assisted',
+            'dalle': 'DALL-E Assisted'
         };
         
         const badgeDescriptions = {
@@ -366,22 +366,22 @@ function applyBadge(badgeType, position) {
         const badgeURL = `assets/badges/${badgeType}-generated.svg`;
         const badgeNames = {
             'human': 'Human Generated',
-            'ai': 'AI Generated',
-            'claude': 'Claude AI Generated',
-            'chatgpt': 'ChatGPT Generated',
-            'gemini': 'Gemini Generated',
-            'midjourney': 'Midjourney Generated',
-            'dalle': 'DALL-E Generated'
+            'ai': 'AI Assisted',
+            'claude': 'Claude AI Assisted',
+            'chatgpt': 'ChatGPT Assisted',
+            'gemini': 'Gemini Assisted',
+            'midjourney': 'Midjourney Assisted',
+            'dalle': 'DALL-E Assisted'
         };
         
         const badgeTooltips = {
-            'human': 'Human-created content, verified by attest.ink',
-            'ai': 'AI-generated content, verified by attest.ink',
-            'claude': 'Generated with Claude AI',
-            'chatgpt': 'Generated with ChatGPT',
-            'gemini': 'Generated with Gemini AI',
-            'midjourney': 'Image generated with Midjourney',
-            'dalle': 'Image generated with DALL-E'
+            'human': 'Human-created content',
+            'ai': 'AI-assisted content',
+            'claude': 'Assisted by Claude AI',
+            'chatgpt': 'Assisted by ChatGPT',
+            'gemini': 'Assisted by Gemini AI',
+            'midjourney': 'Image assisted by Midjourney',
+            'dalle': 'Image assisted by DALL-E'
         };
         
         const badge = document.createElement('a');
@@ -450,23 +450,23 @@ function updateCodeExamples(badgeType, contentType, position) {
     
     // Badge information
     const badgeNames = {
-        'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'human': 'Human Genereted',
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     const badgeTooltips = {
-        'human': 'Human-created content, verified by attest.ink',
-        'ai': 'AI-generated content, verified by attest.ink',
-        'claude': 'Generated with Claude AI',
-        'chatgpt': 'Generated with ChatGPT',
-        'gemini': 'Generated with Gemini AI',
-        'midjourney': 'Image generated with Midjourney',
-        'dalle': 'Image generated with DALL-E'
+        'human': 'Human-created content',
+        'ai': 'AI-Assisted content',
+        'claude': 'Assisted with Claude AI',
+        'chatgpt': 'Assisted with ChatGPT',
+        'gemini': 'Assisted with Gemini AI',
+        'midjourney': 'Image assisted with Midjourney',
+        'dalle': 'Image assisted with DALL-E'
     };
     
     // Update HTML example
@@ -578,23 +578,23 @@ function updateModalContent(exampleType, badgeType) {
     
     // Badge information
     const badgeNames = {
-        'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'human': 'Human Genereted',
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     const badgeTooltips = {
-        'human': 'Human-created content, verified by attest.ink',
-        'ai': 'AI-generated content, verified by attest.ink',
-        'claude': 'Generated with Claude AI',
-        'chatgpt': 'Generated with ChatGPT',
-        'gemini': 'Generated with Gemini AI',
-        'midjourney': 'Image generated with Midjourney',
-        'dalle': 'Image generated with DALL-E'
+        'human': 'Human-created content',
+        'ai': 'AI-aenerated content',
+        'claude': 'Assisted with Claude AI',
+        'chatgpt': 'Assisted with ChatGPT',
+        'gemini': 'Assisted with Gemini AI',
+        'midjourney': 'Image assisted with Midjourney',
+        'dalle': 'Image assisted with DALL-E'
     };
     
     // Update modal title

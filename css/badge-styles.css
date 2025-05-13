@@ -121,6 +121,52 @@
     margin: 0 auto;
 }
 
+/* Improved responsiveness for badge containers */
+.attest-badge-container {
+    position: absolute;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.attest-badge {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Badge positioning classes for better mobile visibility */
+.attest-badge-container.top-right {
+    top: 10px;
+    right: 10px;
+}
+
+.attest-badge-container.top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.attest-badge-container.bottom-right {
+    bottom: 10px;
+    right: 10px;
+}
+
+.attest-badge-container.bottom-left {
+    bottom: 10px;
+    left: 10px;
+}
+
+.attest-badge-container.center-top {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.attest-badge-container.center-bottom {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .attest-footer-badge {
@@ -131,9 +177,56 @@
     
     .attest-badge-icon {
         margin-bottom: 10px;
+        margin-left: 0;
+        margin-right: 0;
     }
     
     .attest-badge-text {
         margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .attest-badge-link {
+        margin-right: 0;
+    }
+
+    /* Adjust badge size for mobile */
+    .attest-badge-container img {
+        max-width: 100px;
+        height: auto;
+    }
+
+    /* Ensure badges don't overlap with content on small screens */
+    .attest-badge-container.top-right,
+    .attest-badge-container.bottom-right {
+        right: 5px;
+    }
+
+    .attest-badge-container.top-left,
+    .attest-badge-container.bottom-left {
+        left: 5px;
+    }
+
+    .attest-badge-container.top-right,
+    .attest-badge-container.top-left {
+        top: 5px;
+    }
+
+    .attest-badge-container.bottom-right,
+    .attest-badge-container.bottom-left {
+        bottom: 5px;
+    }
+}
+
+/* Animation for badge hover */
+@keyframes pulseGlow {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(74, 123, 202, 0.3));
+    }
+    50% {
+        filter: drop-shadow(0 0 8px rgba(74, 123, 202, 0.6));
+    }
+    100% {
+        filter: drop-shadow(0 0 2px rgba(74, 123, 202, 0.3));
     }
 }

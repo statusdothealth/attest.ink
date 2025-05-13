@@ -367,12 +367,12 @@ function getContentType() {
 function generateEmbedCode(badgeType, position, size, contentType) {
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     const posMap = {
@@ -579,12 +579,12 @@ function exportContent(format, badgeType) {
     // Get badge info
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     // Create appropriate export content
@@ -617,12 +617,12 @@ function generateHtmlExport(contentType, badgeType, position, size) {
     const badgeURL = `https://attest.ink/assets/badges/${badgeType}-generated.svg`;
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     // Get content from preview
@@ -716,12 +716,12 @@ function generateMarkdownExport(contentType, badgeType) {
     const badgeURL = `https://attest.ink/assets/badges/${badgeType}-generated.svg`;
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     // Get content from preview
@@ -753,12 +753,12 @@ ${contentMarkdown}
 function generateTextExport(contentType, badgeType) {
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
     // Get content from preview
@@ -839,13 +839,13 @@ function downloadFile(content, filename) {
 function getBadgeTypeName(badgeType) {
     const badgeNames = {
         'human': 'Human Generated',
-        'ai': 'AI Generated',
-        'claude': 'Claude AI Generated',
-        'chatgpt': 'ChatGPT Generated',
-        'gemini': 'Gemini Generated',
-        'midjourney': 'Midjourney Generated',
-        'dalle': 'DALL-E Generated'
+        'ai': 'AI Assisted',
+        'claude': 'Claude AI Assisted',
+        'chatgpt': 'ChatGPT Assisted',
+        'gemini': 'Gemini Assisted',
+        'midjourney': 'Midjourney Assisted',
+        'dalle': 'DALL-E Assisted'
     };
     
-    return badgeNames[badgeType] || 'AI Generated';
+    return badgeNames[badgeType] || 'AI Assisted';
 }
