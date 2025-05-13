@@ -1,68 +1,92 @@
-# index.html
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attest.ink - Content Attribution Badges</title>
-    <meta name="description" content="Professional badges for distinguishing between human and AI-generated content">
+    <title>attest.ink - Content Attribution Badges</title>
+    <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-generated content">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background-wave"></div>
+    
     <header>
         <div class="container">
-            <h1>Attest.ink</h1>
-            <p class="tagline">Professional content attribution badges</p>
+            <h1>attest<span class="accent">.</span>ink</h1>
+            <p class="tagline">Transparent attribution for the AI era</p>
         </div>
     </header>
 
-    <main class="container">
-        <section class="intro">
-            <h2>Content Attribution That Matters</h2>
-            <p>
-                In today's mixed-media landscape, transparently identifying the origin of content
-                is increasingly important. Attest.ink provides elegant, professional badges
-                to clearly distinguish between human-crafted and AI-generated content.
-            </p>
-            <div class="badges-showcase">
-                <div class="badge-container">
-                    <img src="assets/badges/human-generated.svg" alt="Human Generated Badge" class="badge">
-                    <p>Human Generated</p>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Clear distinction between human and AI-generated content</h2>
+                    <p>
+                        In an era where content origin matters more than ever, attest.ink provides
+                        the ability to distinguish human created content from content generated with AI assistance.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#implementation" class="btn primary">Get Started</a>
+                        <a href="#demo" class="btn secondary">See Demo</a>
+                    </div>
                 </div>
-                <div class="badge-container">
-                    <img src="assets/badges/ai-generated.svg" alt="AI Generated Badge" class="badge">
-                    <p>AI Generated</p>
+                <div class="badges-showcase">
+                    <div class="badge-card human">
+                        <div class="badge-image">
+                            <img src="assets/badges/human-generated.svg" alt="Human Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>Human Generated</h3>
+                        <p>Content created by human creativity and effort</p>
+                    </div>
+                    <div class="badge-card ai">
+                        <div class="badge-image">
+                            <img src="assets/badges/ai-generated.svg" alt="AI Generated Badge" width="240" height="60">
+                        </div>
+                        <h3>AI Generated</h3>
+                        <p>Content created with artificial intelligence assistance</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="implementation">
-            <h2>Simple Implementation</h2>
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="html">HTML</button>
-                <button class="tab-btn" data-tab="markdown">Markdown</button>
-                <button class="tab-btn" data-tab="javascript">JavaScript</button>
-            </div>
-            
-            <div class="tab-content active" id="html-tab">
-                <pre><code>&lt;!-- For human-generated content -->
+        <section id="implementation" class="implementation">
+            <div class="container">
+                <h2>Simple <span class="highlight">Implementation</span></h2>
+                <p class="section-intro">Add these lightweight badges to any digital content with just a few lines of code.</p>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="html">HTML</button>
+                    <button class="tab-btn" data-tab="markdown">Markdown</button>
+                    <button class="tab-btn" data-tab="javascript">JavaScript</button>
+                </div>
+                
+                <div class="tab-content active" id="html-tab">
+                    <pre><code>&lt;!-- For human-generated content -->
 &lt;img src="https://yourusername.github.io/attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
 
 &lt;!-- For AI-generated content -->
 &lt;img src="https://yourusername.github.io/attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" width="120" height="30"></code></pre>
-                <button class="copy-btn" data-target="html-tab">Copy</button>
-            </div>
-            
-            <div class="tab-content" id="markdown-tab">
-                <pre><code>![Human Generated](https://yourusername.github.io/attest.ink/assets/badges/human-generated.svg)
+                    <button class="copy-btn" data-target="html-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                
+                <div class="tab-content" id="markdown-tab">
+                    <pre><code>![Human Generated](https://yourusername.github.io/attest.ink/assets/badges/human-generated.svg)
 ![AI Generated](https://yourusername.github.io/attest.ink/assets/badges/ai-generated.svg)</code></pre>
-                <button class="copy-btn" data-target="markdown-tab">Copy</button>
-            </div>
-            
-            <div class="tab-content" id="javascript-tab">
-                <pre><code>&lt;script src="https://yourusername.github.io/attest.ink/js/attest.js">&lt;/script>
+                    <button class="copy-btn" data-target="markdown-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                
+                <div class="tab-content" id="javascript-tab">
+                    <pre><code>&lt;script src="https://yourusername.github.io/attest.ink/js/attest.js">&lt;/script>
 &lt;script>
   // Add a human-generated badge to an element
   AttestInk.addBadge('human', '#my-human-content');
@@ -70,58 +94,91 @@
   // Add an AI-generated badge to an element
   AttestInk.addBadge('ai', '#my-ai-content');
 &lt;/script></code></pre>
-                <button class="copy-btn" data-target="javascript-tab">Copy</button>
+                    <button class="copy-btn" data-target="javascript-tab">
+                        <span class="copy-icon"></span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
             </div>
         </section>
 
-        <section class="demo-section">
-            <h2>Live Demo</h2>
-            <div class="demo-controls">
-                <p>Try adding badges to these example content blocks:</p>
-                <button id="add-human-badge">Add Human Badge</button>
-                <button id="add-ai-badge">Add AI Badge</button>
-                <button id="reset-demo">Reset</button>
-            </div>
-            
-            <div class="demo-content">
-                <div class="content-block" id="demo-block-1">
-                    <h3>Market Analysis Report</h3>
-                    <p>
-                        In Q1 2025, market trends showed a significant shift towards sustainable products,
-                        with a 23% increase in consumer spending on eco-friendly alternatives. This represents
-                        a fundamental change in purchasing behavior compared to previous years.
-                    </p>
+        <section id="demo" class="demo">
+            <div class="container">
+                <h2>Interactive <span class="highlight">Demo</span></h2>
+                <p class="section-intro">See how the badges look and function in a real-world context.</p>
+                
+                <div class="demo-controls">
+                    <button id="add-human-badge" class="btn human-btn">Add Human Badge</button>
+                    <button id="add-ai-badge" class="btn ai-btn">Add AI Badge</button>
+                    <button id="reset-demo" class="btn reset-btn">Reset</button>
                 </div>
                 
-                <div class="content-block" id="demo-block-2">
-                    <h3>Product Description</h3>
-                    <p>
-                        Our new wireless headphones feature 40 hours of battery life, active noise cancellation,
-                        and premium memory foam ear cushions. The lightweight design ensures comfort during
-                        extended listening sessions.
-                    </p>
+                <div class="demo-content">
+                    <div class="content-card" id="demo-block-1">
+                        <div class="card-header">
+                            <h3>Market Analysis Report</h3>
+                            <span class="date">May 10, 2025</span>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                In Q1 2025, market trends showed a significant shift towards sustainable products,
+                                with a 23% increase in consumer spending on eco-friendly alternatives. This represents
+                                a fundamental change in purchasing behavior compared to previous years.
+                            </p>
+                            <p>
+                                Analysts predict this trend will continue as environmental awareness grows among
+                                consumers globally, with particular strength in the 25-40 demographic.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" id="demo-block-2">
+                        <div class="card-header">
+                            <h3>Product Description</h3>
+                            <span class="date">May 12, 2025</span>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Our new wireless headphones feature 40 hours of battery life, active noise cancellation,
+                                and premium memory foam ear cushions. The lightweight design ensures comfort during
+                                extended listening sessions.
+                            </p>
+                            <p>
+                                Compatible with all major devices via Bluetooth 6.0, these headphones deliver
+                                immersive sound quality with enhanced bass response and crystal-clear highs.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <section class="why-section">
-            <h2>Why Content Attribution Matters</h2>
-            <div class="reasons-grid">
-                <div class="reason-card">
-                    <h3>Transparency</h3>
-                    <p>Users have the right to know how content was created</p>
-                </div>
-                <div class="reason-card">
-                    <h3>Trust</h3>
-                    <p>Clear attribution builds trust between creators and audiences</p>
-                </div>
-                <div class="reason-card">
-                    <h3>Value</h3>
-                    <p>Appropriately recognizing human creative effort</p>
-                </div>
-                <div class="reason-card">
-                    <h3>Context</h3>
-                    <p>Providing important context for interpretation</p>
+        <section class="why">
+            <div class="container">
+                <h2>Why <span class="highlight">Attribution</span> Matters</h2>
+                <p class="section-intro">In today's digital landscape, understanding content origin provides valuable context.</p>
+                
+                <div class="reasons-grid">
+                    <div class="reason-card">
+                        <div class="reason-icon transparency-icon"></div>
+                        <h3>Transparency</h3>
+                        <p>Users have the right to know how content was created</p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon trust-icon"></div>
+                        <h3>Trust</h3>
+                        <p>Clear attribution builds trust between creators and audiences</p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon value-icon"></div>
+                        <h3>Value</h3>
+                        <p>Appropriately recognizing human creative effort</p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="reason-icon context-icon"></div>
+                        <h3>Context</h3>
+                        <p>Providing important context for interpretation</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -129,7 +186,20 @@
 
     <footer>
         <div class="container">
-            <p>© 2025 Attest.ink | <a href="https://github.com/yourusername/attest.ink">GitHub</a></p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Attest<span class="accent">.</span>ink</h2>
+                    <p>Content attribution that matters</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/yourusername/attest.ink">GitHub</a>
+                    <a href="https://github.com/yourusername/attest.ink#contributing">Contribute</a>
+                    <a href="https://github.com/yourusername/attest.ink/blob/main/LICENSE">License</a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 Attest.ink &mdash; <a href="https://github.com/yourusername/attest.ink">View on GitHub</a></p>
+            </div>
         </div>
     </footer>
 

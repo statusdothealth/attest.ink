@@ -10,7 +10,7 @@ const AttestInk = (function() {
         ai: 'assets/badges/ai-generated.svg'
     };
 
-    // Add a badge to a specified element
+    // Add a badge to a specified element with animation
     function addBadge(type, selector) {
         if (!badges[type]) {
             console.error(`Invalid badge type: ${type}. Use 'human' or 'ai'.`);
@@ -41,6 +41,9 @@ const AttestInk = (function() {
             badgeContainer.style.top = '-15px';
             badgeContainer.style.right = '10px';
             badgeContainer.style.zIndex = '100';
+            badgeContainer.style.opacity = '0';
+            badgeContainer.style.transform = 'translateY(10px)';
+            badgeContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
             const badgeImg = document.createElement('img');
             badgeImg.src = badges[type];
@@ -48,20 +51,34 @@ const AttestInk = (function() {
             badgeImg.className = 'attest-badge';
             badgeImg.style.height = '30px';
             badgeImg.style.display = 'block';
+            badgeImg.style.filter = 'drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1))';
 
             badgeContainer.appendChild(badgeImg);
             element.appendChild(badgeContainer);
+            
+            // Trigger animation after a small delay
+            setTimeout(() => {
+                badgeContainer.style.opacity = '1';
+                badgeContainer.style.transform = 'translateY(0)';
+            }, 50);
         });
     }
 
-    // Remove badge from element
+    // Remove badge from element with animation
     function removeBadge(selector) {
         const elements = document.querySelectorAll(selector);
         
         elements.forEach(element => {
             const badgeContainer = element.querySelector('.attest-badge-container');
             if (badgeContainer) {
-                badgeContainer.remove();
+                // Animate out
+                badgeContainer.style.opacity = '0';
+                badgeContainer.style.transform = 'translateY(10px)';
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    badgeContainer.remove();
+                }, 300);
             }
         });
     }
