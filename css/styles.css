@@ -938,3 +938,164 @@ footer {
         font-size: 1.5rem;
     }
 }
+
+/* Additional styles for the redesigned implementation section */
+.badge-selector {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.badge-type-dropdown {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-width: 250px;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.implementation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.implementation-card {
+    background-color: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: all 0.3s;
+}
+
+.implementation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.implementation-card h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--primary);
+}
+
+.code-box {
+    background-color: #fafafa;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.code-box pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+}
+
+/* Platform badges container styles */
+.platform-badges-container {
+    max-width: 100%;
+    margin: 2rem auto;
+}
+
+.platform-badge-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.platform-badge-item {
+    flex: 0 1 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: var(--white);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.platform-badge-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.platform-badge-item h3 {
+    margin: 1rem 0 0.5rem;
+}
+
+.platform-badge-item p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: var(--medium);
+}
+
+.platform-badge-item.try-demo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-light);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--white);
+    margin: 10vh auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 800px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .implementation-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .platform-badge-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .platform-badge-item {
+        width: 100%;
+    }
+}

@@ -86,179 +86,54 @@
                 <h2>Simple <span class="highlight">Implementation</span></h2>
                 <p class="section-intro">Add these lightweight, animated badges to any digital content with just a few lines of code. Our badges work seamlessly across websites, documents, social media, and more.</p>
                 
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="html">HTML</button>
-                    <button class="tab-btn" data-tab="markdown">Markdown</button>
-                    <button class="tab-btn" data-tab="javascript">JavaScript</button>
+                <!-- New dropdown selector for badge type -->
+                <div class="badge-selector">
+                    <label for="badge-type-select">Select Badge Type:</label>
+                    <select id="badge-type-select" class="badge-type-dropdown">
+                        <option value="human">Human Generated</option>
+                        <option value="ai">AI Generated</option>
+                        <option value="claude">Claude AI Generated</option>
+                        <option value="chatgpt">ChatGPT Generated</option>
+                        <option value="gemini">Gemini Generated</option>
+                        <option value="midjourney">Midjourney Generated</option>
+                        <option value="dalle">DALL-E Generated</option>
+                    </select>
                 </div>
                 
-                <div class="tab-content active" id="html-tab">
-                    <div class="code-grid">
+                <div class="implementation-grid">
+                    <!-- HTML Implementation -->
+                    <div class="implementation-card">
+                        <h3>HTML</h3>
                         <div class="code-box">
-                            <h4>Human Generated</h4>
-                            <pre><code>&lt;!-- For human-generated content -->
+                            <pre id="html-implementation-code"><code>&lt;!-- For human-generated content -->
 &lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
   &lt;img src="https://attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
   &lt;span class="badge-tooltip">Human-created content, verified by attest.ink&lt;/span>
 &lt;/a></code></pre>
-                            <button class="copy-btn" data-target="human-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>AI Generated</h4>
-                            <pre><code>&lt;!-- For AI-generated content -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">AI-generated content, verified by attest.ink&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="ai-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Claude AI</h4>
-                            <pre><code>&lt;!-- For Claude AI content -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Generated with Claude AI&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="claude-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>ChatGPT</h4>
-                            <pre><code>&lt;!-- For ChatGPT content -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Generated with ChatGPT&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="chatgpt-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Gemini AI</h4>
-                            <pre><code>&lt;!-- For Gemini AI content -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/gemini-generated.svg" alt="Gemini Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Generated with Gemini AI&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="gemini-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Midjourney</h4>
-                            <pre><code>&lt;!-- For Midjourney images -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/midjourney-generated.svg" alt="Midjourney Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Image generated with Midjourney&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="midjourney-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>DALL-E</h4>
-                            <pre><code>&lt;!-- For DALL-E images -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/dalle-generated.svg" alt="DALL-E Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Image generated with DALL-E&lt;/span>
-&lt;/a></code></pre>
-                            <button class="copy-btn" data-target="dalle-code">
+                            <button class="copy-btn" data-target="html-implementation-code">
                                 <span class="copy-icon"></span>
                                 <span class="copy-text">Copy</span>
                             </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="tab-content" id="markdown-tab">
-                    <div class="code-grid">
+                    
+                    <!-- Markdown Implementation -->
+                    <div class="implementation-card">
+                        <h3>Markdown</h3>
                         <div class="code-box">
-                            <h4>Human Generated</h4>
-                            <pre><code>[![Human Generated](https://attest.ink/assets/badges/human-generated.svg)](https://attest.ink "Human-created content, verified by attest.ink")</code></pre>
-                            <button class="copy-btn" data-target="human-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>AI Generated</h4>
-                            <pre><code>[![AI Generated](https://attest.ink/assets/badges/ai-generated.svg)](https://attest.ink "AI-generated content, verified by attest.ink")</code></pre>
-                            <button class="copy-btn" data-target="ai-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Claude AI</h4>
-                            <pre><code>[![Claude AI Generated](https://attest.ink/assets/badges/claude-generated.svg)](https://attest.ink "Generated with Claude AI")</code></pre>
-                            <button class="copy-btn" data-target="claude-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>ChatGPT</h4>
-                            <pre><code>[![ChatGPT Generated](https://attest.ink/assets/badges/chatgpt-generated.svg)](https://attest.ink "Generated with ChatGPT")</code></pre>
-                            <button class="copy-btn" data-target="chatgpt-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Gemini AI</h4>
-                            <pre><code>[![Gemini Generated](https://attest.ink/assets/badges/gemini-generated.svg)](https://attest.ink "Generated with Gemini AI")</code></pre>
-                            <button class="copy-btn" data-target="gemini-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Midjourney</h4>
-                            <pre><code>[![Midjourney Generated](https://attest.ink/assets/badges/midjourney-generated.svg)](https://attest.ink "Image generated with Midjourney")</code></pre>
-                            <button class="copy-btn" data-target="midjourney-md-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>DALL-E</h4>
-                            <pre><code>[![DALL-E Generated](https://attest.ink/assets/badges/dalle-generated.svg)](https://attest.ink "Image generated with DALL-E")</code></pre>
-                            <button class="copy-btn" data-target="dalle-md-code">
+                            <pre id="markdown-implementation-code"><code>[![Human Generated](https://attest.ink/assets/badges/human-generated.svg)](https://attest.ink "Human-created content, verified by attest.ink")</code></pre>
+                            <button class="copy-btn" data-target="markdown-implementation-code">
                                 <span class="copy-icon"></span>
                                 <span class="copy-text">Copy</span>
                             </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="tab-content" id="javascript-tab">
-                    <div class="code-grid">
+                    
+                    <!-- JavaScript Implementation -->
+                    <div class="implementation-card">
+                        <h3>JavaScript</h3>
                         <div class="code-box">
-                            <h4>Human Generated</h4>
-                            <pre><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
+                            <pre id="javascript-implementation-code"><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
 &lt;script>
   // Add human-generated badge
   AttestInk.addBadge('human', '#your-content', {
@@ -267,43 +142,7 @@
     showTooltip: true
   });
 &lt;/script></code></pre>
-                            <button class="copy-btn" data-target="human-js-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>AI Generated</h4>
-                            <pre><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
-&lt;script>
-  // Add AI-generated badge
-  AttestInk.addBadge('ai', '#your-content', {
-    position: 'bottom-right',
-    linkToAttestInk: true,
-    showTooltip: true
-  });
-&lt;/script></code></pre>
-                            <button class="copy-btn" data-target="ai-js-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-
-                        <div class="code-box">
-                            <h4>Specific AI Platforms</h4>
-                            <pre><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
-&lt;script>
-  // Available badge types:
-  // 'claude', 'chatgpt', 'gemini', 'midjourney', 'dalle'
-  
-  AttestInk.addBadge('claude', '#your-content', {
-    position: 'bottom-right',
-    linkToAttestInk: true,
-    showTooltip: true
-  });
-&lt;/script></code></pre>
-                            <button class="copy-btn" data-target="platform-js-code">
+                            <button class="copy-btn" data-target="javascript-implementation-code">
                                 <span class="copy-icon"></span>
                                 <span class="copy-text">Copy</span>
                             </button>
@@ -421,67 +260,58 @@
                 <h2>Platform-Specific <span class="highlight">Badges</span></h2>
                 <p class="section-intro">attest.ink provides specialized badges for content created with specific AI platforms, offering clear and consistent attribution across your digital ecosystem.</p>
                 
-                <div class="platform-carousel">
-                    <div class="platform-row">
-                        <div class="platform-badge">
-                            <div class="badge-image">
-                                <a href="demo.html#claude" class="badge-link">
-                                    <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge" width="240" height="60">
-                                    <span class="badge-tooltip">Content generated with Claude AI</span>
-                                </a>
-                            </div>
+                <!-- Platform badges displayed horizontally -->
+                <div class="platform-badges-container">
+                    <div class="platform-badge-row">
+                        <div class="platform-badge-item">
+                            <a href="demo.html#claude" class="badge-link">
+                                <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge" width="240" height="60">
+                                <span class="badge-tooltip">Content generated with Claude AI</span>
+                            </a>
                             <h3>Claude</h3>
                             <p>For content generated with Anthropic's Claude AI assistant</p>
                         </div>
                         
-                        <div class="platform-badge">
-                            <div class="badge-image">
-                                <a href="demo.html#chatgpt" class="badge-link">
-                                    <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge" width="240" height="60">
-                                    <span class="badge-tooltip">Content generated with ChatGPT</span>
-                                </a>
-                            </div>
+                        <div class="platform-badge-item">
+                            <a href="demo.html#chatgpt" class="badge-link">
+                                <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge" width="240" height="60">
+                                <span class="badge-tooltip">Content generated with ChatGPT</span>
+                            </a>
                             <h3>ChatGPT</h3>
                             <p>For content generated with OpenAI's ChatGPT models</p>
                         </div>
                         
-                        <div class="platform-badge">
-                            <div class="badge-image">
-                                <a href="demo.html#gemini" class="badge-link">
-                                    <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge" width="240" height="60">
-                                    <span class="badge-tooltip">Content generated with Gemini AI</span>
-                                </a>
-                            </div>
+                        <div class="platform-badge-item">
+                            <a href="demo.html#gemini" class="badge-link">
+                                <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge" width="240" height="60">
+                                <span class="badge-tooltip">Content generated with Gemini AI</span>
+                            </a>
                             <h3>Gemini</h3>
                             <p>For content generated with Google's Gemini AI models</p>
                         </div>
                     </div>
                     
-                    <div class="platform-row">
-                        <div class="platform-badge">
-                            <div class="badge-image">
-                                <a href="demo.html#midjourney" class="badge-link">
-                                    <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge" width="240" height="60">
-                                    <span class="badge-tooltip">Images generated with Midjourney</span>
-                                </a>
-                            </div>
+                    <div class="platform-badge-row">
+                        <div class="platform-badge-item">
+                            <a href="demo.html#midjourney" class="badge-link">
+                                <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge" width="240" height="60">
+                                <span class="badge-tooltip">Images generated with Midjourney</span>
+                            </a>
                             <h3>Midjourney</h3>
                             <p>For images generated with Midjourney's AI</p>
                         </div>
                         
-                        <div class="platform-badge">
-                            <div class="badge-image">
-                                <a href="demo.html#dalle" class="badge-link">
-                                    <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge" width="240" height="60">
-                                    <span class="badge-tooltip">Images generated with DALL-E</span>
-                                </a>
-                            </div>
+                        <div class="platform-badge-item">
+                            <a href="demo.html#dalle" class="badge-link">
+                                <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge" width="240" height="60">
+                                <span class="badge-tooltip">Images generated with DALL-E</span>
+                            </a>
                             <h3>DALL-E</h3>
                             <p>For images generated with OpenAI's DALL-E</p>
                         </div>
                         
-                        <div class="platform-badge see-more">
-                            <a href="demo.html" class="btn primary see-more-btn">See All Examples</a>
+                        <div class="platform-badge-item try-demo">
+                            <a href="demo.html" class="btn primary">Try Interactive Demo</a>
                         </div>
                     </div>
                 </div>
@@ -515,6 +345,11 @@
             </div>
             <div class="footer-copyright">
                 <p>&copy; 2025 attest.ink &mdash; Transparent attribution for the AI era</p>
+                <!-- For claude ai generated content -->
+                <a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
+                    <img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Generated" width="120" height="30">
+                    <span class="badge-tooltip">Generated with Claude AI</span>
+                </a>
             </div>
         </div>
     </footer>
@@ -523,5 +358,6 @@
     <script src="js/attest.js"></script>
     <script src="js/main.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/index-page.js"></script>
 </body>
 </html>

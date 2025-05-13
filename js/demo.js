@@ -114,7 +114,10 @@ function initializeExampleTabs() {
             const tabId = `example-${button.dataset.exampleTab}-tab`;
             
             // Show corresponding content
-            document.getElementById(tabId).classList.add('active');
+            const contentElement = document.getElementById(tabId);
+            if (contentElement) {
+                contentElement.classList.add('active');
+            }
         });
     });
 }
@@ -130,7 +133,7 @@ function initializeViewCodeButtons() {
     viewCodeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const exampleType = button.dataset.example;
-            const badgeType = document.querySelector('.badge-btn.active').dataset.badge;
+            const badgeType = document.querySelector('.badge-btn.active')?.dataset.badge || 'human';
             
             // Update modal content
             updateModalContent(exampleType, badgeType);
@@ -155,6 +158,11 @@ function initializeViewCodeButtons() {
     });
     
     // Initialize modal tabs
+    initializeModalTabs();
+}
+
+// Initialize modal tabs
+function initializeModalTabs() {
     const modalTabButtons = document.querySelectorAll('.modal-tab-btn');
     const modalTabContents = document.querySelectorAll('.modal-tab-content');
     
@@ -169,7 +177,10 @@ function initializeViewCodeButtons() {
             const tabId = `modal-${button.dataset.modalTab}-tab`;
             
             // Show corresponding content
-            document.getElementById(tabId).classList.add('active');
+            const contentElement = document.getElementById(tabId);
+            if (contentElement) {
+                contentElement.classList.add('active');
+            }
         });
     });
 }
@@ -191,26 +202,40 @@ function initializeCopyButtons() {
                 codeElement = document.querySelector(`#${targetId} code`);
             } else {
                 // For individual code boxes
-                codeElement = button.previousElementSibling.querySelector('code');
+                codeElement = button.previousElementSibling?.querySelector('code');
             }
             
-            if (codeElement) {
+            if (codeElement && codeElement.textContent) {
                 navigator.clipboard.writeText(codeElement.textContent)
                     .then(() => {
-                        const originalText = button.querySelector('.copy-text').textContent;
+                        const originalText = button.querySelector('.copy-text')?.textContent || 'Copy';
                         
                         // Change button style to indicate success
                         button.style.backgroundColor = '#e6f3e6';
                         button.style.borderColor = '#4caf50';
-                        button.querySelector('.copy-text').textContent = 'Copied!';
-                        button.querySelector('.copy-icon').style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E\")";
+                        if (button.querySelector('.copy-text')) {
+                            button.querySelector('.copy-text').textContent = 'Copied!';
+                        } else {
+                            button.textContent = 'Copied!';
+                        }
+                        
+                        if (button.querySelector('.copy-icon')) {
+                            button.querySelector('.copy-icon').style.backgroundImage = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E\")";
+                        }
                         
                         // Reset button after 2 seconds
                         setTimeout(() => {
                             button.style.backgroundColor = '';
                             button.style.borderColor = '';
-                            button.querySelector('.copy-text').textContent = originalText;
-                            button.querySelector('.copy-icon').style.backgroundImage = '';
+                            if (button.querySelector('.copy-text')) {
+                                button.querySelector('.copy-text').textContent = originalText;
+                            } else {
+                                button.textContent = originalText;
+                            }
+                            
+                            if (button.querySelector('.copy-icon')) {
+                                button.querySelector('.copy-icon').style.backgroundImage = '';
+                            }
                         }, 2000);
                     })
                     .catch(err => {
@@ -396,7 +421,7 @@ function applyBadge(badgeType, position) {
             <span class="badge-tooltip">${badgeTooltips[badgeType]}</span>
         `;
         
-        const contentType = document.querySelector('.content-btn.active').dataset.content;
+        const contentType = document.querySelector('.content-btn.active')?.dataset.content || 'blog';
         
         // For image content, add badge to image container
         if (contentType === 'image') {
