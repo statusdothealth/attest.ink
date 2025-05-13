@@ -1,19 +1,142 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle with subtle gradient -->
-  <circle cx="256" cy="256" r="256" fill="url(#bg-gradient)"/>
-  
-  <!-- Stylized "A" shape -->
-  <path d="M256 120L144 392H184L208 328H304L328 392H368L256 120ZM226 288L256 208L286 288H226Z" 
-        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
-        
-  <!-- Ink dot -->
-  <circle cx="368" cy="392" r="32" fill="#333333"/>
-  
-  <!-- Gradient definitions -->
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
   <defs>
+    <!-- Gradient for the background -->
     <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4a7bca"/>
-      <stop offset="100%" stop-color="#3a6abd"/>
+      <stop offset="0%" stop-color="#4a7bca">
+        <animate attributeName="stop-color" values="#4a7bca;#3a6abd;#2c5caf;#3a6abd;#4a7bca" dur="8s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#1e4a8f">
+        <animate attributeName="stop-color" values="#1e4a8f;#163c7d;#0e306b;#163c7d;#1e4a8f" dur="8s" repeatCount="indefinite" />
+      </stop>
     </linearGradient>
+    
+    <!-- Filter for the glow effect -->
+    <filter id="glow-effect" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Clip path for the verification checkmark -->
+    <clipPath id="check-clip">
+      <circle cx="368" cy="392" r="32" />
+    </clipPath>
   </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg-gradient)">
+    <animate attributeName="opacity" values="0.95;1;0.95" dur="4s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Blockchain pattern in background (hexagon mesh) -->
+  <g opacity="0.15">
+    <path d="M128 128 L176 100 L224 128 L224 184 L176 212 L128 184 Z" fill="#ffffff" />
+    <path d="M224 128 L272 100 L320 128 L320 184 L272 212 L224 184 Z" fill="#ffffff" />
+    <path d="M320 128 L368 100 L416 128 L416 184 L368 212 L320 184 Z" fill="#ffffff" />
+    <path d="M176 212 L224 184 L272 212 L272 268 L224 296 L176 268 Z" fill="#ffffff" />
+    <path d="M272 212 L320 184 L368 212 L368 268 L320 296 L272 268 Z" fill="#ffffff" />
+    <path d="M128 268 L176 240 L224 268 L224 324 L176 352 L128 324 Z" fill="#ffffff" />
+    <path d="M224 268 L272 240 L320 268 L320 324 L272 352 L224 324 Z" fill="#ffffff" />
+    <path d="M320 268 L368 240 L416 268 L416 324 L368 352 L320 324 Z" fill="#ffffff" />
+    
+    <!-- Animated data flow through blockchain -->
+    <circle cx="176" cy="100" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="224" cy="128" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0.3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="272" cy="100" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0.6s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="320" cy="128" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0.9s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="368" cy="212" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="320" cy="268" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="272" cy="352" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1.8s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="224" cy="324" r="4" fill="#ffffff">
+      <animate attributeName="opacity" values="0;1;0" dur="3s" begin="2.1s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  
+  <!-- Stylized "A" shape with digital/blockchain style -->
+  <g filter="url(#glow-effect)">
+    <!-- Main A shape -->
+    <path d="M256 120L144 392H184L208 328H304L328 392H368L256 120Z" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round">
+      <animate attributeName="stroke-width" values="4;5;4" dur="3s" repeatCount="indefinite" />
+    </path>
+    
+    <!-- Digital accents on the A -->
+    <path d="M256 120L220 192M256 120L292 192M220 192L200 235M292 192L312 235M200 235L184 270M312 235L328 270M184 270L174 292M328 270L338 292M174 292L164 316M338 292L348 316" 
+          stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.7">
+      <animate attributeName="stroke-dashoffset" values="0;18" dur="3s" repeatCount="indefinite" />
+    </path>
+    
+    <!-- Inner bar of A -->
+    <path d="M226 288L286 288" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round">
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite" />
+    </path>
+    
+    <!-- Data points moving through the "A" -->
+    <circle cx="256" cy="120" r="4" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="0s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="220" cy="192" r="3" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="0.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="292" cy="192" r="3" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="256" cy="288" r="4" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="184" cy="392" r="3" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="368" cy="392" r="3" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0;1;0" dur="5s" begin="2.5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  
+  <!-- Digital identity verification element -->
+  <g transform="translate(368, 392)">
+    <!-- Pulsing verification circle -->
+    <circle cx="0" cy="0" r="32" fill="#00cc66">
+      <animate attributeName="r" values="32;34;32" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;1;0.9" dur="3s" repeatCount="indefinite" />
+    </circle>
+    
+    <!-- Animated checkmark -->
+    <path d="M-16,0 L-5,12 L16,-12" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="stroke-dasharray" values="0,100;50,50;50,0" dur="1.5s" fill="freeze" />
+    </path>
+    
+    <!-- Scanning/verification effect -->
+    <rect x="-32" y="-32" width="64" height="4" fill="#ffffff" opacity="0.7">
+      <animate attributeName="y" values="-32;32;-32" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3s" repeatCount="indefinite" />
+    </rect>
+  </g>
+  
+  <!-- Digital connection lines between A and verification mark -->
+  <path d="M328,392 C340,380 350,386 368,392" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3">
+    <animate attributeName="stroke-dashoffset" values="0;14" dur="2s" repeatCount="indefinite" />
+  </path>
+  
+  <!-- "attest.ink" text with glow effect -->
+  <g filter="url(#glow-effect)" opacity="0.9">
+    <text x="256" y="450" font-family="Arial, sans-serif" font-size="32" fill="#FFFFFF" text-anchor="middle" font-weight="bold">attest.ink</text>
+  </g>
+  
+  <!-- Loading/intro animation -->
+  <rect x="0" y="0" width="512" height="512" fill="#4a7bca">
+    <animate attributeName="width" values="512;0" dur="1s" fill="freeze" />
+  </rect>
 </svg>
