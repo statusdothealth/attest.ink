@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with subtle gradient -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg-gradient)"/>
+  
+  <!-- Stylized "A" shape -->
+  <path d="M256 120L144 392H184L208 328H304L328 392H368L256 120ZM226 288L256 208L286 288H226Z" 
+        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+        
+  <!-- Ink dot -->
+  <circle cx="368" cy="392" r="32" fill="#4a7bca"/>
+  
+  <!-- Subtle splash effect around the dot -->
+  <path d="M368 360C368 360 355 368 360 380C365 392 371 388 380 392C389 396 384 407 390 412C396 417 408 408 392 404C376 400 391 384 368 360Z" 
+        fill="#4a7bca" opacity="0.7"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a7bca"/>
+      <stop offset="100%" stop-color="#3a6abd"/>
+    </linearGradient>
+  </defs>
+</svg>

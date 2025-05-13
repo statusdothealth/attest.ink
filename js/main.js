@@ -1,4 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Get base URL from global variable
+    const baseUrl = window.ATTEST_INK_BASE_URL || '';
+    
+    // Populate code examples with the correct base URL
+    const htmlCodeSample = document.getElementById('html-code-sample');
+    const markdownCodeSample = document.getElementById('markdown-code-sample');
+    const javascriptCodeSample = document.getElementById('javascript-code-sample');
+    
+    // HTML example
+    htmlCodeSample.textContent = `<!-- For human-generated content -->
+<img src="${baseUrl}/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
+
+<!-- For AI-generated content -->
+<img src="${baseUrl}/assets/badges/ai-generated.svg" alt="AI Generated" width="120" height="30">`;
+
+    // Markdown example
+    markdownCodeSample.textContent = `![Human Generated](${baseUrl}/assets/badges/human-generated.svg)
+![AI Generated](${baseUrl}/assets/badges/ai-generated.svg)`;
+
+    // JavaScript example
+    javascriptCodeSample.textContent = `<script src="${baseUrl}/js/attest.js"><\/script>
+<script>
+  // Add a human-generated badge to an element
+  AttestInk.addBadge('human', '#my-human-content');
+  
+  // Add an AI-generated badge to an element
+  AttestInk.addBadge('ai', '#my-ai-content');
+<\/script>`;
+
     // Tab functionality with animation
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');

@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>attest.ink - Content Attribution Badges</title>
+    <title>Attest.ink - Professional Content Attribution Badges</title>
     <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-generated content">
+    
+    <!-- Global site variable for easy domain updates -->
+    <script>
+        window.ATTEST_INK_BASE_URL = 'https://statusdothealth.github.io/attest.ink';
+        // When domain changes, simply update above to:
+        // window.ATTEST_INK_BASE_URL = 'https://attest.ink';
+    </script>
+    
+    <!-- Favicon links -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="assets/favicon/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +32,10 @@
     
     <header>
         <div class="container">
-            <h1>attest<span class="accent">.</span>ink</h1>
+            <div class="logo">
+                <img src="assets/img/logo.svg" alt="Attest.ink Logo" width="48" height="48">
+                <h1>Attest<span class="accent">.</span>ink</h1>
+            </div>
             <p class="tagline">Transparent attribution for the AI era</p>
         </div>
     </header>
@@ -26,8 +46,8 @@
                 <div class="hero-content">
                     <h2>Clear distinction between human and AI-generated content</h2>
                     <p>
-                        In an era where content origin matters more than ever, attest.ink provides
-                        the ability to distinguish human created content from content generated with AI assistance.
+                        In an era where content origin matters more than ever, Attest.ink provides
+                        elegant, professional badges to distinguish human creativity from AI assistance.
                     </p>
                     <div class="cta-buttons">
                         <a href="#implementation" class="btn primary">Get Started</a>
@@ -65,11 +85,7 @@
                 </div>
                 
                 <div class="tab-content active" id="html-tab">
-                    <pre><code>&lt;!-- For human-generated content -->
-&lt;img src="https://yourusername.github.io/attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
-
-&lt;!-- For AI-generated content -->
-&lt;img src="https://yourusername.github.io/attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" width="120" height="30"></code></pre>
+                    <pre><code id="html-code-sample"><!-- HTML code will be populated by JavaScript --></code></pre>
                     <button class="copy-btn" data-target="html-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -77,8 +93,7 @@
                 </div>
                 
                 <div class="tab-content" id="markdown-tab">
-                    <pre><code>![Human Generated](https://yourusername.github.io/attest.ink/assets/badges/human-generated.svg)
-![AI Generated](https://yourusername.github.io/attest.ink/assets/badges/ai-generated.svg)</code></pre>
+                    <pre><code id="markdown-code-sample"><!-- Markdown code will be populated by JavaScript --></code></pre>
                     <button class="copy-btn" data-target="markdown-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -86,14 +101,7 @@
                 </div>
                 
                 <div class="tab-content" id="javascript-tab">
-                    <pre><code>&lt;script src="https://yourusername.github.io/attest.ink/js/attest.js">&lt;/script>
-&lt;script>
-  // Add a human-generated badge to an element
-  AttestInk.addBadge('human', '#my-human-content');
-  
-  // Add an AI-generated badge to an element
-  AttestInk.addBadge('ai', '#my-ai-content');
-&lt;/script></code></pre>
+                    <pre><code id="javascript-code-sample"><!-- JavaScript code will be populated by JavaScript --></code></pre>
                     <button class="copy-btn" data-target="javascript-tab">
                         <span class="copy-icon"></span>
                         <span class="copy-text">Copy</span>
@@ -117,7 +125,7 @@
                     <div class="content-card" id="demo-block-1">
                         <div class="card-header">
                             <h3>Market Analysis Report</h3>
-                            <span class="date">May 10, 2025</span>
+                            <span class="date">May 12, 2025</span>
                         </div>
                         <div class="card-body">
                             <p>
@@ -188,17 +196,17 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <h2>attest<span class="accent">.</span>ink</h2>
+                    <h2>Attest<span class="accent">.</span>ink</h2>
                     <p>Content attribution that matters</p>
                 </div>
-                <!-- <div class="footer-links">
-                    <a href="https://github.com/yourusername/attest.ink">GitHub</a>
-                    <a href="https://github.com/yourusername/attest.ink#contributing">Contribute</a>
-                    <a href="https://github.com/yourusername/attest.ink/blob/main/LICENSE">License</a>
-                </div> -->
+                <div class="footer-links">
+                    <a href="https://github.com/statusdothealth/attest.ink">GitHub</a>
+                    <a href="https://github.com/statusdothealth/attest.ink#contributing">Contribute</a>
+                    <a href="https://github.com/statusdothealth/attest.ink/blob/main/LICENSE">License</a>
+                </div>
             </div>
             <div class="footer-copyright">
-                <p>&copy; 2025 attest.ink &mdash; <a href="https://github.com/statusdothealth/attest.ink">View on GitHub</a></p>
+                <p>&copy; 2025 Attest.ink &mdash; <a href="https://github.com/statusdothealth/attest.ink">View on GitHub</a></p>
             </div>
         </div>
     </footer>

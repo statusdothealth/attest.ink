@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="128" fill="#4a7bca"/>
+  
+  <!-- Simple "A" -->
+  <path d="M256 128L160 384H208L224 336H288L304 384H352L256 128ZM240 288L256 240L272 288H240Z" 
+        fill="white" stroke="white" stroke-width="8" stroke-linejoin="round"/>
+  
+  <!-- Simple dot -->
+  <circle cx="352" cy="384" r="24" fill="white"/>
+</svg>

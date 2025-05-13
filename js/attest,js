@@ -4,10 +4,13 @@
  */
 
 const AttestInk = (function() {
-    // Badge URLs - update these to your actual GitHub Pages URLs
+    // Use the global base URL
+    const baseUrl = window.ATTEST_INK_BASE_URL || '';
+    
+    // Badge URLs - using the base URL
     const badges = {
-        human: 'assets/badges/human-generated.svg',
-        ai: 'assets/badges/ai-generated.svg'
+        human: `${baseUrl}/assets/badges/human-generated.svg`,
+        ai: `${baseUrl}/assets/badges/ai-generated.svg`
     };
 
     // Add a badge to a specified element with animation
@@ -87,6 +90,7 @@ const AttestInk = (function() {
     return {
         addBadge,
         removeBadge,
-        getBadgeUrl: type => badges[type]
+        getBadgeUrl: type => badges[type],
+        baseUrl
     };
 })();
