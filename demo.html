@@ -3,24 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo - attest.ink Content Attribution Badges</title>
-    <meta name="description" content="See how attest.ink badges look on different content types">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/demo.css">
-    <link rel="stylesheet" href="css/platform-carousel.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <title>Interactive Demo - attest.ink AI Attribution Badges</title>
+    <meta name="description" content="Try different badge styles and see how they look on various content types">
+    
+    <!-- Modern Design System -->
+    <link rel="stylesheet" href="css/modern-design-system.css?v=6">
+    <link rel="stylesheet" href="css/badge-variants.css?v=6">
+    <link rel="stylesheet" href="css/modern-landing.css?v=7">
+    <link rel="stylesheet" href="css/demo-modern.css?v=6">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar glass">
         <div class="container navbar-container">
-            <a href="index.html" class="navbar-logo">attest<span class="accent">.</span>ink</a>
+            <a href="index.html" class="navbar-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>attest.ink</span>
+            </a>
+            
+            <!-- Navigation links -->
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="badge-showcase.html">Badges</a></li>
+                <li><a href="badge-generator.html">PNG Badges</a></li>
+                <li><a href="demo.html" class="active">Demo</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="https://github.com/statusdothealth/attest.ink" class="nav-github">GitHub</a></li>
+            </ul>
+            
+            <!-- Theme Toggle (moved inside navbar) -->
+            <button class="navbar-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
             
             <!-- Hamburger menu for mobile -->
             <div class="hamburger-menu">
@@ -28,78 +64,86 @@
                 <span></span>
                 <span></span>
             </div>
-            
-            <!-- Navigation links -->
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="demo.html" class="active">Demo</a></li>
-                <li><a href="index.html#implementation">Implementation</a></li>
-                <li><a href="mailto:info@attest.ink" class="contact-link">Contact</a></li>
-            </ul>
         </div>
     </nav>
     
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+    
     <header class="demo-header">
         <div class="container">
-            <h1>Interactive <span class="accent">Demo</span></h1>
-            <p class="tagline">See how attest.ink badges look on different content types</p>
+            <h1 class="hero-title">Interactive Badge Demo</h1>
+            <p class="hero-description">Customize and preview AI attribution badges in real-time</p>
         </div>
     </header>
 
     <main>
+        <!-- Demo Controls -->
         <section class="demo-controls">
             <div class="container">
-                <div class="controls-container">
-                    <div class="content-type-selector">
-                        <h3>Select Content Type</h3>
-                        <div class="content-type-buttons">
-                            <button class="content-btn active" data-content="blog" id="blog">
-                                <span class="content-icon blog"></span>
-                                Blog Post
-                            </button>
-                            <button class="content-btn" data-content="text" id="text">
-                                <span class="content-icon text"></span>
-                                Plain Text
-                            </button>
-                            <button class="content-btn" data-content="email" id="email">
-                                <span class="content-icon email"></span>
-                                Email
-                            </button>
-                            <button class="content-btn" data-content="image" id="image">
-                                <span class="content-icon image"></span>
-                                Image
-                            </button>
-                            <button class="content-btn" data-content="video" id="video">
-                                <span class="content-icon video"></span>
-                                Video
-                            </button>
-                            <button class="content-btn" data-content="pdf" id="pdf">
-                                <span class="content-icon pdf"></span>
-                                PDF
-                            </button>
-                        </div>
+                <div class="controls-grid">
+                    <div class="control-group">
+                        <label for="badge-style">Badge Style</label>
+                        <select id="badge-style" class="control-select">
+                            <option value="glass">Glass</option>
+                            <option value="solid">Solid</option>
+                            <option value="outline">Outline</option>
+                            <option value="gradient">Gradient</option>
+                            <option value="neon">Neon</option>
+                            <option value="neumorphic">Neumorphic</option>
+                            <option value="glow">Glow</option>
+                            <option value="ghost">Ghost</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="mono">Monochrome</option>
+                        </select>
                     </div>
                     
-                    <div class="badge-type-selector">
-                        <h3>Select Badge Type</h3>
-                        <div class="badge-type-buttons">
-                            <button class="badge-btn active" data-badge="human">Human</button>
-                            <button class="badge-btn" data-badge="ai">AI</button>
-                            <button class="badge-btn" data-badge="claude" id="claude">Claude</button>
-                            <button class="badge-btn" data-badge="chatgpt" id="chatgpt">ChatGPT</button>
-                            <button class="badge-btn" data-badge="gemini" id="gemini">Gemini</button>
-                            <button class="badge-btn" data-badge="midjourney" id="midjourney">Midjourney</button>
-                            <button class="badge-btn" data-badge="dalle" id="dalle">DALL-E</button>
-                        </div>
+                    <div class="control-group">
+                        <label for="badge-size">Badge Size</label>
+                        <select id="badge-size" class="control-select">
+                            <option value="micro">Micro</option>
+                            <option value="mini">Mini</option>
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                            <option value="xl">Extra Large</option>
+                        </select>
                     </div>
                     
-                    <div class="badge-position-selector">
-                        <h3>Badge Position</h3>
-                        <select id="badge-position">
-                            <option value="top-right">Top Right</option>
-                            <option value="top-left">Top Left</option>
+                    <div class="control-group">
+                        <label for="badge-platform">Platform</label>
+                        <select id="badge-platform" class="control-select">
+                            <option value="ai">Generic AI</option>
+                            <option value="claude">Claude</option>
+                            <option value="chatgpt">ChatGPT</option>
+                            <option value="gemini">Gemini</option>
+                            <option value="midjourney">Midjourney</option>
+                            <option value="dalle">DALL-E</option>
+                            <option value="copilot">Copilot</option>
+                            <option value="perplexity">Perplexity</option>
+                            <option value="logo">Logo Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="badge-position">Position</label>
+                        <select id="badge-position" class="control-select">
+                            <option value="inline">Inline</option>
                             <option value="bottom-right" selected>Bottom Right</option>
                             <option value="bottom-left">Bottom Left</option>
+                            <option value="top-right">Top Right</option>
+                            <option value="top-left">Top Left</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="content-type">Preview Content Type</label>
+                        <select id="content-type" class="control-select">
+                            <option value="standalone">Standalone Badge</option>
+                            <option value="blog">Blog Post</option>
+                            <option value="image">Image</option>
+                            <option value="email">Email</option>
+                            <option value="code">Code Repository</option>
                             <option value="footer">Footer</option>
                         </select>
                     </div>
@@ -107,314 +151,587 @@
             </div>
         </section>
         
-        <section class="demo-preview">
+        <!-- Live Preview Section -->
+        <section class="live-preview-section">
             <div class="container">
-                <div class="preview-container">
-                    <!-- Content will be loaded here -->
-                    <div id="content-preview" class="content-preview blog-preview">
-                        <!-- Default demo content (blog post) -->
-                        <div class="blog-header">
-                            <h2>The Future of Content Attribution in the AI Era</h2>
+                <div class="live-preview-container">
+                    <h2>Live Preview</h2>
+                    <div class="preview-badge-container" id="preview-container">
+                        <a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass" id="preview-badge">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span id="badge-text">Made with AI</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Code Output -->
+                    <div class="code-output">
+                        <h3>Implementation Code</h3>
+                        <div class="code-tabs">
+                            <button class="code-tab active" data-tab="html">HTML</button>
+                            <button class="code-tab" data-tab="react">React</button>
+                            <button class="code-tab" data-tab="markdown">Markdown</button>
+                        </div>
+                        <div class="code-output-content">
+                            <pre id="code-output"><code>&lt;a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass"&gt;
+    &lt;svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+        &lt;circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/&gt;
+        &lt;path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/&gt;
+        &lt;circle cx="12" cy="12" r="2" fill="currentColor"/&gt;
+        &lt;path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Made with AI&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Demo Content Section -->
+        <section class="demo-content">
+            <div class="container">
+                <h2 class="section-title">Badge on Different Content Types</h2>
+                <p class="section-subtitle">See how badges look on various content formats</p>
+                
+                <div class="demo-preview">
+                    <!-- Blog Post Example -->
+                    <div class="preview-card">
+                        <span class="preview-label">Blog Post</span>
+                        <div class="blog-post-demo">
+                            <h2>The Future of AI Attribution</h2>
                             <div class="blog-meta">
-                                <span class="author">By Sarah Johnson</span>
-                                <span class="date">May 10, 2025</span>
+                                <div class="author-avatar">SJ</div>
+                                <div>
+                                    <div style="font-weight: 600;">Sarah Johnson</div>
+                                    <div>December 24, 2024</div>
+                                </div>
+                            </div>
+                            <p>In today's digital landscape, transparency about AI-assisted content creation has become essential. As artificial intelligence tools become more sophisticated, the need for clear attribution has never been more important.</p>
+                            <p>Content creators, publishers, and platforms are now embracing standardized attribution badges to maintain trust with their audiences while acknowledging the role of AI in their creative process.</p>
+                            <div class="badge-position-bottom-right">
+                                <a href="https://attest.ink" class="ai-badge ai-badge-small ai-badge-glass">
+                                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>AI Assisted</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="blog-content">
-                            <p>In today's digital landscape, the line between human-created and AI-assisted content continues to blur. As artificial intelligence tools become more sophisticated, the need for transparent attribution has never been more important.</p>
-                            
-                            <p>Content creators, publishers, and platforms are now facing new challenges in clearly identifying the origin of digital media. This is where standardized attribution badges can play a crucial role in maintaining transparency and trust.</p>
-                            
-                            <h3>Why Attribution Matters</h3>
-                            
-                            <p>Understanding content origin is important for several reasons:</p>
-                            
-                            <ul>
-                                <li>Transparency builds trust with your audience</li>
-                                <li>Attribution acknowledges both human creativity and AI capabilities</li>
-                                <li>Clear labeling helps prevent misunderstandings and false claims</li>
-                                <li>Readers gain important context for interpreting information</li>
-                            </ul>
-                            
-                            <p>As we navigate the evolving media landscape, establishing clear standards for content attribution will be essential for maintaining the value of human creativity while embracing the capabilities of artificial intelligence.</p>
+                    </div>
+                    
+                    <!-- Image Example -->
+                    <div class="preview-card">
+                        <span class="preview-label">Image</span>
+                        <div class="image-demo">
+                            <div style="position: relative;">
+                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="Mountain landscape">
+                                <a href="https://attest.ink" class="ai-badge ai-badge-small ai-badge-solid badge-position-top-right">
+                                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>AI Generated</span>
+                                </a>
+                            </div>
+                            <p class="image-caption">A serene mountain landscape created with AI assistance</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Example -->
+                    <div class="preview-card">
+                        <span class="preview-label">Email</span>
+                        <div class="email-demo">
+                            <div class="email-header">
+                                <div class="email-field"><strong>From:</strong> marketing@company.com</div>
+                                <div class="email-field"><strong>To:</strong> team@company.com</div>
+                                <div class="email-field"><strong>Subject:</strong> Q4 Marketing Update</div>
+                            </div>
+                            <div class="email-body">
+                                <p>Hi team,</p>
+                                <p>I wanted to share our Q4 marketing performance metrics. We've seen a 45% increase in engagement across all channels.</p>
+                                <p>Best regards,<br>Marketing Team</p>
+                                <div class="email-signature">
+                                    <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-md); margin-top: var(--space-lg);">
+                                        <a href="https://attest.ink" class="ai-badge ai-badge-mini ai-badge-outline">
+                                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                            <span>AI Assisted</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Code Example -->
+                    <div class="preview-card">
+                        <span class="preview-label">Code Repository</span>
+                        <div class="code-demo">
+                            <div class="code-header">
+                                <span class="code-dot"></span>
+                                <span class="code-dot"></span>
+                                <span class="code-dot"></span>
+                            </div>
+                            <div class="code-content">
+                                <pre><code>// AI-assisted implementation
+function generateReport(data) {
+    const summary = analyzeTrends(data);
+    const insights = extractInsights(summary);
+    return formatReport(insights);
+}
+
+// This code was generated with AI assistance</code></pre>
+                            </div>
+                            <div class="badge-position-bottom-right">
+                                <a href="https://attest.ink" class="ai-badge ai-badge-micro ai-badge-ghost">
+                                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>AI</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="implementation-example">
-                    <h3>Implementation Code</h3>
-                    <div class="tabs">
-                        <button class="example-tab-btn active" data-example-tab="html">HTML</button>
-                        <button class="example-tab-btn" data-example-tab="markdown">Markdown</button>
-                        <button class="example-tab-btn" data-example-tab="javascript">JavaScript</button>
-                    </div>
-                    
-                    <div class="example-tab-content active" id="example-html-tab">
-                        <pre><code id="html-code-example">&lt;!-- Add this to your blog post HTML -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Human-created content, verified by attest.ink&lt;/span>
-&lt;/a></code></pre>
-                        <button class="copy-btn" data-target="example-html-tab">
-                            <span class="copy-icon"></span>
-                            <span class="copy-text">Copy</span>
-                        </button>
-                    </div>
-                    
-                    <div class="example-tab-content" id="example-markdown-tab">
-                        <pre><code id="markdown-code-example">[![Human Generated](https://attest.ink/assets/badges/human-generated.svg)](https://attest.ink "Human-created content, verified by attest.ink")</code></pre>
-                        <button class="copy-btn" data-target="example-markdown-tab">
-                            <span class="copy-icon"></span>
-                            <span class="copy-text">Copy</span>
-                        </button>
-                    </div>
-                    
-                    <div class="example-tab-content" id="example-javascript-tab">
-                        <pre><code id="javascript-code-example">&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
-&lt;script>
-  // Add a human-generated badge to your blog post
-  AttestInk.addBadge('human', '.blog-content', {
-    position: 'bottom-right',
-    linkToAttestInk: true,
-    showTooltip: true
-  });
-&lt;/script></code></pre>
-                        <button class="copy-btn" data-target="example-javascript-tab">
-                            <span class="copy-icon"></span>
-                            <span class="copy-text">Copy</span>
-                        </button>
-                    </div>
-                </div>
             </div>
         </section>
         
-        <section class="content-type-examples">
-            <div class="container">
-                <h2>How to Add Badges to Different Content Types</h2>
-                <div class="examples-grid">
-                    <div class="example-card" id="blog-example">
-                        <div class="example-icon blog-example-icon"></div>
-                        <h3>Blog Posts</h3>
-                        <p>Add the badge at the end of your article or in the author byline section. For platforms like Medium, add the badge image to the end of your post.</p>
-                        <button class="view-code-btn" data-example="blog">View Code Example</button>
-                    </div>
-                    
-                    <div class="example-card" id="text-example">
-                        <div class="example-icon text-example-icon"></div>
-                        <h3>Plain Text</h3>
-                        <p>For plain text content, add the badge as a visual element at the beginning or end of your document.</p>
-                        <button class="view-code-btn" data-example="text">View Code Example</button>
-                    </div>
-                    
-                    <div class="example-card" id="email-example">
-                        <div class="example-icon email-example-icon"></div>
-                        <h3>Email</h3>
-                        <p>Add the badge to your email signature or at the end of your email content using HTML email formatting.</p>
-                        <button class="view-code-btn" data-example="email">View Code Example</button>
-                    </div>
-                    
-                    <div class="example-card" id="image-example">
-                        <div class="example-icon image-example-icon"></div>
-                        <h3>Images</h3>
-                        <p>Add the badge as an overlay to your image or place it directly beneath the image with attribution.</p>
-                        <button class="view-code-btn" data-example="image">View Code Example</button>
-                    </div>
-                    
-                    <div class="example-card" id="video-example">
-                        <div class="example-icon video-example-icon"></div>
-                        <h3>Videos</h3>
-                        <p>Add the badge to video thumbnails, include in end credits, or display as a lower-third overlay.</p>
-                        <button class="view-code-btn" data-example="video">View Code Example</button>
-                    </div>
-                    
-                    <div class="example-card" id="pdf-example">
-                        <div class="example-icon pdf-example-icon"></div>
-                        <h3>PDF Documents</h3>
-                        <p>Add the badge to your document header/footer or include on the title/signature page.</p>
-                        <button class="view-code-btn" data-example="pdf">View Code Example</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Modal for Code Examples -->
-        <div id="code-modal" class="modal">
-            <div class="modal-content">
-                <span class="modal-close">&times;</span>
-                <h2 id="modal-title">Code Example</h2>
-                <div class="modal-tabs">
-                    <button class="modal-tab-btn active" data-modal-tab="html">HTML</button>
-                    <button class="modal-tab-btn" data-modal-tab="markdown">Markdown</button>
-                    <button class="modal-tab-btn" data-modal-tab="javascript">JavaScript</button>
-                </div>
-                <div class="modal-tab-content active" id="modal-html-tab">
-                    <pre><code id="modal-html-code"></code></pre>
-                    <button class="copy-btn" data-target="modal-html-tab">
-                        <span class="copy-icon"></span>
-                        <span class="copy-text">Copy</span>
-                    </button>
-                </div>
-                <div class="modal-tab-content" id="modal-markdown-tab">
-                    <pre><code id="modal-markdown-code"></code></pre>
-                    <button class="copy-btn" data-target="modal-markdown-tab">
-                        <span class="copy-icon"></span>
-                        <span class="copy-text">Copy</span>
-                    </button>
-                </div>
-                <div class="modal-tab-content" id="modal-javascript-tab">
-                    <pre><code id="modal-javascript-code"></code></pre>
-                    <button class="copy-btn" data-target="modal-javascript-tab">
-                        <span class="copy-icon"></span>
-                        <span class="copy-text">Copy</span>
-                    </button>
-                </div>
-            </div>
-        </div>
     </main>
 
-    <footer>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>attest<span class="accent">.</span>ink</h2>
-                    <p>Content attribution that matters</p>
+                <div class="footer-brand">
+                    <a href="index.html" class="navbar-logo">
+                        <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                            <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <span>attest.ink</span>
+                    </a>
+                    <p style="margin-top: var(--space-sm); color: var(--color-text-secondary);">Transparent AI attribution for the modern web</p>
                 </div>
+                
                 <div class="footer-links">
-                    <a href="index.html" class="link-animated">Home</a>
-                    <a href="demo.html" class="link-animated">Demo</a>
-                    <a href="index.html#implementation" class="link-animated">Implementation</a>
-                    <a href="mailto:info@attest.ink" class="link-animated">Contact</a>
+                    <a href="badge-showcase.html">Badges</a>
+                    <a href="demo.html">Demo</a>
+                    <a href="docs.html">Documentation</a>
+                    <a href="https://github.com/statusdothealth/attest.ink">GitHub</a>
+                    <a href="mailto:info@attest.ink">info@attest.ink</a>
                 </div>
             </div>
-            <div class="footer-copyright">
-                <!-- Add this footer badge to your blog -->
-                <p>&copy; 2025 attest.ink &mdash; Transparent attribution for the AI era</p>
-                <div class="footer-badge-container">
-                    <div class="footer-badge-left">
-                        <img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Assisted" class="footer-badge-icon">
-                        <div class="footer-badge-text">
-                        <div class="footer-badge-title">Claude AI Assisted</div>
-                        <div class="footer-badge-description">This content was created with AI assistance</div>
-                        </div>
-                    </div>
-                    <a href="https://attest.ink" target="_blank" class="footer-badge-link" rel="noopener">attest.ink</a>
-                </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 attest.ink. <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" style="vertical-align: middle; margin-left: 8px;"></a></p>
+                <a href="https://attest.ink" class="ai-badge ai-badge-small ai-badge-glass">
+                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>Made with Claude</span>
+                </a>
             </div>
         </div>
     </footer>
 
-    <!-- Content templates (hidden) -->
-    <div class="content-templates" style="display: none;">
-        <!-- Email template -->
-        <div id="email-template" class="email-preview">
-            <div class="email-header">
-                <div class="email-meta">
-                    <div><strong>From:</strong> sarah.johnson@example.com</div>
-                    <div><strong>To:</strong> team@example.com</div>
-                    <div><strong>Subject:</strong> Project Update: Content Attribution Implementation</div>
-                    <div><strong>Date:</strong> May 12, 2025, 10:34 AM</div>
-                </div>
-            </div>
-            <div class="email-body">
-                <p>Hi Team,</p>
-                
-                <p>I wanted to share a quick update on our content attribution implementation. We've successfully integrated the attest.ink badges across our blog posts and marketing materials.</p>
-                
-                <p>The implementation was straightforward, and we're already seeing positive feedback from users who appreciate the transparency. For those of you who haven't added the badges to your content yet, I've included the implementation instructions below.</p>
-                
-                <p>Let me know if you have any questions or encounter any issues during implementation.</p>
-                
-                <p>Best regards,<br>Sarah</p>
-                
-                <div class="email-signature">
-                    <div>Sarah Johnson</div>
-                    <div>Content Strategy Lead</div>
-                    <div>Example Company</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Plain text template -->
-        <div id="text-template" class="text-preview">
-            <div class="text-content">
-                <h2>Content Attribution Guidelines</h2>
-                
-                <p>This document outlines our organization's guidelines for content attribution in the AI era. As we increasingly leverage AI tools for content creation, maintaining transparency with our audience is paramount.</p>
-                
-                <h3>Attribution Requirements</h3>
-                
-                <p>All content published by our organization must include appropriate attribution badges indicating whether the content was:</p>
-                
-                <ul>
-                    <li>Entirely human-created</li>
-                    <li>AI-assisted (with human editing/oversight)</li>
-                    <li>AI-assisted (with minimal human intervention)</li>
-                </ul>
-                
-                <p>These attribution badges must be clearly visible on all published materials, including website content, social media posts, reports, and presentations.</p>
-                
-                <h3>Implementation</h3>
-                
-                <p>Our organization uses attest.ink badges for content attribution. Implementation guidelines and code examples can be found in our internal documentation portal.</p>
-                
-                <p>For questions about attribution policies, please contact the Content Strategy team.</p>
-            </div>
-        </div>
-        
-        <!-- Image template -->
-        <div id="image-template" class="image-preview">
-            <div class="image-container">
-                <img src="assets/example/example.jpg" alt="Example landscape">
-            </div>
-        </div>
-        
-        <!-- Video template -->
-        <div id="video-template" class="video-preview">
-            <div class="video-container">
-                <iframe width="100%" height="400" src="https://www.youtube.com/embed/2kigO0bR16Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div class="video-title">AI Sponge Best Moments 1</div>
-                <div class="video-meta">
-                    <span>4:32</span>
-                    <span>May 5, 2025</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- PDF template -->
-        <div id="pdf-template" class="pdf-preview">
-            <div class="pdf-container">
-                <div class="pdf-header">
-                    <div class="pdf-title">Quarterly Report: Q1 2025</div>
-                    <div class="pdf-info">
-                        <span>Confidential</span>
-                        <span>Page 1 of 24</span>
-                    </div>
-                </div>
-                <div class="pdf-content">
-                    <h2>Executive Summary</h2>
-                    <p>This quarterly report provides an overview of our organization's performance in Q1 2025. The report includes financial highlights, key achievements, challenges, and strategic projections for the upcoming quarter.</p>
-                    
-                    <h3>Financial Highlights</h3>
-                    <ul>
-                        <li>Revenue: $4.2M (up 12% YoY)</li>
-                        <li>Operating Expenses: $2.9M (down 3% YoY)</li>
-                        <li>Net Profit: $1.3M (up 18% YoY)</li>
-                    </ul>
-                    
-                    <h3>Key Achievements</h3>
-                    <p>Our team successfully launched two new product features and expanded our customer base by 15% in emerging markets. Customer satisfaction scores increased by 8 points to an all-time high of 92/100.</p>
-                    
-                    <div class="pdf-footer">
-                        <div>Example Company • Confidential</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
-    <script src="js/attest.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/demo.js"></script>
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (savedTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            
+            // Demo controls
+            const styleSelect = document.getElementById('badge-style');
+            const sizeSelect = document.getElementById('badge-size');
+            const platformSelect = document.getElementById('badge-platform');
+            const positionSelect = document.getElementById('badge-position');
+            const contentTypeSelect = document.getElementById('content-type');
+            const previewBadge = document.getElementById('preview-badge');
+            const previewContainer = document.getElementById('preview-container');
+            const badgeText = document.getElementById('badge-text');
+            const codeOutput = document.getElementById('code-output');
+            
+            function updatePreview() {
+                const style = styleSelect.value;
+                const size = sizeSelect.value;
+                const platform = platformSelect.value;
+                const position = positionSelect.value;
+                
+                // Update badge classes
+                previewBadge.className = `ai-badge ai-badge-${size} ai-badge-${style}`;
+                
+                // Update platform-specific styling
+                if (platform !== 'ai') {
+                    previewBadge.classList.add(`ai-badge-${platform}`);
+                }
+                
+                // Update position
+                previewContainer.className = 'preview-badge-container';
+                if (position !== 'inline') {
+                    previewContainer.classList.add(`badge-position-${position}`);
+                }
+                
+                // Update badge text
+                const platformTexts = {
+                    'ai': 'Made with AI',
+                    'claude': 'Claude AI',
+                    'chatgpt': 'ChatGPT',
+                    'gemini': 'Gemini',
+                    'midjourney': 'Midjourney',
+                    'dalle': 'DALL-E',
+                    'copilot': 'GitHub Copilot',
+                    'perplexity': 'Perplexity',
+                    'logo': ''
+                };
+                badgeText.textContent = platformTexts[platform];
+                
+                // Handle logo-only badge
+                if (platform === 'logo') {
+                    previewBadge.classList.add('ai-badge-logo-only');
+                    badgeText.style.display = 'none';
+                } else {
+                    previewBadge.classList.remove('ai-badge-logo-only');
+                    badgeText.style.display = '';
+                }
+                
+                // Update code output
+                updateCodeOutput();
+            }
+            
+            function updateCodeOutput() {
+                const activeTab = document.querySelector('.code-tab.active');
+                const tabType = activeTab ? activeTab.getAttribute('data-tab') : 'html';
+                updateCodeForTab(tabType);
+            }
+            
+            // Add event listeners
+            styleSelect.addEventListener('change', () => {
+                updatePreview();
+                updateContentType();
+            });
+            sizeSelect.addEventListener('change', () => {
+                updatePreview();
+                updateContentType();
+            });
+            platformSelect.addEventListener('change', () => {
+                updatePreview();
+                updateContentType();
+            });
+            positionSelect.addEventListener('change', () => {
+                updatePreview();
+                updateContentType();
+            });
+            contentTypeSelect.addEventListener('change', updateContentType);
+            
+            function updateContentType() {
+                const contentType = contentTypeSelect.value;
+                const style = styleSelect.value;
+                const size = sizeSelect.value;
+                const platform = platformSelect.value;
+                const position = positionSelect.value;
+                const platformClass = platform !== 'ai' ? ` ai-badge-${platform}` : '';
+                
+                let badgeHTML = `<a href="https://attest.ink" class="ai-badge ai-badge-${size} ai-badge-${style}${platformClass}${platform === 'logo' ? ' ai-badge-logo-only' : ''}" id="preview-badge">
+                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span id="badge-text">${platform === 'logo' ? '' : getTextForPlatform(platform)}</span>
+                </a>`;
+                
+                let containerContent = '';
+                
+                switch(contentType) {
+                    case 'standalone':
+                        containerContent = badgeHTML;
+                        break;
+                    case 'blog':
+                        containerContent = `
+                            <div class="blog-post-demo">
+                                <h2>The Future of AI Attribution</h2>
+                                <div class="blog-meta">
+                                    <div class="author-avatar">SJ</div>
+                                    <div>
+                                        <div style="font-weight: 600;">Sarah Johnson</div>
+                                        <div>December 24, 2024</div>
+                                    </div>
+                                </div>
+                                <p>In today's digital landscape, transparency about AI-assisted content creation has become essential.</p>
+                                ${position !== 'inline' ? '<div class="badge-position-' + position + '">' : ''}
+                                ${badgeHTML}
+                                ${position !== 'inline' ? '</div>' : ''}
+                            </div>`;
+                        break;
+                    case 'image':
+                        containerContent = `
+                            <div class="image-demo">
+                                <div style="position: relative;">
+                                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="Mountain landscape" style="width: 100%; height: 200px; object-fit: cover;">
+                                    <div class="badge-position-${position !== 'inline' ? position : 'bottom-right'}">
+                                        ${badgeHTML}
+                                    </div>
+                                </div>
+                                <p class="image-caption">A serene mountain landscape created with AI assistance</p>
+                            </div>`;
+                        break;
+                    case 'email':
+                        containerContent = `
+                            <div class="email-demo">
+                                <div class="email-header">
+                                    <div class="email-field"><strong>From:</strong> marketing@company.com</div>
+                                    <div class="email-field"><strong>To:</strong> team@company.com</div>
+                                    <div class="email-field"><strong>Subject:</strong> Q4 Marketing Update</div>
+                                </div>
+                                <div class="email-body">
+                                    <p>Hi team,</p>
+                                    <p>I wanted to share our Q4 marketing performance metrics.</p>
+                                    <p>Best regards,<br>Marketing Team</p>
+                                    <div class="email-signature">
+                                        <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-md); margin-top: var(--space-lg);">
+                                            ${badgeHTML}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        break;
+                    case 'code':
+                        containerContent = `
+                            <div class="code-demo">
+                                <div class="code-header">
+                                    <span class="code-dot"></span>
+                                    <span class="code-dot"></span>
+                                    <span class="code-dot"></span>
+                                </div>
+                                <div class="code-content">
+                                    <pre><code>// AI-assisted implementation
+function generateReport(data) {
+    const summary = analyzeTrends(data);
+    return formatReport(summary);
+}</code></pre>
+                                </div>
+                                ${position !== 'inline' ? '<div class="badge-position-' + position + '">' : ''}
+                                ${badgeHTML}
+                                ${position !== 'inline' ? '</div>' : ''}
+                            </div>`;
+                        break;
+                    case 'footer':
+                        containerContent = `
+                            <div class="footer-demo" style="background: var(--color-bg-secondary); padding: var(--space-xl); border-radius: var(--radius-lg);">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <h3 style="margin: 0;">attest.ink</h3>
+                                        <p style="margin: var(--space-xs) 0; color: var(--color-text-secondary);">Transparent AI attribution for the modern web</p>
+                                    </div>
+                                    <div style="display: flex; gap: var(--space-lg); align-items: center;">
+                                        <a href="#" style="color: var(--color-text-secondary); text-decoration: none;">Documentation</a>
+                                        <a href="#" style="color: var(--color-text-secondary); text-decoration: none;">GitHub</a>
+                                        ${badgeHTML}
+                                    </div>
+                                </div>
+                                <div style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border); text-align: center;">
+                                    <p style="margin: 0; color: var(--color-text-secondary);">&copy; 2025 attest.ink. Licensed under MIT License</p>
+                                </div>
+                            </div>`;
+                        break;
+                }
+                
+                previewContainer.innerHTML = containerContent;
+                
+                // Re-establish references after innerHTML change
+                const newBadge = document.getElementById('preview-badge');
+                if (newBadge) {
+                    updatePreview();
+                }
+            }
+            
+            function getTextForPlatform(platform) {
+                const platformTexts = {
+                    'ai': 'Made with AI',
+                    'claude': 'Claude AI',
+                    'chatgpt': 'ChatGPT',
+                    'gemini': 'Gemini',
+                    'midjourney': 'Midjourney',
+                    'dalle': 'DALL-E',
+                    'copilot': 'GitHub Copilot',
+                    'perplexity': 'Perplexity',
+                    'logo': ''
+                };
+                return platformTexts[platform] || 'Made with AI';
+            }
+            
+            // Code tabs
+            const codeTabs = document.querySelectorAll('.code-tab');
+            codeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    codeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const tabType = tab.getAttribute('data-tab');
+                    updateCodeForTab(tabType);
+                });
+            });
+            
+            function updateCodeForTab(tabType) {
+                const style = styleSelect.value;
+                const size = sizeSelect.value;
+                const platform = platformSelect.value;
+                const platformClass = platform !== 'ai' ? ` ai-badge-${platform}` : '';
+                const badgeTextContent = badgeText.textContent;
+                
+                let code = '';
+                
+                switch(tabType) {
+                    case 'html':
+                        code = `<a href="https://attest.ink" class="ai-badge ai-badge-${size} ai-badge-${style}${platformClass}">
+    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span>${badgeTextContent}</span>
+</a>`;
+                        break;
+                    case 'react':
+                        code = `import { AIBadge } from '@attest-ink/react';
+
+function MyComponent() {
+    return (
+        <AIBadge 
+            style="${style}"
+            size="${size}"
+            platform="${platform}"
+        />
+    );
+}`;
+                        break;
+                    case 'markdown':
+                        code = `[![${badgeTextContent}](https://attest.ink/badge/${platform}/${style}/${size})](https://attest.ink)
+
+# Or use the direct image:
+![${badgeTextContent}](https://attest.ink/assets/badges/${platform}-generated.svg)`;
+                        break;
+                }
+                
+                codeOutput.textContent = code;
+            }
+            
+            // Mobile menu
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navLinks = document.querySelector('.nav-links');
+            const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+            
+            function toggleMobileMenu() {
+                const isActive = hamburger.classList.contains('active');
+                
+                if (isActive) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    mobileOverlay?.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else {
+                    hamburger.classList.add('active');
+                    navLinks.classList.add('active');
+                    mobileOverlay?.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            hamburger?.addEventListener('click', toggleMobileMenu);
+            mobileOverlay?.addEventListener('click', toggleMobileMenu);
+            
+            // Close mobile menu when clicking on a link
+            navLinks?.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+            
+            // Initialize the preview
+            updatePreview();
+            updateContentType();
+        });
+        
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'var(--badge-ai-primary)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -3,24 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>attest.ink - Content Attribution Badges</title>
-    <meta name="description" content="Clear, elegant badges for distinguishing between human and AI-assisted content">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/platform-carousel.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <title>attest.ink - AI Attribution Badges for the Modern Web</title>
+    <meta name="description" content="Beautiful, customizable badges for transparent AI attribution. Choose from 10+ styles with full dark mode support.">
+    
+    <!-- Modern Design System -->
+    <link rel="stylesheet" href="css/modern-design-system.css?v=6">
+    <link rel="stylesheet" href="css/badge-variants.css?v=6">
+    <link rel="stylesheet" href="css/badge-compatibility.css?v=6">
+    <link rel="stylesheet" href="css/modern-landing.css?v=7">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="attest.ink - AI Attribution Badges">
+    <meta property="og:description" content="Beautiful, customizable badges for transparent AI attribution">
+    <meta property="og:image" content="https://attest.ink/assets/og-image.png">
+    <meta property="og:url" content="https://attest.ink">
+    <meta property="og:type" content="website">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar glass">
         <div class="container navbar-container">
-            <a href="index.html" class="navbar-logo">attest<span class="accent">.</span>ink</a>
+            <a href="index.html" class="navbar-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>attest.ink</span>
+            </a>
+            
+            <!-- Navigation links -->
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="badge-showcase.html">Badges</a></li>
+                <li><a href="badge-generator.html">PNG Badges</a></li>
+                <li><a href="demo.html">Demo</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="https://github.com/statusdothealth/attest.ink" class="nav-github">GitHub</a></li>
+            </ul>
+            
+            <!-- Theme Toggle (moved inside navbar) -->
+            <button class="navbar-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
             
             <!-- Hamburger menu for mobile -->
             <div class="hamburger-menu">
@@ -28,350 +71,544 @@
                 <span></span>
                 <span></span>
             </div>
-            
-            <!-- Navigation links -->
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="demo.html">Demo</a></li>
-                <li><a href="#implementation">Implementation</a></li>
-                <li><a href="mailto:info@attest.ink" class="contact-link">Contact</a></li>
-            </ul>
         </div>
     </nav>
     
-    <header>
-        <div class="container">
-            <div class="hero-header">
-                <img src="assets/img/logo.svg" alt="attest.ink logo" class="logo-image">
-                <h1>Transparent attribution for the AI era</h1>
-                <p class="tagline">Clear, professional badges that distinguish human-created content from AI-assisted work</p>
-            </div>
-        </div>
-    </header>
-
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+    
     <main>
+        <!-- Hero Section -->
         <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>Add clear origin badges to any digital content</h2>
-                    <p>
-                        In an era where understanding content origin matters more than ever, attest.ink provides
-                        elegant, professional badges to distinguish human-created content from
-                        AI-assisted work across all digital platforms.
+            <div class="hero-background">
+                <div class="hero-gradient"></div>
+                <div class="hero-pattern"></div>
+            </div>
+            
+            <div class="container hero-container">
+                <div class="hero-content animate-fade-in">
+                    <div class="hero-badge-preview">
+                        <a href="#" class="ai-badge ai-badge-large ai-badge-glass hover-lift">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Made with AI</span>
+                        </a>
+                    </div>
+                    
+                    <h1 class="hero-title">Beautiful AI Attribution<br>for the Modern Web</h1>
+                    <p class="hero-description">
+                        Transparent, customizable badges that clearly indicate when content is AI-assisted. 
+                        Choose from 10+ styles with full dark mode support.
                     </p>
-                    <div class="cta-buttons">
-                        <a href="#implementation" class="btn primary">Get Started</a>
-                        <a href="demo.html" class="btn secondary">Try Interactive Demo</a>
+                    
+                    <div class="hero-actions">
+                        <a href="#quick-start" class="btn btn-primary btn-large">
+                            Get Started
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="badge-showcase.html" class="btn btn-secondary btn-large">
+                            View All Badges
+                        </a>
                     </div>
-                </div>
-                <div class="badges-showcase">
-                    <div class="badge-card human">
-                        <div class="badge-image">
-                            <img src="assets/badges/human-generated.svg" alt="Human Generated Badge" width="240" height="60">
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Badge Styles</span>
                         </div>
-                        <h3>Human Generated</h3>
-                        <p>Content created through human creativity and effort</p>
-                    </div>
-                    <div class="badge-card ai">
-                        <div class="badge-image">
-                            <img src="assets/badges/ai-generated.svg" alt="AI Generated Badge" width="240" height="60">
+                        <div class="stat-item">
+                            <span class="stat-number">6</span>
+                            <span class="stat-label">Size Variants</span>
                         </div>
-                        <h3>AI Assisted</h3>
-                        <p>Content created with artificial intelligence assistance</p>
+                        <div class="stat-item">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Customizable</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="implementation" class="implementation">
+        <!-- Badge Preview Section -->
+        <section class="badge-preview-section">
             <div class="container">
-                <h2>Simple <span class="highlight">Implementation</span></h2>
-                <p class="section-intro">Add these lightweight, animated badges to any digital content with just a few lines of code. Our badges work seamlessly across websites, documents, social media, and more.</p>
+                <h2 class="section-title animate-slide-up">Choose Your Style</h2>
+                <p class="section-subtitle animate-slide-up">From minimalist to eye-catching, find the perfect badge for your content</p>
+                
+                <div class="badge-style-grid animate-slide-up">
+                    <div class="badge-style-card glass hover-lift">
+                        <a href="#" class="ai-badge ai-badge-medium ai-badge-glass">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Made with AI</span>
+                        </a>
+                        <h3>Glass</h3>
+                        <p>Elegant transparency effect</p>
+                    </div>
+                    
+                    <div class="badge-style-card glass hover-lift">
+                        <a href="#" class="ai-badge ai-badge-medium ai-badge-solid">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Made with AI</span>
+                        </a>
+                        <h3>Solid</h3>
+                        <p>Bold and prominent</p>
+                    </div>
+                    
+                    <div class="badge-style-card glass hover-lift">
+                        <a href="#" class="ai-badge ai-badge-medium ai-badge-gradient">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Made with AI</span>
+                        </a>
+                        <h3>Gradient</h3>
+                        <p>Modern color transitions</p>
+                    </div>
+                    
+                    <div class="badge-style-card glass hover-lift">
+                        <a href="#" class="ai-badge ai-badge-medium ai-badge-neon">
+                            <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Made with AI</span>
+                        </a>
+                        <h3>Neon</h3>
+                        <p>Eye-catching glow effect</p>
+                    </div>
+                </div>
+                
+                <div class="view-all-link">
+                    <a href="badge-showcase.html" class="link-arrow">
+                        View all 10+ badge styles
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section id="quick-start" class="implementation">
+            <div class="container">
+                <h2 class="section-title">Quick Start</h2>
+                <p class="section-subtitle">Add beautiful AI attribution badges in seconds</p>
                 
                 <!-- New dropdown selector for badge type -->
-                <div class="badge-selector">
-                    <label for="badge-type-select">Select Badge Type:</label>
-                    <select id="badge-type-select" class="badge-type-dropdown">
-                        <option value="human">Human Generated</option>
-                        <option value="ai">AI Assisted</option>
-                        <option value="claude">Claude AI Assisted</option>
-                        <option value="chatgpt">ChatGPT Assisted</option>
-                        <option value="gemini">Gemini Assisted</option>
-                        <option value="midjourney">Midjourney Assisted</option>
-                        <option value="dalle">DALL-E Assisted</option>
+                <!-- Tab Navigation -->
+                <div class="tab-navigation-wrapper">
+                    <select class="tab-select" id="tab-select">
+                        <option value="html">HTML</option>
+                        <option value="png">Simple PNG</option>
+                        <option value="react">React</option>
+                        <option value="vue">Vue</option>
+                        <option value="markdown">Markdown</option>
                     </select>
+                    <div class="tab-navigation">
+                        <button class="tab-btn active" data-tab="html">HTML</button>
+                        <button class="tab-btn" data-tab="png">Simple PNG</button>
+                        <button class="tab-btn" data-tab="react">React</button>
+                        <button class="tab-btn" data-tab="vue">Vue</button>
+                        <button class="tab-btn" data-tab="markdown">Markdown</button>
+                    </div>
                 </div>
                 
-                <div class="implementation-grid">
-                    <!-- HTML Implementation -->
-                    <div class="implementation-card">
-                        <h3>HTML</h3>
-                        <div class="code-box">
-                            <pre id="html-implementation-code"><code>&lt;!-- For human-generated content -->
-&lt;a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-  &lt;img src="https://attest.ink/assets/badges/human-generated.svg" alt="Human Generated" width="120" height="30">
-  &lt;span class="badge-tooltip">Human-created content, verified by attest.ink&lt;/span>
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- HTML Tab -->
+                    <div class="tab-panel active" id="html-tab">
+                        <div class="code-block">
+                            <pre><code>&lt;!-- Include CSS -->
+&lt;link rel="stylesheet" href="https://attest.ink/css/badge-variants.css">
+
+&lt;!-- Add Badge -->
+&lt;a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass">
+    &lt;svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        &lt;circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+        &lt;path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        &lt;circle cx="12" cy="12" r="2" fill="currentColor"/>
+        &lt;path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    &lt;/svg>
+    &lt;span>Made with AI&lt;/span>
 &lt;/a></code></pre>
-                            <button class="copy-btn" data-target="html-implementation-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
                             </button>
                         </div>
                     </div>
                     
-                    <!-- Markdown Implementation -->
-                    <div class="implementation-card">
-                        <h3>Markdown</h3>
-                        <div class="code-box">
-                            <pre id="markdown-implementation-code"><code>[![Human Generated](https://attest.ink/assets/badges/human-generated.svg)](https://attest.ink "Human-created content, verified by attest.ink")</code></pre>
-                            <button class="copy-btn" data-target="markdown-implementation-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
+                    <!-- PNG Tab -->
+                    <div class="tab-panel" id="png-tab">
+                        <div class="code-block">
+                            <pre><code>&lt;!-- Simple PNG Badge (no CSS required) -->
+&lt;img src="https://attest.ink/badges/ai-glass-medium.png" 
+     alt="Made with AI" 
+     width="120" 
+     height="32">
+
+&lt;!-- Or link it -->
+&lt;a href="https://attest.ink">
+    &lt;img src="https://attest.ink/badges/ai-glass-medium.png" 
+         alt="Made with AI" 
+         width="120" 
+         height="32">
+&lt;/a></code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
                             </button>
                         </div>
+                        <p style="margin-top: var(--space-md); text-align: center;">
+                            <a href="badge-generator.html" class="btn btn-secondary">Browse PNG Badges →</a>
+                        </p>
                     </div>
                     
-                    <!-- JavaScript Implementation -->
-                    <div class="implementation-card">
-                        <h3>JavaScript</h3>
-                        <div class="code-box">
-                            <pre id="javascript-implementation-code"><code>&lt;script src="https://attest.ink/js/attest.js">&lt;/script>
-&lt;script>
-  // Add human-generated badge
-  AttestInk.addBadge('human', '#your-content', {
-    position: 'bottom-right',
-    linkToAttestInk: true,
-    showTooltip: true
-  });
-&lt;/script></code></pre>
-                            <button class="copy-btn" data-target="javascript-implementation-code">
-                                <span class="copy-icon"></span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="css-example">
-                    <h3>Required CSS for Badge Tooltips</h3>
-                    <p class="css-description">Add this CSS to your stylesheet to enable the hover tooltips for badges. These styles create the tooltip popup that appears when users hover over the badge, providing additional context about the content's origin.</p>
-                    <pre><code>/* Add this CSS to your stylesheet for badge tooltips */
-.badge-link {
-  display: inline-block;
-  position: relative;
-  transition: transform 0.3s;
-}
+                    <!-- React Tab -->
+                    <div class="tab-panel" id="react-tab">
+                        <div class="code-block">
+                            <pre><code>import { AIBadge } from '@attest-ink/react';
 
-.badge-link:hover {
-  transform: translateY(-2px);
-}
-
-.badge-link .badge-tooltip {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.8);
-  background-color: #333;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
-  pointer-events: none;
-  white-space: nowrap;
-  z-index: 10;
-}
-
-.badge-link .badge-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent;
-}
-
-.badge-link:hover .badge-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
+function MyComponent() {
+    return (
+        &lt;div>
+            &lt;h1>My AI-Assisted Article&lt;/h1>
+            &lt;p>Content here...&lt;/p>
+            &lt;AIBadge 
+                style="glass"
+                size="medium"
+                platform="claude"
+            />
+        &lt;/div>
+    );
 }</code></pre>
-                    <button class="copy-btn" data-target="css-tooltip-code">
-                        <span class="copy-icon"></span>
-                        <span class="copy-text">Copy</span>
-                    </button>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Vue Tab -->
+                    <div class="tab-panel" id="vue-tab">
+                        <div class="code-block">
+                            <pre><code>&lt;template>
+    &lt;div>
+        &lt;h1>My AI-Assisted Article&lt;/h1>
+        &lt;p>Content here...&lt;/p>
+        &lt;AIBadge 
+            :style="'glass'"
+            :size="'medium'"
+            :platform="'gemini'"
+        />
+    &lt;/div>
+&lt;/template>
+
+&lt;script>
+import { AIBadge } from '@attest-ink/vue';
+
+export default {
+    components: { AIBadge }
+};
+&lt;/script></code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Markdown Tab -->
+                    <div class="tab-panel" id="markdown-tab">
+                        <div class="code-block">
+                            <pre><code>[![Made with AI](https://attest.ink/badge/ai/glass/medium)](https://attest.ink "AI-assisted content")
+
+# Platform-specific badges:
+[![Claude AI](https://attest.ink/badge/claude/solid/small)](https://attest.ink)
+[![ChatGPT](https://attest.ink/badge/chatgpt/gradient/medium)](https://attest.ink)
+[![Gemini](https://attest.ink/badge/gemini/neon/large)](https://attest.ink)</code></pre>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-        
-        <section class="content-types">
-            <div class="container">
-                <h2>Add Badges to Different <span class="highlight">Content Types</span></h2>
-                <p class="section-intro">Learn how to add attribution badges to various content formats across different platforms.</p>
                 
-                <div class="content-types-grid">
-                    <div class="content-type-card">
-                        <div class="content-type-icon blog-icon"></div>
-                        <h3>Blog Posts</h3>
-                        <p>Add the badge at the end of your article or in the author byline section. For platforms like Medium, add the badge image to the end of your post.</p>
-                        <a href="demo.html#blog" class="content-link">See Example</a>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Why Choose attest.ink?</h2>
+                <p class="section-subtitle">Built for developers, designers, and content creators</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card glass hover-lift">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                                <path d="M2 17L12 22L22 17"/>
+                                <path d="M2 12L12 17L22 12"/>
+                            </svg>
+                        </div>
+                        <h3>10+ Styles</h3>
+                        <p>From subtle to bold, find the perfect badge style for your brand</p>
                     </div>
                     
-                    <div class="content-type-card">
-                        <div class="content-type-icon image-icon"></div>
-                        <h3>Images</h3>
-                        <p>Add the badge as an overlay to your image or place it directly beneath the image with attribution.</p>
-                        <a href="demo.html#image" class="content-link">See Example</a>
+                    <div class="feature-card glass hover-lift">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1V6M12 18V23M4.22 4.22L7.76 7.76M16.24 16.24L19.78 19.78M1 12H6M18 12H23M4.22 19.78L7.76 16.24M16.24 7.76L19.78 4.22"/>
+                            </svg>
+                        </div>
+                        <h3>Dark Mode</h3>
+                        <p>Beautiful in light and dark themes with automatic detection</p>
                     </div>
                     
-                    <div class="content-type-card">
-                        <div class="content-type-icon video-icon"></div>
-                        <h3>Videos</h3>
-                        <p>Add the badge to video thumbnails, include in end credits, or display as a lower-third overlay.</p>
-                        <a href="demo.html#video" class="content-link">See Example</a>
+                    <div class="feature-card glass hover-lift">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+                            </svg>
+                        </div>
+                        <h3>Lightweight</h3>
+                        <p>No dependencies, pure CSS and SVG for maximum performance</p>
                     </div>
                     
-                    <div class="content-type-card">
-                        <div class="content-type-icon email-icon"></div>
-                        <h3>Email</h3>
-                        <p>Add the badge to your email signature or at the end of your email content using HTML email formatting.</p>
-                        <a href="demo.html#email" class="content-link">See Example</a>
-                    </div>
-                    
-                    <div class="content-type-card">
-                        <div class="content-type-icon text-icon"></div>
-                        <h3>Plain Text</h3>
-                        <p>For plain text content, add the badge as a visual element at the beginning or end of your document.</p>
-                        <a href="demo.html#text" class="content-link">See Example</a>
-                    </div>
-                    
-                    <div class="content-type-card">
-                        <div class="content-type-icon pdf-icon"></div>
-                        <h3>PDF Documents</h3>
-                        <p>Add the badge to your document header/footer or include on the title/signature page.</p>
-                        <a href="demo.html#pdf" class="content-link">See Example</a>
+                    <div class="feature-card glass hover-lift">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M9 11L12 14L22 4"/>
+                                <path d="M21 12V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H16"/>
+                            </svg>
+                        </div>
+                        <h3>Accessible</h3>
+                        <p>WCAG compliant with proper ARIA labels and keyboard support</p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section class="platforms-section" id="platforms">
-    <div class="platforms-container">
-        <div class="platforms-header">
-            <h2>Platform-Specific <span class="highlight">Badges</span></h2>
-            <p>attest.ink provides specialized badges for content created with specific AI platforms, offering clear and consistent attribution across your digital ecosystem.</p>
-        </div>
-
-        <div class="platforms-grid">
-            <div class="platform-card claude">
-                <div class="platform-card-header">
-                    <img src="assets/badges/claude-generated.svg" alt="Claude AI Generated Badge">
-                </div>
-                <div class="platform-card-body">
-                    <h3>Claude</h3>
-                    <p>For content assisted by Anthropic's Claude AI assistant</p>
-                </div>
-                <div class="platform-card-footer">
-                    <a href="demo.html#claude" class="platform-btn">See Example</a>
-                </div>
-            </div>
-
-            <div class="platform-card chatgpt">
-                <div class="platform-card-header">
-                    <img src="assets/badges/chatgpt-generated.svg" alt="ChatGPT Generated Badge">
-                </div>
-                <div class="platform-card-body">
-                    <h3>ChatGPT</h3>
-                    <p>For content assisted by OpenAI's ChatGPT models</p>
-                </div>
-                <div class="platform-card-footer">
-                    <a href="demo.html#chatgpt" class="platform-btn">See Example</a>
-                </div>
-            </div>
-
-            <div class="platform-card gemini">
-                <div class="platform-card-header">
-                    <img src="assets/badges/gemini-generated.svg" alt="Gemini Generated Badge">
-                </div>
-                <div class="platform-card-body">
-                    <h3>Gemini</h3>
-                    <p>For content assisted by Google's Gemini AI models</p>
-                </div>
-                <div class="platform-card-footer">
-                    <a href="demo.html#gemini" class="platform-btn">See Example</a>
-                </div>
-            </div>
-
-            <div class="platform-card midjourney">
-                <div class="platform-card-header">
-                    <img src="assets/badges/midjourney-generated.svg" alt="Midjourney Generated Badge">
-                </div>
-                <div class="platform-card-body">
-                    <h3>Midjourney</h3>
-                    <p>For images assisted by Midjourney's AI</p>
-                </div>
-                <div class="platform-card-footer">
-                    <a href="demo.html#midjourney" class="platform-btn">See Example</a>
-                </div>
-            </div>
-
-            <div class="platform-card dalle">
-                <div class="platform-card-header">
-                    <img src="assets/badges/dalle-generated.svg" alt="DALL-E Generated Badge">
-                </div>
-                <div class="platform-card-body">
-                    <h3>DALL-E</h3>
-                    <p>For images assisted by OpenAI's DALL-E</p>
-                </div>
-                <div class="platform-card-footer">
-                    <a href="demo.html#dalle" class="platform-btn">See Example</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
         
+        <!-- CTA Section -->
         <section class="cta-section">
             <div class="container">
-                <div class="cta-content">
-                    <h2>Ready to add clear attribution to your content?</h2>
-                    <p>Explore our interactive demo to see how attest.ink badges look on different content types.</p>
-                    <a href="demo.html" class="btn primary cta-btn">Try Interactive Demo</a>
+                <div class="cta-content glass">
+                    <h2 class="cta-title">Start Using AI Badges Today</h2>
+                    <p class="cta-description">Join thousands of creators who value transparency in AI-assisted content</p>
+                    <div class="cta-actions">
+                        <a href="badge-showcase.html" class="btn btn-primary btn-large">
+                            Browse All Badges
+                        </a>
+                        <a href="https://github.com/statusdothealth/attest.ink" class="btn btn-secondary btn-large">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                            View on GitHub
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
-    <footer>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>attest<span class="accent">.</span>ink</h2>
-                    <p>Content attribution that matters</p>
+                <div class="footer-brand">
+                    <a href="index.html" class="navbar-logo">
+                        <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                            <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <span>attest.ink</span>
+                    </a>
+                    <p style="margin-top: var(--space-sm); color: var(--color-text-secondary);">Transparent AI attribution for the modern web</p>
                 </div>
+                
                 <div class="footer-links">
-                    <a href="index.html" class="link-animated">Home</a>
-                    <a href="demo.html" class="link-animated">Demo</a>
-                    <a href="#implementation" class="link-animated">Implementation</a>
-                    <a href="mailto:info@attest.ink" class="link-animated">Contact</a>
+                    <a href="badge-showcase.html">Badges</a>
+                    <a href="demo.html">Demo</a>
+                    <a href="docs.html">Documentation</a>
+                    <a href="https://github.com/statusdothealth/attest.ink">GitHub</a>
+                    <a href="mailto:info@attest.ink">info@attest.ink</a>
                 </div>
             </div>
-            <div class="footer-copyright">
-                <p>&copy; 2025 attest.ink &mdash; Transparent attribution for the AI era</p>
-                <!-- For claude ai assisted content -->
-                <a href="https://attest.ink" target="_blank" class="badge-link" rel="noopener">
-                <img src="https://attest.ink/assets/badges/claude-generated.svg" alt="Claude AI Assisted" width="120" height="30">
-                <span class="badge-tooltip">Assisted with Claude AI</span>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 attest.ink. <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" style="vertical-align: middle; margin-left: 8px;"></a></p>
+                <a href="https://attest.ink" class="ai-badge ai-badge-small ai-badge-glass">
+                    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>Made with Claude</span>
                 </a>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="js/attest.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/index-page.js"></script>
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+            
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            if (savedTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            const tabSelect = document.getElementById('tab-select');
+            
+            function switchTab(tabId) {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+                
+                const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+                document.getElementById(tabId + '-tab').classList.add('active');
+            }
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    switchTab(tabId);
+                    if (tabSelect) {
+                        tabSelect.value = tabId;
+                    }
+                });
+            });
+            
+            // Handle dropdown change
+            tabSelect?.addEventListener('change', (e) => {
+                switchTab(e.target.value);
+            });
+            
+            // Mobile menu
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navLinks = document.querySelector('.nav-links');
+            const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+            
+            function toggleMobileMenu() {
+                const isActive = hamburger.classList.contains('active');
+                
+                if (isActive) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    mobileOverlay?.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else {
+                    hamburger.classList.add('active');
+                    navLinks.classList.add('active');
+                    mobileOverlay?.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            hamburger?.addEventListener('click', toggleMobileMenu);
+            mobileOverlay?.addEventListener('click', toggleMobileMenu);
+            
+            // Close mobile menu when clicking on a link
+            navLinks?.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+        });
+        
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'var(--badge-ai-primary)';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
