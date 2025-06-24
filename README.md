@@ -10,11 +10,9 @@
   
   <br>
   
-  <a href="https://attest.ink">
-    <img src="https://attest.ink/badges/ai-gradient-large.png" alt="Made with AI" height="40">
-  </a>
+
   
-  [Live Demo](https://attest.ink) • [Documentation](https://attest.ink/docs.html) • [Badge Showcase](https://attest.ink/badge-showcase.html) • [PNG Generator](https://attest.ink/badge-generator.html)
+  [Live Demo](https://attest.ink) • [Documentation](https://attest.ink/docs.html) • [Badge Showcase](https://attest.ink/badge-showcase.html) • [PNG Generator - COMING SOON](https://attest.ink/badge-generator.html)
 </div>
 
 ---
