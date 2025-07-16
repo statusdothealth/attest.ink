@@ -2,8 +2,6 @@
 
 A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. No servers, no tracking, no blockchain - just cryptographic proof that works everywhere.
 
-![AI Attestation Badge](https://attest.ink/assets/badges/ai-assisted.svg)
-
 ## Overview
 
 attest.ink is an open-source protocol that enables transparent disclosure of AI involvement in content creation through:
@@ -410,10 +408,11 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Created by [@autophage](https://github.com/autophage) and contributors
+- Created by [@97115104](https://github.com/97115104) + AI tools
 - Built as a public good for the AI community
 - Supported by [0x42 Research](https://0x42r.io/)
-- Special thanks to all contributors and early adopters
+- Special thanks to all early adopters
+- [Sponsors link if you're into it 🩵](https://github.com/sponsors/97115104/dashboard)
 
 ## Contact
 
@@ -424,7 +423,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ---
 
 <div align="center">
-    <img src="https://attest.ink/assets/badges/ai-assisted.svg" alt="AI Assisted" />
+    <img src="https://attest.ink/assets/badges/ai-assisted.svg" alt="AI Assisted" width="120" height="30" />
     <br>
     <em>This README was created with AI assistance and human oversight</em>
     <br>
