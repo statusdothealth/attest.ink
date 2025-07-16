@@ -2,7 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, v2-static-site ]
+    branches: [ main ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -159,11 +161,15 @@ jobs:
           urls=(
             "https://attest.ink/"
             "https://attest.ink/create/"
-            "https://attest.ink/view/"
+            "https://attest.ink/verify/"
+            "https://attest.ink/showcase/"
+            "https://attest.ink/examples/"
             "https://attest.ink/developers/"
             "https://attest.ink/protocol/"
+            "https://attest.ink/faq.html"
             "https://attest.ink/static/badge-renderer.js"
             "https://attest.ink/static/attestation-tool.js"
+            "https://attest.ink/static/ai-models.js"
           )
           
           for url in "${urls[@]}"; do
