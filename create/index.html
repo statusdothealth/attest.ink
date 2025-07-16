@@ -215,7 +215,10 @@
                             <div id="wallet-status" style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border-radius: 4px; text-align: center; color: var(--text-secondary); display: none;"></div>
                             <div style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85em; color: var(--text-secondary);">
                                 <strong>Note:</strong> <span class="desktop-only">MetaMask will open in a new window/tab when signing. This is a security feature and cannot be changed.</span>
-                            <span class="mobile-only">On mobile, use MetaMask's built-in browser for the best experience.</span>
+                            <span class="mobile-only">
+                                <span id="metamask-mobile-detected" style="display: none;">✅ MetaMask browser detected. Click connect to continue.</span>
+                                <span id="metamask-mobile-missing">Use MetaMask's built-in browser for wallet signatures.</span>
+                            </span>
                             Consider using "Local Signature" for a smoother experience.
                             </div>
                         </div>
@@ -821,9 +824,22 @@
         // Set initial state (local is now default)
         document.getElementById('wallet-section').style.display = 'none';
         document.getElementById('local-section').style.display = 'block';
+        
+        // Check if we're in MetaMask mobile browser on load
+        if (window.ethereum && window.ethereum.isMetaMask && 
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            document.getElementById('metamask-mobile-detected').style.display = 'inline';
+            document.getElementById('metamask-mobile-missing').style.display = 'none';
+        }
 
         // MetaMask integration
         let connectedAccount = null;
+        
+        // Helper function to detect MetaMask mobile browser
+        function isMetaMaskMobile() {
+            return window.ethereum && window.ethereum.isMetaMask && 
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
 
         async function connectWallet() {
             const connectBtn = document.getElementById('connect-wallet');
@@ -858,18 +874,29 @@
                     let mobileMessage = '📱 MetaMask Mobile Required<br><br>';
                     
                     if (isIOS || isAndroid) {
-                        mobileMessage += 'To use wallet signatures on mobile:<br>';
-                        mobileMessage += '1. Install MetaMask Mobile app<br>';
-                        mobileMessage += '2. Open this page in MetaMask\'s browser<br>';
-                        mobileMessage += '3. Try connecting again<br><br>';
+                        // Check if we're NOT in MetaMask browser
+                        const isMetaMaskBrowser = window.ethereum && window.ethereum.isMetaMask;
                         
-                        if (isIOS) {
-                            mobileMessage += '<a href="https://apps.apple.com/app/metamask/id1438144202" target="_blank" class="btn btn-secondary">Get MetaMask for iOS</a>';
+                        if (!isMetaMaskBrowser) {
+                            mobileMessage += 'Option 1: Open in MetaMask<br>';
+                            // Create deep link to open current page in MetaMask
+                            const currentUrl = window.location.href;
+                            const metamaskDeepLink = `https://metamask.app.link/dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
+                            
+                            mobileMessage += `<a href="${metamaskDeepLink}" class="btn btn-secondary" style="margin: 10px 0;">Open in MetaMask Browser</a><br><br>`;
+                            
+                            mobileMessage += 'Option 2: Install MetaMask<br>';
+                            if (isIOS) {
+                                mobileMessage += '<a href="https://apps.apple.com/app/metamask/id1438144202" target="_blank" class="btn btn-secondary">Get MetaMask for iOS</a>';
+                            } else {
+                                mobileMessage += '<a href="https://play.google.com/store/apps/details?id=io.metamask" target="_blank" class="btn btn-secondary">Get MetaMask for Android</a>';
+                            }
+                            
+                            mobileMessage += '<br><br>Option 3: Use <strong>"Local Signature"</strong> below for a simpler option.';
                         } else {
-                            mobileMessage += '<a href="https://play.google.com/store/apps/details?id=io.metamask" target="_blank" class="btn btn-secondary">Get MetaMask for Android</a>';
+                            mobileMessage += 'MetaMask browser detected but provider not available.<br>';
+                            mobileMessage += 'Please try refreshing the page or use <strong>"Local Signature"</strong> below.';
                         }
-                        
-                        mobileMessage += '<br><br>Or use <strong>"Local Signature"</strong> below for a simpler option.';
                     } else {
                         mobileMessage += 'MetaMask is not available in this mobile browser.<br>';
                         mobileMessage += 'Please use <strong>"Local Signature"</strong> below instead.';
