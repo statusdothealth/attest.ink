@@ -78,8 +78,29 @@
                     <input type="url" id="url-input" placeholder="https://example.com/attestation.json">
                 </div>
 
-                <button id="verify-btn" class="btn">Verify Attestation</button>
-                <a href="/create/" class="btn btn-secondary" style="margin-left: 10px;">Back to Create</a>
+                <div class="button-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <style>
+                        .button-group {
+                            justify-content: flex-start;
+                        }
+                        @media (max-width: 768px) {
+                            .button-group {
+                                justify-content: center;
+                                flex-direction: row;
+                            }
+                            .button-group button,
+                            .button-group a {
+                                flex: 0 1 auto;
+                                min-width: 120px;
+                                max-width: 160px;
+                                padding: 10px 16px;
+                                font-size: 16px;
+                            }
+                        }
+                    </style>
+                    <button id="verify-btn" class="btn">Verify Attestation</button>
+                    <a href="/create/" class="btn btn-secondary">Back to Create</a>
+                </div>
 
                 <div style="margin-top: 30px;">
                     <details>

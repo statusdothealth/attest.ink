@@ -1062,7 +1062,7 @@ summary {
     /* URL import mobile fix - Stack input and button */
     .import-url-container {
         flex-direction: column !important;
-        align-items: stretch !important;
+        align-items: center !important;
     }
     
     .import-url-container input[type="url"] {
@@ -1071,8 +1071,10 @@ summary {
     }
     
     .import-url-container button {
-        width: 100% !important;
-        margin: 0 !important;
+        width: auto !important;
+        max-width: 300px !important;
+        margin: 0 auto !important;
+        display: block !important;
     }
     
     input[type="text"],
