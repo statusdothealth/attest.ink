@@ -51,6 +51,7 @@
                             <a href="/showcase/">Badges</a>
                             <a href="/examples/">Examples</a>
                             <a href="/developers/">Developer Docs</a>
+                            <a href="/faq.html">FAQ</a>
                             <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
                         </div>
                     </li>
@@ -77,6 +78,7 @@
                 </div>
 
                 <button id="verify-btn" class="btn">Verify Attestation</button>
+                <a href="/create/" class="btn btn-secondary" style="margin-left: 10px;">Back to Create</a>
 
                 <div style="margin-top: 30px;">
                     <details>
@@ -157,8 +159,21 @@
                 if (jsonInput) {
                     attestation = JSON.parse(jsonInput);
                 } else if (urlInput) {
-                    // Check if it's a base64 data URL
-                    if (urlInput.startsWith('data:')) {
+                    // Check if it's an attest.ink verify URL
+                    const attestInkPattern = /https?:\/\/attest\.ink\/verify\/?\?id=([^&]+)/;
+                    const match = urlInput.match(attestInkPattern);
+                    
+                    if (match) {
+                        // Extract ID and load attestation
+                        const id = match[1];
+                        const loaded = await loadAttestationById(id);
+                        if (loaded) {
+                            attestation = loaded;
+                        } else {
+                            throw new Error('Attestation not found');
+                        }
+                    } else if (urlInput.startsWith('data:')) {
+                        // Check if it's a base64 data URL
                         const base64 = urlInput.split(',')[1];
                         attestation = JSON.parse(atob(base64));
                     } else {
@@ -259,6 +274,31 @@
                 document.getElementById('content-verification').style.display = 'block';
             }
         }
+        
+        // Verify signature
+        function verifySignature(attestation, results) {
+            const sig = attestation.signature;
+            
+            if (sig.type === 'ethereum') {
+                results.push(`<span class="status-info">🔏 Ethereum signature by ${sig.signer}</span>`);
+            } else if (sig.type === 'local') {
+                results.push(`<span class="status-info">🔑 Local signature (password-based)</span>`);
+            } else if (sig.type === 'hmac-sha256') {
+                results.push(`<span class="status-info">🔐 HMAC-SHA256 signature`);
+                if (attestation.signer) {
+                    results.push(`&nbsp;&nbsp;&nbsp;&nbsp;Signer: ${attestation.signer.name}${attestation.signer.id ? ' (ID: ' + attestation.signer.id + ')' : ''}`);
+                }
+                if (sig.value === 'UNSIGNED_HMAC_PLACEHOLDER') {
+                    results.push(`<span class="status-pending">&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Awaiting server-side signing</span>`);
+                } else {
+                    results.push(`&nbsp;&nbsp;&nbsp;&nbsp;Signature: ${sig.value.substring(0, 20)}...`);
+                }
+                results.push('</span>');
+            } else {
+                results.push(`<span class="status-info">🔏 ${sig.type || 'Unknown'} signature</span>`);
+            }
+        }
+        
         // Verify content hash
         async function verifyContentHash(content) {
             // Calculate hash
@@ -370,6 +410,33 @@
                 document.getElementById('verify-btn').click();
             }
         });
+        
+        async function loadAttestationById(id) {
+            // First try localStorage
+            const stored = localStorage.getItem(`attestation-${id}`);
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (error) {
+                    console.error('Failed to parse stored attestation');
+                }
+            }
+            
+            // Then try server
+            try {
+                const response = await fetch(`/attestations/${id}.json`, {
+                    method: 'GET',
+                    cache: 'no-cache'
+                });
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.log('Failed to load from server');
+            }
+            
+            return null;
+        }
         
         async function loadAttestationFromServer(id) {
             // Check if it's a legacy attestation in /1/, /2/, etc.

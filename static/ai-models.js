@@ -4,6 +4,13 @@
  */
 
 const AI_MODELS = {
+    human: {
+        name: "Human",
+        models: [
+            { id: "human", name: "Human (No AI)", color: "#4a5568" }
+        ]
+    },
+    
     openai: {
         name: "OpenAI",
         models: [

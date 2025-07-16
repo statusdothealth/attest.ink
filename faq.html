@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - attest.ink</title>
+    <meta name="description" content="Frequently asked questions about attest.ink">
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <meta name="theme-color" content="#111827">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/badge-styles.css">
+    <script>
+        // Prevent theme flicker by setting theme before render
+        (function() {
+            const saved = localStorage.getItem('theme');
+            let theme = 'light';
+            if (saved) {
+                theme = saved;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = 'dark';
+            } else {
+                const hour = new Date().getHours();
+                if (hour >= 18 || hour < 6) {
+                    theme = 'dark';
+                }
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">D</button>
+    <div class="container">
+        <nav>
+            <div class="nav-inner">
+                <a href="/" class="logo">
+                    <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                    <span>attest.ink</span>
+                </a>
+                <ul>
+                    <li><a href="/create/">Create</a></li>
+                    <li><a href="/verify/">Verify</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">More</span>
+                        <div class="dropdown-menu">
+                            <a href="/protocol/">Protocol</a>
+                            <a href="/showcase/">Badges</a>
+                            <a href="/examples/">Examples</a>
+                            <a href="/developers/">Developers</a>
+                            <a href="/faq.html" class="active">FAQ</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main>
+            <section class="hero">
+                <h1>Frequently Asked Questions</h1>
+                <p>Common questions about attest.ink and how it works</p>
+            </section>
+
+            <section class="content-section">
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3>How does attest.ink work offline?</h3>
+                        <p>attest.ink operates primarily as a client-side application, which means:</p>
+                        <ul>
+                            <li><strong>Embed Badge:</strong> This option generates self-contained HTML with full attestation data embedded directly in the code. These badges work completely offline and can be shared anywhere without requiring internet access.</li>
+                            <li><strong>Local Storage:</strong> When you create an attestation, it's stored in your browser's localStorage. This allows you to verify attestations you've created on the same device/browser without internet.</li>
+                            <li><strong>No Server Dependency:</strong> The core verification process happens entirely in your browser using JavaScript cryptography libraries.</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Why does my short URL show "Attestation not found"?</h3>
+                        <p>Short URLs (like <code>?id=2025-01-16-abc123</code>) currently work with these limitations:</p>
+                        <ul>
+                            <li>The attestation must be created and verified in the same browser (localStorage is per-browser)</li>
+                            <li>Browser storage must not be cleared</li>
+                            <li>The ID must be correct</li>
+                            <li>In demo/local environments, server storage isn't available</li>
+                        </ul>
+                        <p><strong>For sharing attestations across devices:</strong></p>
+                        <ol>
+                            <li>Use the "Embed Badge" option (includes full attestation data)</li>
+                            <li>Use the full data URL instead of the short URL</li>
+                            <li>Save and share the attestation JSON file</li>
+                        </ol>
+                        <p><em>Note: Short URLs with server storage are coming soon for production use.</em></p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>What's the difference between badge options?</h3>
+                        <ul>
+                            <li><strong>Embed Badge:</strong> Self-contained HTML with full attestation data embedded. Works offline, perfect for sharing.</li>
+                            <li><strong>Direct Link:</strong> A short URL that requires the attestation to be in localStorage or on the server.</li>
+                            <li><strong>Data URL:</strong> A long URL containing the entire attestation encoded in base64.</li>
+                            <li><strong>LaTeX Badge:</strong> Special formatting for academic papers with footnotes.</li>
+                            <li><strong>Markdown Badge:</strong> For README files and documentation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Can I verify attestations from other browsers/devices?</h3>
+                        <p>Yes, but you need to use one of these methods:</p>
+                        <ul>
+                            <li>Use an embed badge (contains all data)</li>
+                            <li>Use a data URL (contains all data)</li>
+                            <li>Share the attestation JSON file</li>
+                            <li>Wait for server storage support (coming soon)</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>What happens when I refresh the Create page?</h3>
+                        <p>When you refresh the Create page, you'll lose any unsaved progress. That's why we've added a warning that appears when you try to leave the page with unsaved data. To avoid losing work:</p>
+                        <ul>
+                            <li>Complete your attestation before refreshing</li>
+                            <li>Save your content elsewhere if you need to pause</li>
+                            <li>Use the browser's back button carefully</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>How do I use LaTeX badges in academic papers?</h3>
+                        <p>LaTeX badges are designed for academic citations:</p>
+                        <ol>
+                            <li>Create your attestation with the content</li>
+                            <li>Select "LaTeX" as the badge style</li>
+                            <li>Copy the generated LaTeX code</li>
+                            <li>Paste it into your paper where you want the badge</li>
+                            <li>The badge includes a footnote with the verification URL</li>
+                        </ol>
+                        <p><strong>Note about the hash validation challenge:</strong> Since the verification URL contains the attestation ID (which is based on the content hash), and you might want to include this URL in your paper, there's a circular dependency. Solutions:</p>
+                        <ul>
+                            <li><strong>Two-step approach:</strong> First generate the attestation without the URL in your paper to get the ID, then update your paper with the URL</li>
+                            <li><strong>Use placeholder:</strong> Include a placeholder like "[ATTESTATION_URL]" in your paper, generate the attestation, then replace the placeholder</li>
+                            <li><strong>Reference in bibliography:</strong> Don't include the URL in the main content, only in references/bibliography</li>
+                            <li><strong>Use data URL:</strong> Use the full data URL option which doesn't change based on content</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Is my data private?</h3>
+                        <p>Yes, attest.ink prioritizes privacy:</p>
+                        <ul>
+                            <li>All attestation creation happens in your browser</li>
+                            <li>No data is sent to servers during creation</li>
+                            <li>You can keep prompts private (only the hash is included)</li>
+                            <li>localStorage data stays on your device</li>
+                            <li>You control what data to share via badges/links</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>What's the difference between AI roles?</h3>
+                        <ul>
+                            <li><strong>AI Generated:</strong> Content created entirely by AI (100% AI)</li>
+                            <li><strong>AI Assisted:</strong> Human and AI collaboration</li>
+                            <li><strong>AI Edited:</strong> Human-created content refined by AI</li>
+                            <li><strong>Other:</strong> Custom role for specific use cases</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>A public-benefit, open-source AI integrity protocol | <a href="/protocol/">Learn about the protocol</a></p>
+        </footer>
+    </div>
+    <script src="/static/script.js?v=2"></script>
+    <script src="/static/global-footer.js"></script>
+</body>
+</html>

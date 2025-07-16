@@ -50,6 +50,7 @@
                             <a href="/showcase/">Badges</a>
                             <a href="/examples/">Examples</a>
                             <a href="/developers/">Developer Docs</a>
+                            <a href="/faq.html">FAQ</a>
                             <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
                         </div>
                     </li>
@@ -172,23 +173,46 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Digital Signature</label>
+                    <label>Digital Signature (Optional)</label>
                     <div class="section" style="padding: 1rem; margin-bottom: 1rem;">
                         <label style="font-weight: normal; display: block; margin-bottom: 0.5rem;">
-                            <input type="radio" name="sign-method" value="wallet" checked> 
+                            <input type="radio" name="sign-method" value="local" checked> 
+                            Local Signature (No wallet needed) - Recommended
+                        </label>
+                        <label style="font-weight: normal; display: block; margin-bottom: 0.5rem;">
+                            <input type="radio" name="sign-method" value="wallet"> 
                             Ethereum Wallet (MetaMask, etc.)
                         </label>
+                        <label style="font-weight: normal; display: block; margin-bottom: 0.5rem;">
+                            <input type="radio" name="sign-method" value="hmac"> 
+                            HMAC-SHA256 Signature (Server-side key)
+                        </label>
                         <label style="font-weight: normal; display: block;">
-                            <input type="radio" name="sign-method" value="local"> 
-                            Local Signature (No wallet needed)
+                            <input type="radio" name="sign-method" value="none"> 
+                            No Signature
                         </label>
                     </div>
+                    <div id="hmac-section" style="display: none;">
+                        <div style="padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px; margin-top: 10px;">
+                            <p style="margin-bottom: 10px;">HMAC-SHA256 signatures require a signing key. This is typically used for server-side attestations.</p>
+                            <label for="signer-name" style="display: block; margin-bottom: 5px;">Signer Name:</label>
+                            <input type="text" id="signer-name" placeholder="e.g., Austin Harshberger" style="width: 100%; margin-bottom: 10px;">
+                            <label for="signer-id" style="display: block; margin-bottom: 5px;">Signer ID (optional):</label>
+                            <input type="text" id="signer-id" placeholder="e.g., 97115104" style="width: 100%; margin-bottom: 10px;">
+                            <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 0;">Note: The actual signing will need to be done server-side with your private key.</p>
+                        </div>
+                    </div>
                     <div id="wallet-section">
-                        <button type="button" id="connect-wallet" class="btn btn-secondary">Connect Ethereum Wallet</button>
-                        <div id="wallet-status" style="margin-top: 10px; color: var(--text-secondary);"></div>
-                        <p style="font-size: 0.9em; color: var(--text-secondary); margin: 10px 0;">
-                            <strong>No fees required!</strong> This only creates a digital signature - no blockchain transaction or gas fees involved.
-                        </p>
+                        <div style="padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;">
+                            <button type="button" id="connect-wallet" class="btn btn-secondary" style="width: 100%;">
+                                <span id="wallet-button-text">Connect Ethereum Wallet</span>
+                                <span id="wallet-spinner" style="display: none; margin-left: 10px;">⏳</span>
+                            </button>
+                            <div id="wallet-status" style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border-radius: 4px; text-align: center; color: var(--text-secondary); display: none;"></div>
+                            <div style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85em; color: var(--text-secondary);">
+                                <strong>Note:</strong> MetaMask will open in a new window/tab when signing. This is a security feature and cannot be changed. Consider using "Local Signature" for a smoother experience.
+                            </div>
+                        </div>
                     </div>
                     <div id="local-section" style="display: none;">
                         <input type="password" id="signing-password" placeholder="Enter a password for signing" style="margin-bottom: 10px;">
@@ -196,74 +220,16 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 30px; display: flex; gap: 10px;">
                     <button type="submit" class="btn">Generate Attestation</button>
+                    <button type="button" class="btn btn-secondary" id="reset-form">Reset Form</button>
                 </div>
             </form>
 
-            <div id="result-section" style="display: none; margin-top: 40px;">
-                <h2>Attestation Created</h2>
-                
-                <pre id="attestation-json"></pre>
-
-                <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button id="download-json" class="btn">Download JSON</button>
-                    <button id="copy-json" class="btn btn-secondary">Copy to Clipboard</button>
-                    <button id="create-another" class="btn btn-secondary">Create Another</button>
-                </div>
-
-                <div class="section">
-                    <h3>Verification Badge</h3>
-                    <p>Add this badge to your content to show AI was used:</p>
-                    
-                    <div id="badge-preview" style="margin: 20px 0;"></div>
-                    
-                    <div id="latex-section" style="display: none; margin-bottom: 20px;">
-                        <h4>LaTeX Code</h4>
-                        <pre id="latex-code" style="background: var(--bg-panel); padding: 15px; border-radius: 4px; overflow-x: auto;"></pre>
-                        <button id="copy-latex-code" class="btn btn-secondary" style="margin-top: 10px;">Copy LaTeX Code</button>
-                        
-                        <h4 style="margin-top: 20px;">Extended LaTeX with Footnote</h4>
-                        <pre id="latex-extended" style="background: var(--bg-panel); padding: 15px; border-radius: 4px; overflow-x: auto;"></pre>
-                        <button id="copy-latex-extended" class="btn btn-secondary" style="margin-top: 10px;">Copy Extended LaTeX</button>
-                    </div>
-                    
-                    <div id="embed-section">
-                        <h4>Option 1: Embed Badge (Self-Contained)</h4>
-                        <pre id="badge-embed-code"></pre>
-                        <button id="copy-embed-code" class="btn btn-secondary">Copy Embed Code</button>
-                    </div>
-                    
-                    <div id="link-section" style="margin-top: 20px;">
-                        <h4>Option 2: Direct Link</h4>
-                        <pre id="badge-link-code"></pre>
-                        <button id="copy-link-code" class="btn btn-secondary">Copy Link Code</button>
-                    </div>
-                    
-                    <div id="api-section" style="margin-top: 20px;">
-                        <h4>Option 3: API / Automation</h4>
-                        <p style="margin-bottom: 10px;">Create attestations programmatically using curl:</p>
-                        <pre id="api-curl-command" style="font-size: 0.9em;"></pre>
-                        <button id="copy-api-command" class="btn btn-secondary">Copy curl Command</button>
-                    </div>
-                </div>
-
-                <div class="message message-info" style="margin-top: 30px;">
-                    <strong>How it works:</strong>
-                    <ul style="margin: 10px 0 0 20px;">
-                        <li><strong>Embed Badge:</strong> Self-contained HTML with full attestation data (works offline)</li>
-                        <li><strong>Direct Link:</strong> Short URL for easy sharing (e.g., attest.ink/verify/?id=2025-01-15-abc123)</li>
-                        <li>No hosting required - the embed includes all data</li>
-                        <li>Anyone can click to verify the attestation on attest.ink</li>
-                    </ul>
-                    <p style="margin-top: 10px;"><strong>Note:</strong> Short URLs require the attestation to be stored on the server. For now, use the Embed Badge option for guaranteed portability, or save the attestation JSON file.</p>
-                </div>
-            </div>
         </main>
 
     </div>
 
-    <script src="/static/attestation-tool.js"></script>
     <script src="/static/badge-renderer.js"></script>
     <script>
         // Populate AI models dropdown
@@ -321,6 +287,9 @@
             });
         });
         
+        // Track if form has unsaved changes
+        let formHasChanges = false;
+        
         // Save form data to localStorage
         function saveFormData() {
             const formData = {
@@ -337,6 +306,9 @@
                 badgeStyle: document.getElementById('badge-style').value
             };
             localStorage.setItem('attestFormData', JSON.stringify(formData));
+            
+            // Mark form as having changes if any field has content
+            formHasChanges = formData.contentName || formData.content || formData.author || formData.prompt;
         }
         
         // Restore form data from localStorage
@@ -372,6 +344,17 @@
                 }
             }
         }
+        
+        // Add beforeunload warning to prevent accidental data loss
+        window.addEventListener('beforeunload', function(e) {
+            // Only show warning if form has changes and we're not on the result section
+            if (formHasChanges && document.getElementById('attestation-form').style.display !== 'none') {
+                const message = 'You have unsaved changes in your attestation form. Are you sure you want to leave?';
+                e.preventDefault();
+                e.returnValue = message; // Chrome requires returnValue to be set
+                return message; // Some browsers need the return value
+            }
+        });
     </script>
     <script>
         // Import handling
@@ -381,6 +364,7 @@
         const importUrlBtn = document.getElementById('import-url-btn');
         const contentTextarea = document.getElementById('content');
         const contentNameInput = document.getElementById('content-name');
+        const documentTypeSelect = document.getElementById('document-type');
         
         // Function to populate form fields from attestation JSON
         function populateFromAttestation(attestation) {
@@ -434,6 +418,9 @@
             
             // Update badge preview
             updateBadgePreview();
+            
+            // Mark form as having changes after import
+            formHasChanges = true;
             
             alert('Attestation data imported successfully! Review and modify as needed.');
         }
@@ -530,10 +517,12 @@
                             } else {
                                 // Just regular JSON content
                                 contentTextarea.value = e.target.result;
+                                formHasChanges = true;
                             }
                         } catch (err) {
                             // Not valid JSON, treat as text
                             contentTextarea.value = e.target.result;
+                            formHasChanges = true;
                         }
                     };
                     reader.readAsText(file);
@@ -547,6 +536,7 @@
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         contentTextarea.value = e.target.result;
+                        formHasChanges = true;
                     };
                     reader.readAsText(file);
                 }
@@ -614,6 +604,7 @@
                 
                 // Use as content
                 contentTextarea.value = text;
+                formHasChanges = true;
                 
                 // Try to extract filename from URL
                 const urlPath = new URL(url).pathname;
@@ -656,6 +647,19 @@
             } finally {
                 importUrlBtn.textContent = 'Import URL';
                 importUrlBtn.disabled = false;
+            }
+        });
+        
+        // Auto-detect content type when URL is entered in content field
+        contentTextarea.addEventListener('input', function() {
+            const content = contentTextarea.value.trim();
+            // Check if the content is a URL
+            const urlPattern = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+            
+            if (urlPattern.test(content) && documentTypeSelect.value === '') {
+                // Auto-select "website" as content type
+                documentTypeSelect.value = 'website';
+                documentTypeSelect.dispatchEvent(new Event('change'));
             }
         });
         
@@ -716,7 +720,8 @@
                 badgeHtml = `<span class="badge-legacy badge-holographic">AI ${displayRole.toUpperCase()}</span>`;
             } else if (style === 'latex') {
                 const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
-                badgeHtml = `<div style="font-family: monospace; background: var(--bg-panel); padding: 8px; border: 1px solid var(--border-color); font-size: 12px; color: var(--text-primary);">LaTeX: \\texttt{${displayRole.toUpperCase().replace('_', '-')}}</div>`;
+                const roleText = displayRole === 'edited' ? 'AI-ASSISTED' : displayRole.toUpperCase().replace('_', '-');
+                badgeHtml = `<div style="font-family: monospace; background: var(--bg-panel); padding: 8px; border: 1px solid var(--border-color); font-size: 12px; color: var(--text-primary);">LaTeX: \\texttt{${roleText}}</div>`;
             }
             
             badgePreview.innerHTML = badgeHtml;
@@ -737,12 +742,33 @@
 
         document.getElementById('model').addEventListener('change', function(e) {
             const otherInput = document.getElementById('model-other');
+            const roleSelect = document.getElementById('role');
+            
             otherInput.style.display = e.target.value === 'other' ? 'block' : 'none';
             if (e.target.value === 'other') {
                 otherInput.required = true;
             } else {
                 otherInput.required = false;
                 otherInput.value = '';
+            }
+            
+            // Handle Human model selection
+            if (e.target.value === 'human') {
+                // For human content, set role to "other" and specify "human"
+                roleSelect.value = 'other';
+                const roleOther = document.getElementById('role-other');
+                roleOther.style.display = 'block';
+                roleOther.value = 'human';
+                roleOther.required = true;
+                roleSelect.disabled = true;
+            } else {
+                // Re-enable role selection for AI models
+                roleSelect.disabled = false;
+                if (roleSelect.value === 'other' && document.getElementById('role-other').value === 'human') {
+                    roleSelect.value = 'generated';
+                    document.getElementById('role-other').style.display = 'none';
+                    document.getElementById('role-other').value = '';
+                }
             }
         });
         
@@ -764,26 +790,66 @@
             radio.addEventListener('change', function() {
                 const walletSection = document.getElementById('wallet-section');
                 const localSection = document.getElementById('local-section');
+                const hmacSection = document.getElementById('hmac-section');
                 
                 if (this.value === 'wallet') {
                     walletSection.style.display = 'block';
                     localSection.style.display = 'none';
-                } else {
+                    hmacSection.style.display = 'none';
+                } else if (this.value === 'local') {
                     walletSection.style.display = 'none';
                     localSection.style.display = 'block';
+                    hmacSection.style.display = 'none';
+                } else if (this.value === 'hmac') {
+                    walletSection.style.display = 'none';
+                    localSection.style.display = 'none';
+                    hmacSection.style.display = 'block';
+                } else {
+                    // 'none' option
+                    walletSection.style.display = 'none';
+                    localSection.style.display = 'none';
+                    hmacSection.style.display = 'none';
                 }
             });
         });
+        
+        // Set initial state (local is now default)
+        document.getElementById('wallet-section').style.display = 'none';
+        document.getElementById('local-section').style.display = 'block';
 
         // MetaMask integration
         let connectedAccount = null;
 
         async function connectWallet() {
-            // Check if any ethereum provider exists
-            if (typeof window.ethereum === 'undefined') {
-                alert('Please install MetaMask to sign attestations with your Ethereum wallet.');
+            const connectBtn = document.getElementById('connect-wallet');
+            const buttonText = document.getElementById('wallet-button-text');
+            const spinner = document.getElementById('wallet-spinner');
+            const statusDiv = document.getElementById('wallet-status');
+            
+            // Check if already connected and handle disconnect
+            if (connectedAccount) {
+                connectedAccount = null;
+                window.selectedProvider = null;
+                statusDiv.style.display = 'none';
+                buttonText.textContent = 'Connect Ethereum Wallet';
+                connectBtn.style.background = '';
+                connectBtn.style.borderColor = '';
                 return;
             }
+            
+            // Check if any ethereum provider exists
+            if (typeof window.ethereum === 'undefined') {
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = 'var(--color-danger)';
+                statusDiv.innerHTML = '❌ MetaMask not detected. Please install MetaMask extension.';
+                return;
+            }
+
+            // Show loading state
+            connectBtn.disabled = true;
+            buttonText.textContent = 'Connecting...';
+            spinner.style.display = 'inline';
+            statusDiv.style.display = 'none';
 
             let provider = window.ethereum;
             
@@ -795,14 +861,9 @@
                 if (!provider) {
                     // If MetaMask not found, use the first available provider
                     provider = window.ethereum.providers[0];
-                    if (!confirm('MetaMask not detected. Another wallet was found. Continue anyway?')) {
-                        return;
-                    }
-                }
-            } else if (!window.ethereum.isMetaMask) {
-                // Single provider that's not MetaMask
-                if (!confirm('MetaMask not detected. Another wallet was found. Continue anyway?')) {
-                    return;
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.color = 'var(--color-warning)';
+                    statusDiv.innerHTML = '⚠️ Using alternative wallet (MetaMask not found)';
                 }
             }
 
@@ -814,20 +875,40 @@
                     connectedAccount = accounts[0];
                     // Store the provider for later use
                     window.selectedProvider = provider;
-                    document.getElementById('wallet-status').textContent = `Connected: ${connectedAccount.slice(0, 6)}...${connectedAccount.slice(-4)}`;
-                    document.getElementById('connect-wallet').textContent = 'Wallet Connected';
-                    document.getElementById('connect-wallet').disabled = true;
+                    
+                    // Update UI for success
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.color = 'var(--color-success)';
+                    statusDiv.innerHTML = `✅ Connected: <strong>${connectedAccount.slice(0, 6)}...${connectedAccount.slice(-4)}</strong>`;
+                    buttonText.textContent = 'Disconnect Wallet';
+                    connectBtn.style.background = '#dc2626';
+                    connectBtn.style.borderColor = '#dc2626';
+                    connectBtn.disabled = false;
                 }
             } catch (error) {
                 console.log('Wallet connection error:', error);
+                
+                // Reset button state
+                connectBtn.disabled = false;
+                buttonText.textContent = 'Connect Ethereum Wallet';
+                spinner.style.display = 'none';
+                
+                // Show error in status div
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = 'var(--color-danger)';
+                
                 if (error.code === 4001) {
-                    alert('Connection rejected. Please accept the connection request in your wallet.');
+                    statusDiv.innerHTML = '❌ Connection rejected. Please try again and accept in MetaMask.';
                 } else if (error.code === -32002) {
-                    alert('Please unlock your wallet and try again.');
+                    statusDiv.innerHTML = '🔒 Please unlock MetaMask and try again.';
                 } else {
-                    alert('Failed to connect wallet. Please try again or use the local signature option.');
+                    statusDiv.innerHTML = '❌ Connection failed. Try again or use local signature.';
                 }
+                return;
             }
+            
+            // Hide spinner on success
+            spinner.style.display = 'none';
         }
 
         document.getElementById('connect-wallet').addEventListener('click', connectWallet);
@@ -880,7 +961,8 @@
                 model: model,
                 role: role,
                 timestamp: new Date().toISOString(),
-                platform: "attest.ink"
+                platform: "attest.ink",
+                badge_style: formData.get('badge_style') || 'default'
             };
             
             // Add content hash only if content was provided
@@ -949,6 +1031,51 @@
                     } else if (!confirm('Signing failed. Continue without signature?')) {
                         return;
                     }
+                }
+            } else if (signMethod === 'none') {
+                // No signature requested - skip signing
+            } else if (signMethod === 'hmac') {
+                // HMAC-SHA256 signature
+                const signerName = document.getElementById('signer-name').value;
+                const signerId = document.getElementById('signer-id').value;
+                
+                if (!signerName) {
+                    alert('Please enter the signer name for HMAC signature');
+                    return;
+                }
+                
+                // For HMAC, we prepare the attestation with signer info
+                // The actual signing needs to be done server-side
+                attestation.signer = {
+                    name: signerName
+                };
+                if (signerId) {
+                    attestation.signer.id = signerId;
+                }
+                
+                // Create the data structure that would be signed
+                const dataToSign = JSON.stringify({
+                    content_name: attestation.content_name,
+                    content_hash: attestation.content_hash,
+                    timestamp: attestation.timestamp,
+                    model: attestation.model
+                });
+                
+                // Since we can't sign client-side with HMAC (no private key),
+                // we'll create a placeholder signature structure
+                attestation.signature = {
+                    type: 'hmac-sha256',
+                    value: 'UNSIGNED_HMAC_PLACEHOLDER',
+                    algorithm: 'HMAC-SHA256',
+                    data_to_sign: dataToSign,
+                    note: 'This attestation requires server-side signing with your private key'
+                };
+                
+                // Add generation_type field based on model
+                if (attestation.model === 'human') {
+                    attestation.generation_type = 'human';
+                } else {
+                    attestation.generation_type = 'ai';
                 }
             } else if (signMethod === 'local') {
                 const password = document.getElementById('signing-password').value;
@@ -1021,265 +1148,64 @@
                 }
             }
 
-            // Show result
-            document.getElementById('attestation-json').textContent = JSON.stringify(attestation, null, 2);
-            document.getElementById('attestation-form').style.display = 'none';
-            document.getElementById('result-section').style.display = 'block';
-
-            // Store for download
-            window.currentAttestation = attestation;
-            
-            // Store in localStorage for demo purposes
+            // Store in localStorage before redirecting
             try {
-                localStorage.setItem(`attestation_${attestation.id}`, JSON.stringify(attestation));
+                localStorage.setItem(`attestation-${attestation.id}`, JSON.stringify(attestation));
+                
+                // Clear the form changes flag since attestation was successfully created
+                formHasChanges = false;
+                
+                // Redirect to result page
+                window.location.href = `/attestation-result.html?id=${attestation.id}`;
             } catch (e) {
-                console.log('Failed to store attestation in localStorage');
-            }
-
-            // Show badge preview and code
-            const badgePreview = document.getElementById('badge-preview');
-            const embedCodeEl = document.getElementById('badge-embed-code');
-            const linkCodeEl = document.getElementById('badge-link-code');
-            const latexSection = document.getElementById('latex-section');
-            const badgeStyle = formData.get('badge_style');
-            
-            // Create short URL using just the ID
-            const shortVerifyUrl = `https://attest.ink/verify/?id=${attestation.id}`;
-            
-            // Also create the full data URL for embedding (self-contained)
-            const attestationB64 = btoa(JSON.stringify(attestation));
-            const fullDataUrl = `https://attest.ink/verify/?data=${attestationB64}`;
-            
-            // Handle LaTeX style
-            if (badgeStyle === 'latex') {
-                latexSection.style.display = 'block';
-                badgePreview.innerHTML = '<div style="font-family: monospace; background: var(--bg-panel); padding: 10px; border: 1px solid var(--border-color); color: var(--text-primary);">LaTeX Badge (see code below)</div>';
-                
-                // Basic LaTeX code
-                const latexCode = `% AI Attestation
-\\section{AI Attestation}
-\\begin{center}
-\\fbox{\\small\\texttt{${attestation.role.toUpperCase().replace('_', '-')}}}
-\\end{center}
-
-\\noindent Verification URL: \\url{${shortVerifyUrl}}`;
-                
-                // Extended LaTeX with footnote
-                const latexExtended = `% AI Attestation
-\\section{AI Attestation}
-\\begin{center}
-\\fbox{\\small\\texttt{${attestation.role.toUpperCase().replace('_', '-')}}}
-\\end{center}
-
-\\noindent Verification URL: \\url{${shortVerifyUrl}}
-
-The ${attestation.role === 'generated' ? 'generation of content' : attestation.role === 'assisted' ? 'development and refinement' : 'editing'} in this work was ${attestation.role === 'generated' ? 'performed' : 'assisted'} using ${model === 'other' ? formData.get('model_other') : model}. What began as an experiment to explore the boundaries of AI-${attestation.role} research evolved into a fully-realized work. These tools served a role similar to LaTeX for typesetting or computational systems for verification, enabling more rigorous expression and validation of ideas. All core concepts, insights, and creative decisions are original human work.\\footnote{For detailed AI tool attribution and transparency, see \\url{${shortVerifyUrl}}.}`;
-                
-                document.getElementById('latex-code').textContent = latexCode;
-                document.getElementById('latex-extended').textContent = latexExtended;
-                
-                // Show link section for LaTeX too
-                document.getElementById('embed-section').style.display = 'none';
-                document.getElementById('link-section').style.display = 'block';
-            } else {
-                latexSection.style.display = 'none';
-                document.getElementById('embed-section').style.display = 'block';
-                document.getElementById('link-section').style.display = 'block';
-                
-                // Create badge preview based on style
-                let badgeHtml = '';
-                if (badgeStyle === 'glass') {
-                    badgeHtml = `<span class="badge-glass badge-glass-primary">AI ${attestation.role.toUpperCase()}</span>`;
-                } else if (badgeStyle === 'glass-minimal') {
-                    badgeHtml = `<span class="badge-glass-minimal">${attestation.role === 'generated' ? 'ai-generated' : 'ai-' + attestation.role}</span>`;
-                } else if (badgeStyle === 'terminal') {
-                    badgeHtml = `<span class="badge-legacy badge-terminal">AI_${attestation.role.toUpperCase()}</span>`;
-                } else if (badgeStyle === 'neon') {
-                    badgeHtml = `<span class="badge-legacy badge-neon">AI ${attestation.role.toUpperCase()}</span>`;
-                } else if (badgeStyle === 'rainbow') {
-                    badgeHtml = `<span class="badge-legacy badge-rainbow">AI ${attestation.role.toUpperCase()}</span>`;
-                } else if (badgeStyle === 'matrix') {
-                    badgeHtml = `<span class="badge-legacy badge-matrix">AI ${attestation.role.toUpperCase()}</span>`;
-                } else if (badgeStyle === 'holographic') {
-                    badgeHtml = `<span class="badge-legacy badge-holographic">AI ${attestation.role.toUpperCase()}</span>`;
-                } else {
-                    // Default badge
-                    const svg = window.AttestInk ? window.AttestInk.createBadgeSVG(attestation.model, attestation.role) : '';
-                    badgeHtml = svg || `<span style="display: inline-flex; align-items: center; padding: 4px 12px; background: #2563eb; color: white; font-family: VT323, monospace; font-size: 16px; text-transform: uppercase; border-radius: 4px;">AI ${attestation.role.toUpperCase()}</span>`;
-                }
-                
-                badgePreview.innerHTML = badgeHtml;
-                
-                // Generate self-contained embed code (uses full data URL for portability)
-                const embedCode = `<!-- attest.ink AI Badge -->
-<a href="${fullDataUrl}" target="_blank" style="text-decoration: none;">
-    ${badgeHtml}
-</a>`;
-                
-                embedCodeEl.textContent = embedCode;
-                
-                // Generate direct link code (uses short URL)
-                linkCodeEl.textContent = shortVerifyUrl;
-            }
-            
-            // Generate curl command for API
-            const curlCommand = `curl -s "https://attest.ink/api/create.html?content_name=${encodeURIComponent(attestation.content_name)}&model=${encodeURIComponent(attestation.model)}&role=${encodeURIComponent(attestation.role)}&document_type=${encodeURIComponent(attestation.document_type)}&author=${encodeURIComponent(attestation.author || 'Anonymous')}&output=curl"`;
-            document.getElementById('api-curl-command').textContent = curlCommand;
-        });
-
-        // Download JSON
-        document.getElementById('download-json').addEventListener('click', function() {
-            const blob = new Blob([JSON.stringify(window.currentAttestation, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `attestation-${window.currentAttestation.id}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-        // Copy to clipboard
-        document.getElementById('copy-json').addEventListener('click', async function() {
-            try {
-                await navigator.clipboard.writeText(JSON.stringify(window.currentAttestation, null, 2));
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy to Clipboard';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy to clipboard');
+                console.error('Failed to store attestation in localStorage:', e);
+                alert('Failed to save attestation. Please try again.');
+                return;
             }
         });
 
-        // Create another
-        document.getElementById('create-another').addEventListener('click', function() {
-            const keepInfo = confirm('Would you like to keep your author information and settings from the previous attestation?');
-            
-            // Clear localStorage form data when creating another attestation
-            localStorage.removeItem('attestFormData');
-            
-            if (keepInfo) {
-                // Store current values
-                const author = document.getElementById('author').value;
-                const documentType = document.getElementById('document-type').value;
-                const model = document.getElementById('model').value;
-                const role = document.getElementById('role').value;
-                const badgeStyle = document.getElementById('badge-style').value;
-                const signMethod = document.querySelector('input[name="sign-method"]:checked').value;
-                
-                // Reset form
+        // Reset form button handler
+        document.getElementById('reset-form').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
+                // Reset the form
                 document.getElementById('attestation-form').reset();
                 
-                // Restore preserved values
-                document.getElementById('author').value = author;
-                document.getElementById('document-type').value = documentType;
-                document.getElementById('model').value = model;
-                document.getElementById('role').value = role;
-                document.getElementById('badge-style').value = badgeStyle;
-                document.querySelector(`input[name="sign-method"][value="${signMethod}"]`).checked = true;
+                // Reset custom inputs visibility
+                document.getElementById('model-other').style.display = 'none';
+                document.getElementById('model-other').required = false;
+                document.getElementById('role-other').style.display = 'none';
+                document.getElementById('role-other').required = false;
+                document.getElementById('document-type-other').style.display = 'none';
+                document.getElementById('document-type-other').required = false;
                 
-                // Handle custom model if "other" was selected
-                if (model === 'other') {
-                    const modelOther = document.getElementById('model-other');
-                    modelOther.style.display = 'block';
-                    modelOther.required = true;
-                    // Note: We can't restore the custom model text as it's not stored in the attestation
+                // Reset signature method sections
+                document.querySelectorAll('input[name="sign-method"]')[0].checked = true; // Set to "local"
+                document.getElementById('wallet-section').style.display = 'none';
+                document.getElementById('local-section').style.display = 'block';
+                document.getElementById('hmac-section').style.display = 'none';
+                
+                // Clear wallet connection if any
+                if (window.connectedAccount) {
+                    window.connectedAccount = null;
+                    document.getElementById('wallet-address').textContent = '';
+                    document.getElementById('wallet-info').style.display = 'none';
+                    document.getElementById('wallet-button-text').textContent = 'Connect Ethereum Wallet';
+                    document.getElementById('disconnect-wallet').style.display = 'none';
                 }
                 
-                // Update UI based on restored values
-                document.getElementById('document-type').dispatchEvent(new Event('change'));
-                document.getElementById('model').dispatchEvent(new Event('change'));
+                // Clear password fields
+                document.getElementById('signing-password').value = '';
+                document.getElementById('signer-name').value = '';
+                document.getElementById('signer-id').value = '';
+                
+                // Reset badge preview
                 updateBadgePreview();
                 
-                // Restore wallet connection status if wallet was selected
-                if (signMethod === 'wallet' && connectedAccount) {
-                    document.getElementById('wallet-status').textContent = `Connected: ${connectedAccount.slice(0, 6)}...${connectedAccount.slice(-4)}`;
-                    document.getElementById('connect-wallet').textContent = 'Wallet Connected';
-                    document.getElementById('connect-wallet').disabled = true;
-                }
-            } else {
-                // Full reset
-                document.getElementById('attestation-form').reset();
-                connectedAccount = null;
-                document.getElementById('wallet-status').textContent = '';
-                document.getElementById('connect-wallet').textContent = 'Connect Ethereum Wallet';
-                document.getElementById('connect-wallet').disabled = false;
-                updateBadgePreview();
-            }
-            
-            document.getElementById('attestation-form').style.display = 'block';
-            document.getElementById('result-section').style.display = 'none';
-        });
-
-        // Copy embed code
-        document.getElementById('copy-embed-code').addEventListener('click', async function() {
-            const code = document.getElementById('badge-embed-code').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy Embed Code';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy embed code');
-            }
-        });
-        
-        // Copy link code
-        document.getElementById('copy-link-code').addEventListener('click', async function() {
-            const code = document.getElementById('badge-link-code').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy Link Code';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy link');
-            }
-        });
-        
-        // Copy API command
-        document.getElementById('copy-api-command').addEventListener('click', async function() {
-            const code = document.getElementById('api-curl-command').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy curl Command';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy command');
-            }
-        });
-        
-        // Copy LaTeX code
-        document.getElementById('copy-latex-code').addEventListener('click', async function() {
-            const code = document.getElementById('latex-code').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy LaTeX Code';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy LaTeX code');
-            }
-        });
-        
-        // Copy extended LaTeX
-        document.getElementById('copy-latex-extended').addEventListener('click', async function() {
-            const code = document.getElementById('latex-extended').textContent;
-            try {
-                await navigator.clipboard.writeText(code);
-                this.textContent = 'Copied!';
-                setTimeout(() => {
-                    this.textContent = 'Copy Extended LaTeX';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy extended LaTeX');
+                // Reset form changes tracking
+                formHasChanges = false;
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
             }
         });
     </script>

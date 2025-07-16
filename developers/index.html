@@ -395,6 +395,7 @@
                             <a href="/showcase/">Badges</a>
                             <a href="/examples/">Examples</a>
                             <a href="/developers/" class="active">Developer Docs</a>
+                            <a href="/faq.html">FAQ</a>
                             <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
                         </div>
                     </li>
@@ -413,6 +414,7 @@
                 <h2>Table of Contents</h2>
                 <ul>
                     <li><a href="#quick-start">Quick Start</a></li>
+                    <li><a href="#offline-functionality">Offline Functionality</a></li>
                     <li><a href="#api-reference">API Reference</a>
                         <ul>
                             <li><a href="#create-attestation">Create Attestation</a></li>
@@ -465,6 +467,79 @@ if (attestation.version && attestation.id && attestation.content_name) {
 }</code></pre>
             </section>
 
+            <!-- Offline Functionality -->
+            <section id="offline-functionality" class="section">
+                <h2>Offline Functionality & Embed Badges</h2>
+                <p>attest.ink is designed to work both online and offline, providing flexibility for different use cases.</p>
+
+                <h3>How Embed Badges Work Offline</h3>
+                <p>Embed badges are self-contained HTML snippets that include the complete attestation data. This design enables:</p>
+                <ul>
+                    <li><strong>No External Dependencies:</strong> The badge contains all necessary data encoded in base64</li>
+                    <li><strong>Offline Verification:</strong> Anyone can verify the attestation without internet access</li>
+                    <li><strong>Permanent Availability:</strong> The attestation remains valid even if attest.ink is offline</li>
+                    <li><strong>Privacy:</strong> No external requests are made when displaying the badge</li>
+                </ul>
+
+                <h3>Embed Badge Structure</h3>
+                <pre class="code-example"><code>&lt;a href="https://attest.ink/verify/?data=eyJ2ZXJzaW9uIj..." 
+   target="_blank" 
+   style="text-decoration: none; display: inline-flex;"&gt;
+    &lt;img src="data:image/svg+xml;base64,..." 
+         alt="AI GENERATED" 
+         style="height: 32px;" /&gt;
+&lt;/a&gt;</code></pre>
+
+                <p>The embed badge consists of:</p>
+                <ul>
+                    <li><strong>Verification Link:</strong> Contains the full attestation data as a base64-encoded parameter</li>
+                    <li><strong>Badge Image:</strong> SVG image embedded as a data URL (no external image loading)</li>
+                    <li><strong>Styling:</strong> Inline styles ensure consistent appearance</li>
+                </ul>
+
+                <h3>Local Storage</h3>
+                <p>When creating attestations:</p>
+                <ul>
+                    <li>Attestations are saved to browser localStorage with key <code>attestation-{id}</code></li>
+                    <li>This enables verification of short URLs on the same device/browser</li>
+                    <li>localStorage is isolated per browser and domain</li>
+                </ul>
+
+                <h3>Sharing Attestations</h3>
+                <p>For cross-device sharing, use these methods:</p>
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Offline Support</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Embed Badge</td>
+                            <td>✅ Full</td>
+                            <td>Websites, documentation, permanent records</td>
+                        </tr>
+                        <tr>
+                            <td>Data URL</td>
+                            <td>✅ Full</td>
+                            <td>Direct sharing, email, messaging</td>
+                        </tr>
+                        <tr>
+                            <td>JSON Export</td>
+                            <td>✅ Full</td>
+                            <td>Archival, bulk processing, custom integrations</td>
+                        </tr>
+                        <tr>
+                            <td>Short URL</td>
+                            <td>⚠️ Limited</td>
+                            <td>Same-device verification (server storage coming soon)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
             <!-- API Reference -->
             <section id="api-reference" class="section">
                 <h2>API Reference</h2>
@@ -507,7 +582,7 @@ if (attestation.version && attestation.id && attestation.content_name) {
                                 <td data-label="Parameter"><code>role</code></td>
                                 <td data-label="Type">string</td>
                                 <td data-label="Required">No</td>
-                                <td data-label="Description">generated | assisted | edited (default: assisted)</td>
+                                <td data-label="Description">generated | assisted | edited | human (default: assisted)</td>
                             </tr>
                             <tr>
                                 <td data-label="Parameter"><code>document_type</code></td>
@@ -856,19 +931,26 @@ registerBlockType('attest-ink/badge', {
     "content_name": "Blog Post Title",   // Required: Human-readable name
     "content_hash": "sha256:...",        // Optional: SHA-256 hash of content
     "document_type": "markdown",         // Required: Type of document
-    "model": "gpt-4-turbo",             // Required: AI model identifier
-    "role": "assisted",                  // Required: generated|assisted|edited
+    "model": "gpt-4-turbo",             // Required: AI model identifier or "human"
+    "role": "assisted",                  // Required: generated|assisted|edited|human
     "author": "Jane Smith",              // Optional: Human author
     "timestamp": "2025-01-16T10:30:00Z", // Required: ISO 8601 timestamp
     "platform": "attest.ink",            // Required: Platform identifier
     "prompt": "Write about...",          // Optional: AI prompt used
     "prompt_hash": "sha256:...",         // Optional: Hashed prompt
     "signature": {                       // Optional: Digital signature
-        "type": "wallet",                // Signature type
+        "type": "ethereum|local|hmac-sha256", // Signature type
         "value": "0x...",                // Signature value
-        "signer": "0x...",               // Signer address
+        "signer": "0x...",               // Signer address (ethereum)
+        "algorithm": "HMAC-SHA256",      // Algorithm (hmac-sha256)
+        "data_to_sign": "{...}"          // Data structure signed (hmac-sha256)
         "message": "{...}"               // Signed message
-    }
+    },
+    "signer": {                          // Optional: Signer info (hmac-sha256)
+        "name": "Austin Harshberger",    // Signer name
+        "id": "97115104"                 // Optional: Signer ID
+    },
+    "generation_type": "human|ai"        // Optional: Generation type
 }</code></pre>
 
                 <h3>Document Types</h3>
@@ -928,6 +1010,55 @@ registerBlockType('attest-ink/badge', {
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>Signature Types</h3>
+                <p>Attestations can be signed using different methods:</p>
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Required Fields</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Type"><code>ethereum</code></td>
+                            <td data-label="Description">Ethereum wallet signature (MetaMask, etc.)</td>
+                            <td data-label="Required Fields">signature.value, signature.signer</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Type"><code>local</code></td>
+                            <td data-label="Description">Password-based signature (client-side)</td>
+                            <td data-label="Required Fields">signature.value, signature.salt</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Type"><code>hmac-sha256</code></td>
+                            <td data-label="Description">HMAC-SHA256 signature (server-side)</td>
+                            <td data-label="Required Fields">signature.value, signer.name</td>
+                        </tr>
+                        <tr>
+                            <td data-label="Type"><code>none</code></td>
+                            <td data-label="Description">No signature (unsigned attestation)</td>
+                            <td data-label="Required Fields">N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>HMAC-SHA256 Signature Details</h3>
+                <p>For server-side HMAC signing, the data structure to sign is:</p>
+                <pre class="code-example"><code>const dataToSign = JSON.stringify({
+    content_name: attestation.content_name,
+    content_hash: attestation.content_hash,
+    timestamp: attestation.timestamp,
+    model: attestation.model
+});
+
+// Server-side signing
+const signature = crypto
+    .createHmac('sha256', signingKey)
+    .update(dataToSign)
+    .digest('hex');</code></pre>
 
                 <h3>AI Model Registry</h3>
                 <p>Access the complete list of supported AI models:</p>

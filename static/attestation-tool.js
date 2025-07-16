@@ -141,7 +141,8 @@
                 role: formData.get('role'),
                 timestamp: utils.formatTimestamp(),
                 author: formData.get('author') || undefined,
-                platform: 'attest.ink'
+                platform: 'attest.ink',
+                badge_style: formData.get('badge-style') || 'default'
             };
 
             // Handle prompt
@@ -224,7 +225,7 @@
                     await utils.copyToClipboard(embedCode);
                     copyEmbedBtn.textContent = 'Copied!';
                     setTimeout(() => {
-                        copyEmbedBtn.textContent = '=Ë Copy Embed Code';
+                        copyEmbedBtn.textContent = '=ï¿½ Copy Embed Code';
                     }, 2000);
                 });
             }
@@ -394,7 +395,7 @@ gh pr create
             events.push({
                 time: attestation.timestamp || attestation.created_at,
                 event: 'Attestation created',
-                icon: '<¯'
+                icon: '<ï¿½'
             });
 
             // Model used
