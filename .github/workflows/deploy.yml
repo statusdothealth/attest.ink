@@ -45,9 +45,9 @@ jobs:
                   if (!attestation.version || !attestation.id || !attestation.content_hash) {
                     throw new Error('Missing required fields');
                   }
-                  console.log(' Valid attestation');
+                  console.log('[OK] Valid attestation');
                 } catch (e) {
-                  console.error(' Invalid attestation:', e.message);
+                  console.error('[ERROR] Invalid attestation:', e.message);
                   process.exit(1);
                 }
               "
@@ -175,9 +175,9 @@ jobs:
           for url in "${urls[@]}"; do
             echo "Testing $url..."
             if curl -f -s -o /dev/null "$url"; then
-              echo " $url is accessible"
+              echo "[OK] $url is accessible"
             else
-              echo " $url failed"
+              echo "[ERROR] $url failed"
               exit 1
             fi
           done

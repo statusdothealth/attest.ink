@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     backToTopButton.className = 'back-to-top';
     backToTopButton.href = '#';
     backToTopButton.setAttribute('aria-label', 'Back to top');
+    backToTopButton.innerHTML = '▲'; // Add arrow directly
     
     // Add to body
     document.body.appendChild(backToTopButton);

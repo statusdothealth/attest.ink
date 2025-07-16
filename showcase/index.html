@@ -437,6 +437,57 @@
                 grid-template-columns: 1fr !important;
             }
             
+            /* Fix README badge overflow on mobile */
+            .badge-collection-item {
+                overflow: hidden;
+            }
+            
+            .badge-preview {
+                overflow-x: auto;
+                padding: 0 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .badge-preview img {
+                max-width: none;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+            }
+            
+            .badge-code {
+                overflow-x: auto;
+                font-size: 11px;
+                padding: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .badge-code code {
+                display: block;
+                white-space: nowrap;
+                font-size: 11px;
+            }
+            
+            /* Ensure badges don't wrap on mobile */
+            .badge-link {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding: 5px 0;
+            }
+            
+            .badge-link img {
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0 2px;
+            }
+            
+            /* Adjust padding for panels on mobile */
+            .section > div[style*="padding: 24px"] {
+                padding: 16px !important;
+            }
+            
             .provider-name {
                 font-size: 24px;
             }
@@ -739,8 +790,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/AI-Assisted-blue" alt="AI Assisted">
                         </div>
-                        <div class="badge-code">
-                            <code>[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                     <div class="badge-collection-item">
@@ -748,8 +799,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/AI-Generated-green" alt="AI Generated">
                         </div>
-                        <div class="badge-code">
-                            <code>[![AI Generated](https://img.shields.io/badge/AI-Generated-green)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![AI Generated](https://img.shields.io/badge/AI-Generated-green)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                     <div class="badge-collection-item">
@@ -757,8 +808,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/AI-Edited-yellow" alt="AI Edited">
                         </div>
-                        <div class="badge-code">
-                            <code>[![AI Edited](https://img.shields.io/badge/AI-Edited-yellow)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![AI Edited](https://img.shields.io/badge/AI-Edited-yellow)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                     <div class="badge-collection-item">
@@ -766,8 +817,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/AI-GPT--4_Assisted-blue" alt="GPT-4 Assisted">
                         </div>
-                        <div class="badge-code">
-                            <code>[![GPT-4 Assisted](https://img.shields.io/badge/AI-GPT--4_Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![GPT-4 Assisted](https://img.shields.io/badge/AI-GPT--4_Assisted-blue)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                     <div class="badge-collection-item">
@@ -775,8 +826,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/AI-Claude_3-purple" alt="Claude 3">
                         </div>
-                        <div class="badge-code">
-                            <code>[![Claude 3](https://img.shields.io/badge/AI-Claude_3-purple)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![Claude 3](https://img.shields.io/badge/AI-Claude_3-purple)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                     <div class="badge-collection-item">
@@ -784,8 +835,8 @@
                         <div class="badge-preview">
                             <img src="https://img.shields.io/badge/🤖_AI-Assisted-blue" alt="🤖 AI Assisted">
                         </div>
-                        <div class="badge-code">
-                            <code>[![🤖 AI Assisted](https://img.shields.io/badge/🤖_AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        <div class="badge-code" style="overflow-x: auto;">
+                            <code style="display: block; white-space: nowrap;">[![🤖 AI Assisted](https://img.shields.io/badge/🤖_AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
                         </div>
                     </div>
                 </div>

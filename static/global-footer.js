@@ -74,8 +74,39 @@
     
     // Function to load back-to-top script
     function loadBackToTop() {
-        const script = document.createElement('script');
-        script.src = '/static/back-to-top.js';
-        document.body.appendChild(script);
+        // Instead of loading external script, inline the functionality
+        // Back to top button functionality
+        const backToTopButton = document.createElement('a');
+        backToTopButton.className = 'back-to-top';
+        backToTopButton.href = '#';
+        backToTopButton.setAttribute('aria-label', 'Back to top');
+        backToTopButton.innerHTML = '▲'; // Add arrow directly
+        
+        // Add to body
+        document.body.appendChild(backToTopButton);
+        
+        // Show/hide button based on scroll position
+        function toggleBackToTop() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        }
+        
+        // Check on scroll
+        window.addEventListener('scroll', toggleBackToTop);
+        
+        // Initial check
+        toggleBackToTop();
+        
+        // Smooth scroll to top when clicked
+        backToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     }
 })();

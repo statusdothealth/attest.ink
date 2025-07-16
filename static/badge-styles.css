@@ -110,7 +110,7 @@
 /* Legacy Badge Styles */
 .badge-legacy {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 9px 9px;
     margin: 4px;
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
