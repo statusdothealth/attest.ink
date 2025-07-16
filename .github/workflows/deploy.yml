@@ -133,40 +133,6 @@ jobs:
           name: stats
           path: static/
           
-      - name: Create 404 page
-        run: |
-          cat > 404.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>404 - Page Not Found | attest.ink</title>
-              <link rel="stylesheet" href="/static/style.css">
-          </head>
-          <body>
-              <header>
-                  <nav>
-                      <div class="container">
-                          <a href="/" class="logo">attest.ink</a>
-                          <ul>
-                              <li><a href="/create/">Create</a></li>
-                              <li><a href="/view/">Verify</a></li>
-                              <li><a href="/developers/">Developers</a></li>
-                              <li><a href="/protocol/">Protocol</a></li>
-                          </ul>
-                      </div>
-                  </nav>
-              </header>
-              <main style="text-align: center; padding: 4rem 0;">
-                  <h1>404 - Page Not Found</h1>
-                  <p>The attestation or page you're looking for doesn't exist.</p>
-                  <a href="/" class="btn btn-primary">Go Home</a>
-              </main>
-          </body>
-          </html>
-          EOF
-          
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
