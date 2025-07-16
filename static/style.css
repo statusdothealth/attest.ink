@@ -180,6 +180,7 @@ nav {
     position: relative;
 }
 
+
 nav::before,
 nav::after {
     content: '';
@@ -240,6 +241,16 @@ nav li:first-child a {
     border-left: none;
 }
 
+/* Logo should never have border */
+.logo {
+    border: none !important;
+}
+
+/* Dropdown toggle should also have border on desktop */
+.dropdown-toggle {
+    border-left: 2px solid var(--border-color);
+}
+
 nav a:hover,
 nav a.active {
     background: var(--pixel-primary);
@@ -264,6 +275,9 @@ nav a::after {
     color: var(--text-primary);
     text-decoration: none;
     transition: background 0.2s, color 0.2s;
+    /* Better touch interaction */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .dropdown-toggle:hover {
@@ -289,9 +303,32 @@ nav a::after {
     margin-top: -2px;
 }
 
+/* Touch-friendly dropdown activation */
+@media (hover: none) and (pointer: coarse) {
+    .dropdown-toggle {
+        position: relative;
+    }
+    
+    .dropdown-toggle::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+    }
+}
+
 .dropdown:hover .dropdown-menu,
 .dropdown-menu:hover {
     display: block;
+}
+
+/* Mobile dropdown toggle */
+@media (max-width: 768px) {
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
 }
 
 .dropdown-menu a {
@@ -747,7 +784,54 @@ summary {
 .mb-20 { margin-bottom: 20px; }
 .hidden { display: none; }
 
-/* Back to Top Button - Removed */
+/* Mobile/Desktop specific content */
+.mobile-only { display: none; }
+.desktop-only { display: inline; }
+
+@media (max-width: 768px) {
+    .mobile-only { display: inline; }
+    .desktop-only { display: none; }
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--pixel-primary);
+    color: #fff;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 999;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.back-to-top:hover {
+    background: var(--pixel-secondary);
+    transform: translateY(-2px);
+}
+
+.back-to-top:active {
+    transform: translateY(0);
+}
+
+.back-to-top.show {
+    display: flex;
+}
+
+/* Simple arrow using text */
+.back-to-top::before {
+    content: '▲';
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+}
 
 /* Mobile Responsive - Much improved */
 @media (max-width: 768px) {
@@ -755,17 +839,33 @@ summary {
         font-size: 18px;
     }
     
+    /* Back to top button mobile adjustments */
+    .back-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    /* Move hero buttons up on mobile */
+    .hero + .text-center {
+        margin-top: -10px;
+    }
+    
     .theme-toggle {
         top: 10px;
         right: 10px;
         padding: 4px;
         font-size: 16px;
-        width: 30px;
-        height: 30px;
+        width: 40px; /* Larger touch target */
+        height: 40px; /* Larger touch target */
         min-width: unset;
         display: flex;
         align-items: center;
         justify-content: center;
+        /* Ensure it doesn't overlap navigation */
+        z-index: 1002;
     }
     
     h1 {
@@ -791,37 +891,44 @@ summary {
     .nav-inner {
         flex-direction: column;
         gap: 12px;
-        padding: 16px 8px;
+        padding: 12px 8px;
+        justify-content: center;
+        align-items: center;
     }
     
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
         width: 100%;
+        gap: 0;
+        margin: 0;
     }
     
     nav li {
-        flex: 1 1 auto;
-        min-width: 70px;
-        text-align: center;
+        flex: 0 0 auto;
+        margin: 0;
     }
     
     nav a,
     .dropdown-toggle {
         padding: 8px 12px;
-        font-size: 16px;
-        border: none;
-        border-bottom: 2px solid var(--border-color);
+        font-size: 14px;
+        border: none !important; /* Remove all borders on mobile */
         display: block;
+        /* Better touch interaction */
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
     
-    .dropdown {
-        width: 100%;
+    /* Remove all borders from logo */
+    .logo,
+    .logo:hover {
+        border: none !important;
+        background: none !important;
     }
     
     .dropdown-toggle {
-        width: 100%;
-        justify-content: center;
+        justify-content: space-between;
     }
     
     .dropdown-toggle::after {
@@ -831,30 +938,44 @@ summary {
     /* Dropdown menu mobile fixes */
     .dropdown {
         position: relative;
-        flex: 1 1 auto;
-        min-width: 70px;
-        text-align: center;
+        flex: 0 0 auto;
     }
     
     .dropdown-menu {
         position: absolute;
         top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
+        right: 0;
+        left: auto;
         min-width: 150px;
         margin-top: 2px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background: var(--bg-panel);
+        border: 2px solid var(--border-color);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         z-index: 1000;
     }
     
+    .dropdown-menu a {
+        padding: 8px 12px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .dropdown-menu a:last-child {
+        border-bottom: none;
+    }
+    
     .dropdown-toggle {
-        display: block;
+        display: flex;
+        align-items: center;
         padding: 8px 12px;
         font-size: 16px;
-        border-bottom: 2px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
         text-decoration: none;
         color: var(--text-primary);
         cursor: pointer;
+        /* Better touch interaction */
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
     
     .dropdown-toggle:hover {
@@ -870,12 +991,13 @@ summary {
     }
     
     .logo {
-        font-size: 24px;
+        font-size: 22px;
+        margin-bottom: 8px;
     }
     
     .logo img {
-        width: 35px;
-        height: 35px;
+        width: 32px;
+        height: 32px;
     }
     
     button:not(.theme-toggle),
@@ -888,11 +1010,24 @@ summary {
         display: block;
     }
     
+    .container {
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+    }
+    
+    main {
+        padding: 16px 8px;
+    }
+    
     .section,
     .terminal,
     .game-card {
         padding: 16px;
-        margin: 16px 0;
+        margin: 16px 8px;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
     }
     
     .badge-grid {
@@ -1021,12 +1156,13 @@ summary {
     }
     
     nav ul {
-        gap: 4px;
+        gap: 0;
     }
     
-    nav a {
+    nav a,
+    .dropdown-toggle {
         padding: 6px 8px;
-        font-size: 14px;
+        font-size: 13px;
     }
     
     .logo {

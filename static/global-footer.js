@@ -63,8 +63,19 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(replaceFooter, 100);
+            // Load back-to-top functionality
+            loadBackToTop();
         });
     } else {
         setTimeout(replaceFooter, 100);
+        // Load back-to-top functionality
+        loadBackToTop();
+    }
+    
+    // Function to load back-to-top script
+    function loadBackToTop() {
+        const script = document.createElement('script');
+        script.src = '/static/back-to-top.js';
+        document.body.appendChild(script);
     }
 })();

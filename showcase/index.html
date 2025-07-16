@@ -728,6 +728,94 @@
                 </div>
             </div>
 
+            <!-- README Badges -->
+            <div class="showcase-section">
+                <h2>README Badge Styles</h2>
+                <p>Perfect for open source projects. These badges follow the shields.io style and integrate seamlessly with other project badges.</p>
+                
+                <div class="badge-collection">
+                    <div class="badge-collection-item">
+                        <h4>Standard Blue</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/AI-Assisted-blue" alt="AI Assisted">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                    <div class="badge-collection-item">
+                        <h4>Generated Green</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/AI-Generated-green" alt="AI Generated">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![AI Generated](https://img.shields.io/badge/AI-Generated-green)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                    <div class="badge-collection-item">
+                        <h4>Edited Yellow</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/AI-Edited-yellow" alt="AI Edited">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![AI Edited](https://img.shields.io/badge/AI-Edited-yellow)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                    <div class="badge-collection-item">
+                        <h4>With Model Name</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/AI-GPT--4_Assisted-blue" alt="GPT-4 Assisted">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![GPT-4 Assisted](https://img.shields.io/badge/AI-GPT--4_Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                    <div class="badge-collection-item">
+                        <h4>Custom Color</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/AI-Claude_3-purple" alt="Claude 3">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![Claude 3](https://img.shields.io/badge/AI-Claude_3-purple)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                    <div class="badge-collection-item">
+                        <h4>With Icon</h4>
+                        <div class="badge-preview">
+                            <img src="https://img.shields.io/badge/🤖_AI-Assisted-blue" alt="🤖 AI Assisted">
+                        </div>
+                        <div class="badge-code">
+                            <code>[![🤖 AI Assisted](https://img.shields.io/badge/🤖_AI-Assisted-blue)](YOUR_VERIFY_URL)</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px; padding: 16px; background: var(--bg-panel); border: 2px solid var(--border-color);">
+                    <h4>How to Create Your README Badge</h4>
+                    <ol>
+                        <li><strong>Create your attestation</strong> at <a href="/create/">attest.ink/create</a></li>
+                        <li><strong>Copy the verification URL</strong> from the result page</li>
+                        <li><strong>Choose a badge style</strong> from above</li>
+                        <li><strong>Replace YOUR_VERIFY_URL</strong> with your actual verification URL</li>
+                        <li><strong>Add to your README.md</strong> alongside other project badges</li>
+                    </ol>
+                    
+                    <p style="margin-top: 16px;"><strong>Pro tip:</strong> Use shields.io parameters to customize further:</p>
+                    <ul>
+                        <li><code>?style=flat-square</code> - Square style</li>
+                        <li><code>?style=for-the-badge</code> - Large style</li>
+                        <li><code>?logo=openai</code> - Add provider logo</li>
+                        <li><code>?logoColor=white</code> - Change logo color</li>
+                    </ul>
+                    
+                    <p style="margin-top: 16px;">Example with all options:</p>
+                    <pre class="code-example"><code>[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=for-the-badge&logo=openai&logoColor=white)](YOUR_VERIFY_URL)</code></pre>
+                    <div class="badge-preview" style="margin-top: 8px;">
+                        <img src="https://img.shields.io/badge/AI-Assisted-blue?style=for-the-badge&logo=openai&logoColor=white" alt="AI Assisted">
+                    </div>
+                </div>
+            </div>
+
             <!-- AI Models by Provider -->
             <div class="showcase-section">
                 <h2>Complete Model Gallery</h2>
@@ -932,6 +1020,7 @@ https://attest.ink/badge/custom.svg?text=Your+Model</code></pre>
 
     <script src="/static/badge-renderer.js"></script>
     <script src="/static/theme.js"></script>
+    <script src="/static/mobile-nav.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Calculate statistics

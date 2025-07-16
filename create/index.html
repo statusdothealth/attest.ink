@@ -213,7 +213,9 @@
                             </button>
                             <div id="wallet-status" style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border-radius: 4px; text-align: center; color: var(--text-secondary); display: none;"></div>
                             <div style="margin-top: 10px; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85em; color: var(--text-secondary);">
-                                <strong>Note:</strong> MetaMask will open in a new window/tab when signing. This is a security feature and cannot be changed. Consider using "Local Signature" for a smoother experience.
+                                <strong>Note:</strong> <span class="desktop-only">MetaMask will open in a new window/tab when signing. This is a security feature and cannot be changed.</span>
+                            <span class="mobile-only">On mobile, use MetaMask's built-in browser for the best experience.</span>
+                            Consider using "Local Signature" for a smoother experience.
                             </div>
                         </div>
                     </div>
@@ -839,11 +841,44 @@
                 return;
             }
             
+            // Mobile detection
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             // Check if any ethereum provider exists
             if (typeof window.ethereum === 'undefined') {
                 statusDiv.style.display = 'block';
                 statusDiv.style.color = 'var(--color-danger)';
-                statusDiv.innerHTML = '❌ MetaMask not detected. Please install MetaMask extension.';
+                
+                if (isMobile) {
+                    // Mobile-specific message
+                    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+                    const isAndroid = /Android/.test(navigator.userAgent);
+                    
+                    let mobileMessage = '📱 MetaMask Mobile Required<br><br>';
+                    
+                    if (isIOS || isAndroid) {
+                        mobileMessage += 'To use wallet signatures on mobile:<br>';
+                        mobileMessage += '1. Install MetaMask Mobile app<br>';
+                        mobileMessage += '2. Open this page in MetaMask\'s browser<br>';
+                        mobileMessage += '3. Try connecting again<br><br>';
+                        
+                        if (isIOS) {
+                            mobileMessage += '<a href="https://apps.apple.com/app/metamask/id1438144202" target="_blank" class="btn btn-secondary">Get MetaMask for iOS</a>';
+                        } else {
+                            mobileMessage += '<a href="https://play.google.com/store/apps/details?id=io.metamask" target="_blank" class="btn btn-secondary">Get MetaMask for Android</a>';
+                        }
+                        
+                        mobileMessage += '<br><br>Or use <strong>"Local Signature"</strong> below for a simpler option.';
+                    } else {
+                        mobileMessage += 'MetaMask is not available in this mobile browser.<br>';
+                        mobileMessage += 'Please use <strong>"Local Signature"</strong> below instead.';
+                    }
+                    
+                    statusDiv.innerHTML = mobileMessage;
+                } else {
+                    // Desktop message
+                    statusDiv.innerHTML = '❌ MetaMask not detected. Please install the <a href="https://metamask.io/download/" target="_blank">MetaMask extension</a>.';
+                }
                 return;
             }
 
@@ -903,6 +938,8 @@
                     statusDiv.innerHTML = '❌ Connection rejected. Please try again and accept in MetaMask.';
                 } else if (error.code === -32002) {
                     statusDiv.innerHTML = '🔒 Please unlock MetaMask and try again.';
+                } else if (isMobile && error.message && error.message.includes('ethereum')) {
+                    statusDiv.innerHTML = '📱 Mobile wallet connection failed.<br>Make sure you\'re using MetaMask\'s built-in browser.<br><br>Or try <strong>"Local Signature"</strong> below.';
                 } else {
                     statusDiv.innerHTML = '❌ Connection failed. Try again or use local signature.';
                 }
@@ -1027,9 +1064,28 @@
                     };
                 } catch (error) {
                     console.error('Signing failed:', error);
+                    
+                    // Better error messages for mobile
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    
                     if (error.code === 4001) {
                         alert('Signing rejected. Please approve the signature request in your wallet.');
                         return;
+                    } else if (error.code === -32603 || (error.message && error.message.includes('User rejected'))) {
+                        alert('Signature request was cancelled. Please try again.');
+                        return;
+                    } else if (isMobile && error.message) {
+                        // Mobile-specific error handling
+                        let errorMsg = 'Mobile signing failed.\n\n';
+                        errorMsg += 'Common issues:\n';
+                        errorMsg += '• Not using MetaMask\'s built-in browser\n';
+                        errorMsg += '• Wallet app needs to be updated\n';
+                        errorMsg += '• Network connectivity issues\n\n';
+                        errorMsg += 'Try using "Local Signature" instead for a smoother experience.';
+                        
+                        if (!confirm(errorMsg + '\n\nContinue without signature?')) {
+                            return;
+                        }
                     } else if (!confirm('Signing failed. Continue without signature?')) {
                         return;
                     }
@@ -1212,6 +1268,7 @@
         });
     </script>
     <script src="/static/theme.js"></script>
+    <script src="/static/mobile-nav.js"></script>
     <script src="/static/global-footer.js"></script>
 </body>
 </html>

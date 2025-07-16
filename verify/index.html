@@ -174,8 +174,24 @@
                         }
                     } else if (urlInput.startsWith('data:')) {
                         // Check if it's a base64 data URL
-                        const base64 = urlInput.split(',')[1];
-                        attestation = JSON.parse(atob(base64));
+                        const parts = urlInput.split(',');
+                        if (parts.length !== 2) {
+                            throw new Error('Invalid data URL format');
+                        }
+                        const base64 = parts[1];
+                        
+                        // Validate base64
+                        if (!/^[A-Za-z0-9+/=]+$/.test(base64)) {
+                            throw new Error('Invalid base64 in data URL');
+                        }
+                        
+                        const decoded = atob(base64);
+                        attestation = JSON.parse(decoded);
+                        
+                        // Validate attestation structure
+                        if (!attestation.version || !attestation.model) {
+                            throw new Error('Invalid attestation structure in data URL');
+                        }
                     } else {
                         const response = await fetch(urlInput);
                         if (!response.ok) throw new Error('Failed to fetch attestation');
@@ -183,7 +199,47 @@
                     }
                 }
             } catch (error) {
-                alert('Invalid attestation format or failed to fetch: ' + error.message);
+                console.error('Attestation loading error:', error);
+                
+                let errorMessage = 'Failed to load attestation.\n\n';
+                
+                if (error.message === 'Attestation not found') {
+                    errorMessage += 'The attestation ID was not found.\n\n';
+                    errorMessage += 'Possible reasons:\n';
+                    errorMessage += '• The attestation was created in a different browser\n';
+                    errorMessage += '• Browser storage was cleared\n';
+                    errorMessage += '• The ID is incorrect\n\n';
+                    errorMessage += 'Try using the full data URL instead.';
+                } else if (error.message.includes('JSON')) {
+                    errorMessage += 'The attestation data is not valid JSON.\n\n';
+                    
+                    if (jsonInput) {
+                        errorMessage += 'Please check that the JSON is properly formatted.\n';
+                        errorMessage += 'Common issues:\n';
+                        errorMessage += '• Missing quotes around property names\n';
+                        errorMessage += '• Trailing commas\n';
+                        errorMessage += '• Unescaped special characters';
+                    } else if (urlInput && urlInput.startsWith('data:')) {
+                        errorMessage += 'The data URL appears to be corrupted.\n';
+                        errorMessage += 'Please ask the sender to share it again.';
+                    } else {
+                        errorMessage += 'The fetched content is not valid attestation JSON.';
+                    }
+                } else if (error.message.includes('fetch')) {
+                    errorMessage += 'Failed to fetch attestation from URL.\n\n';
+                    errorMessage += 'Possible reasons:\n';
+                    errorMessage += '• Network connection issues\n';
+                    errorMessage += '• URL is not accessible\n';
+                    errorMessage += '• CORS restrictions (if external URL)\n';
+                    errorMessage += '• Server returned an error';
+                } else if (error.message.includes('atob')) {
+                    errorMessage += 'Failed to decode base64 data URL.\n';
+                    errorMessage += 'The data appears to be corrupted or incomplete.';
+                } else {
+                    errorMessage += 'Error details: ' + error.message;
+                }
+                
+                alert(errorMessage);
                 return;
             }
 
@@ -400,10 +456,47 @@
             } else if (attestationData) {
                 // Decode base64 attestation data
                 try {
-                    const attestation = JSON.parse(atob(attestationData));
+                    // Validate base64 format first
+                    if (!/^[A-Za-z0-9+/=]+$/.test(attestationData)) {
+                        throw new Error('Invalid base64 format');
+                    }
+                    
+                    // Attempt to decode
+                    const decoded = atob(attestationData);
+                    
+                    // Parse JSON
+                    const attestation = JSON.parse(decoded);
+                    
+                    // Validate required fields
+                    if (!attestation.version || !attestation.model || (!attestation.content_hash && !attestation.content_name)) {
+                        throw new Error('Missing required attestation fields');
+                    }
+                    
                     verifyAttestation(attestation);
                 } catch (error) {
-                    alert('Invalid attestation data');
+                    console.error('Data URL attestation error:', error);
+                    
+                    let errorMessage = 'Failed to load attestation from data URL.\n\n';
+                    
+                    if (error.message === 'Invalid base64 format') {
+                        errorMessage += 'The data URL contains invalid characters.\n';
+                        errorMessage += 'This may be due to URL corruption during sharing.';
+                    } else if (error.message === 'Missing required attestation fields') {
+                        errorMessage += 'The attestation data is incomplete or corrupted.\n';
+                        errorMessage += 'Required fields: version, model, and either content_hash or content_name.';
+                    } else if (error.message.includes('JSON')) {
+                        errorMessage += 'The attestation data is not valid JSON.\n';
+                        errorMessage += 'The data may have been corrupted or truncated.';
+                    } else {
+                        errorMessage += 'Error details: ' + error.message;
+                    }
+                    
+                    errorMessage += '\n\nPlease ask the sender to share the attestation again, or use the original short URL if available.';
+                    
+                    alert(errorMessage);
+                    
+                    // Show the input section so user can try another method
+                    document.getElementById('input-section').style.display = 'block';
                 }
             } else if (attestationUrl) {
                 document.getElementById('url-input').value = attestationUrl;
@@ -499,6 +592,7 @@ Note: Short URLs with server storage are coming soon for production use.`;
         }
     </script>
     <script src="/static/theme.js"></script>
+    <script src="/static/mobile-nav.js"></script>
     <script src="/static/global-footer.js"></script>
 </body>
 </html>

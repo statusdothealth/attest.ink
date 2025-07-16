@@ -38,6 +38,14 @@
             margin: 16px 0;
             overflow-x: auto;
             font-family: 'Consolas', 'Monaco', monospace;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        
+        .code-example code {
+            display: block;
+            overflow-x: auto;
+            white-space: pre;
         }
         
         .api-table {
@@ -123,6 +131,29 @@
             border-radius: 4px;
         }
         
+        /* Fix long URLs and code */
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        
+        code {
+            word-wrap: break-word;
+        }
+        
+        /* Ensure all content respects container bounds */
+        main {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        
+        .section {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        
         /* Mobile Optimization */
         @media (max-width: 768px) {
             .hero {
@@ -171,16 +202,20 @@
             }
             
             .code-example {
-                padding: 12px;
+                padding: 8px;
                 margin: 12px 0;
-                font-size: 12px;
+                font-size: 11px;
                 overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                max-width: calc(100vw - 32px);
             }
             
             .code-example code {
                 display: block;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                white-space: pre;
+                min-width: 0;
             }
             
             .api-table {
@@ -426,6 +461,7 @@
                     <li><a href="#integration-guides">Integration Guides</a>
                         <ul>
                             <li><a href="#html-integration">HTML/CSS</a></li>
+                            <li><a href="#readme-integration">README/Markdown</a></li>
                             <li><a href="#react-integration">React</a></li>
                             <li><a href="#vue-integration">Vue.js</a></li>
                             <li><a href="#wordpress-integration">WordPress</a></li>
@@ -762,6 +798,65 @@ document.getElementById('badge').innerHTML = svg;</code></pre>
     bottom: 10px;
     right: 10px;
 }</code></pre>
+
+                <h3 id="readme-integration">README/Markdown Integration</h3>
+                <p>Add AI attestation badges to your README files and documentation. Two styles available:</p>
+                
+                <h4>Shields.io Style (Recommended for GitHub)</h4>
+                <p>These badges match the standard GitHub badge style and work great alongside build status, license, and other project badges.</p>
+                
+                <h5>Basic Examples</h5>
+                <pre class="code-example"><code># Standard badge styles
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](YOUR_VERIFY_URL)
+[![AI Generated](https://img.shields.io/badge/AI-Generated-green)](YOUR_VERIFY_URL)
+[![AI Edited](https://img.shields.io/badge/AI-Edited-yellow)](YOUR_VERIFY_URL)
+
+# With model name
+[![GPT-4 Assisted](https://img.shields.io/badge/AI-GPT--4_Assisted-blue)](YOUR_VERIFY_URL)
+[![Claude 3 Opus](https://img.shields.io/badge/AI-Claude_3_Opus-purple)](YOUR_VERIFY_URL)
+
+# With emoji
+[![🤖 AI Assisted](https://img.shields.io/badge/🤖_AI-Assisted-blue)](YOUR_VERIFY_URL)</code></pre>
+                
+                <h5>Advanced Customization</h5>
+                <pre class="code-example"><code># Different styles
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=flat-square)](YOUR_VERIFY_URL)
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=for-the-badge)](YOUR_VERIFY_URL)
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=plastic)](YOUR_VERIFY_URL)
+
+# With logos
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?logo=openai&logoColor=white)](YOUR_VERIFY_URL)
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?logo=anthropic&logoColor=white)](YOUR_VERIFY_URL)
+
+# Custom colors (use hex without #)
+[![AI Magic](https://img.shields.io/badge/AI-Magic-ff69b4)](YOUR_VERIFY_URL)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)](YOUR_VERIFY_URL)</code></pre>
+                
+                <h5>Complete README Example</h5>
+                <pre class="code-example"><code># My Awesome Project
+
+[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](https://attest.ink/verify/?data=...)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/user/repo/actions/workflows/ci.yml/badge.svg)](https://github.com/user/repo/actions)
+[![GitHub stars](https://img.shields.io/github/stars/user/repo.svg?style=social)](https://github.com/user/repo)
+
+This project was built with AI assistance...</code></pre>
+                
+                <h4>attest.ink Native Badges</h4>
+                <p>Use our pixel-art style badges for a unique, retro look:</p>
+                <pre class="code-example"><code>[![AI Generated](https://attest.ink/assets/badges/gpt-4-generated.svg)](YOUR_VERIFY_URL)
+[![AI Assisted](https://attest.ink/assets/badges/claude-3-opus-assisted.svg)](YOUR_VERIFY_URL)</code></pre>
+                
+                <div class="info">
+                    <h4>Creating Your Badge</h4>
+                    <ol>
+                        <li>Create your attestation at <a href="/create/">attest.ink/create</a></li>
+                        <li>Copy the verification URL from the result page</li>
+                        <li>Choose a badge style from above</li>
+                        <li>Replace <code>YOUR_VERIFY_URL</code> with your actual verification URL</li>
+                        <li>Add to your README.md file</li>
+                    </ol>
+                </div>
 
                 <h3 id="react-integration">React Integration</h3>
                 <p>Create a reusable React component for attestation badges.</p>
@@ -1342,6 +1437,7 @@ console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
     </div>
 
     <script src="/static/theme.js"></script>
+    <script src="/static/mobile-nav.js"></script>
     <script src="/static/badge-renderer.js"></script>
     <script>
         // Smooth scroll for anchor links
