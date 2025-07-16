@@ -59,7 +59,10 @@
         </nav>
 
         <main>
-            <h1>Create AI Attestation</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="margin: 0;">Create AI Attestation</h1>
+                <button type="button" class="btn btn-secondary" id="reset-form">Reset Form</button>
+            </div>
 
             <form id="attestation-form">
                 <div class="form-group">
@@ -220,9 +223,8 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 30px; display: flex; gap: 10px;">
+                <div style="margin-top: 30px;">
                     <button type="submit" class="btn">Generate Attestation</button>
-                    <button type="button" class="btn btn-secondary" id="reset-form">Reset Form</button>
                 </div>
             </form>
 
