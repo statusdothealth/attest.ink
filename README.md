@@ -5,7 +5,7 @@
 [![Deploy to GitHub Pages](https://github.com/statusdothealth/attest.ink/actions/workflows/deploy.yml/badge.svg)](https://github.com/statusdothealth/attest.ink/actions/workflows/deploy.yml)
 [![GitHub stars](https://img.shields.io/github/stars/statusdothealth/attest.ink.svg?style=social)](https://github.com/statusdothealth/attest.ink)
 
-A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. No servers, no tracking, no blockchain - just cryptographic proof that works everywhere.
+A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. It works offline and there's no servers or blockchain implementation required.
 
 ## Overview
 
