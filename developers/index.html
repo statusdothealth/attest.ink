@@ -6,6 +6,7 @@
     <title>Developer Documentation - attest.ink</title>
     <meta name="description" content="Complete developer guide for integrating AI attestations into your applications">
     <link rel="icon" type="image/svg+xml" href="/assets/logo/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link rel="manifest" href="/assets/site.webmanifest">
     <meta name="theme-color" content="#111827">
@@ -186,6 +187,53 @@
                 margin: 16px 0;
             }
             
+            /* Make ALL tables responsive */
+            table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                max-width: calc(100vw - 32px);
+                margin: 16px 0;
+            }
+            
+            /* Ensure param-table is also responsive */
+            .param-table,
+            table:not(.api-table) {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                font-size: 14px;
+            }
+            
+            /* Prevent table cells from wrapping */
+            table th,
+            table td {
+                white-space: nowrap;
+                min-width: 100px;
+                padding: 8px;
+            }
+            
+            /* Fix code blocks in tables */
+            table code {
+                white-space: nowrap;
+                font-size: 11px;
+            }
+            
+            /* Ensure sections with tables don't overflow */
+            .section {
+                overflow-x: hidden;
+            }
+            
+            /* Fix API endpoint code blocks */
+            .api-endpoint {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .api-endpoint code {
+                font-size: 12px;
+            }
+            
             .section h2 {
                 font-size: 24px;
                 margin-bottom: 16px;
@@ -290,40 +338,32 @@
                 word-break: break-all;
             }
             
-            /* Mobile-friendly tables */
+            /* Mobile-friendly tables - Alternative view */
             @media (max-width: 600px) {
-                .api-table {
-                    border: 0;
+                /* Keep tables scrollable by default */
+                .api-table,
+                .param-table,
+                table {
+                    min-width: 500px;
                 }
                 
-                .api-table thead {
-                    display: none;
-                }
-                
-                .api-table tr {
+                /* Add scroll indicator message */
+                table::after {
+                    content: '';
                     display: block;
-                    margin-bottom: 16px;
-                    border: 1px solid var(--border-color);
-                    border-radius: 4px;
-                    padding: 12px;
+                    height: 20px;
                 }
                 
-                .api-table td {
-                    display: block;
-                    text-align: left;
-                    border: none;
-                    padding: 4px 0;
-                    position: relative;
-                    padding-left: 50%;
+                /* Fix long URLs and code in cells */
+                table td code,
+                table td a {
+                    word-break: break-all;
+                    white-space: normal;
                 }
                 
-                .api-table td:before {
-                    content: attr(data-label);
-                    position: absolute;
-                    left: 0;
-                    width: 45%;
-                    font-weight: bold;
-                    text-align: left;
+                /* Ensure type badges remain visible */
+                table .type-badge {
+                    white-space: nowrap;
                 }
             }
         }
