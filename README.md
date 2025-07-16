@@ -1,10 +1,10 @@
-# attest.ink - AI Content Attestation Protocol
+# <img src="assets/logo/circular-2-ai.svg" alt="attest.ink" width="40" height="40" align="left"> attest.ink - AI Content Attestation Protocol
 
 A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. No servers, no tracking, no blockchain - just cryptographic proof that works everywhere.
 
 ![AI Attestation Badge](https://attest.ink/assets/badges/ai-assisted.svg)
 
-## 🚀 Overview
+## Overview
 
 attest.ink is an open-source protocol that enables transparent disclosure of AI involvement in content creation through:
 
@@ -14,7 +14,7 @@ attest.ink is an open-source protocol that enables transparent disclosure of AI 
 - **Privacy-First**: Keep prompts private while proving AI involvement
 - **Universal Compatibility**: Integrate with any platform or content type
 
-## ✨ Key Features
+## Key Features
 
 ### For Content Creators
 - **Simple Creation**: Generate attestations in seconds at [attest.ink/create](https://attest.ink/create/)
@@ -36,7 +36,7 @@ attest.ink is an open-source protocol that enables transparent disclosure of AI 
 - **Signature Validation**: Verify digital signatures when present
 - **Offline Verification**: Download and verify attestations locally
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### 1. Create an Attestation
 
@@ -81,7 +81,7 @@ Click any attestation badge or visit [attest.ink/verify](https://attest.ink/veri
 - Digital signatures (if present)
 - Timestamp and metadata
 
-## 📋 Attestation Schema
+## Attestation Schema
 
 ### Version 2.0 (Current)
 ```json
@@ -131,7 +131,7 @@ Click any attestation badge or visit [attest.ink/verify](https://attest.ink/veri
 - **assisted**: Human and AI collaborated on the content
 - **edited**: AI refined or improved human-created content
 
-## 🎨 Badge Gallery
+## Badge Gallery
 
 ### Badge Styles
 
@@ -176,7 +176,7 @@ Over 100 AI models across multiple providers:
 
 View the complete gallery at [attest.ink/showcase](https://attest.ink/showcase/)
 
-## 🏗️ Technical Architecture
+## Technical Architecture
 
 ### Project Structure
 ```
@@ -237,7 +237,7 @@ const url = AttestInk.getBadgeUrl('claude-3-opus');
 AttestInk.renderBadges();
 ```
 
-## 🔧 Development
+## Development
 
 ### Local Development
 ```bash
@@ -268,7 +268,7 @@ To deploy elsewhere:
 3. Configure your domain
 4. No server configuration needed
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md).
 
@@ -288,7 +288,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 6. Push to your fork
 7. Open a Pull Request
 
-## 📖 Documentation
+## Documentation
 
 ### Core Documentation
 - [Protocol Specification](https://attest.ink/protocol/) - Technical protocol details
@@ -325,7 +325,7 @@ const AIBadge = ({ attestationUrl }) => (
 }
 ```
 
-## 🔐 Security & Privacy
+## Security & Privacy
 
 ### Security Features
 - **Content Integrity**: SHA-256 hashes ensure content hasn't been modified
@@ -339,7 +339,7 @@ const AIBadge = ({ attestationUrl }) => (
 - **No Account Required**: Create attestations anonymously
 - **Data Portability**: Export and backup all attestations
 
-## 🌍 Use Cases
+## Use Cases
 
 ### Academic Papers
 - Disclose AI assistance in research
@@ -361,7 +361,7 @@ const AIBadge = ({ attestationUrl }) => (
 - Protect artistic integrity
 - Enable proper crediting
 
-## 📊 Statistics
+## Statistics
 
 - **100+** Supported AI models
 - **15+** AI providers
@@ -370,7 +370,7 @@ const AIBadge = ({ attestationUrl }) => (
 - **3** Attestation roles
 - **0** Servers required
 
-## 🚦 Roadmap
+## Roadmap
 
 ### Planned Features
 - [ ] Browser extension for one-click attestation
@@ -387,7 +387,7 @@ const AIBadge = ({ attestationUrl }) => (
 - WebAuthn support for hardware key signatures
 - Multi-language interface translations
 
-## ❓ FAQ
+## FAQ
 
 **Q: Do I need a blockchain wallet?**
 A: No, digital signatures are optional. You can create attestations without any wallet.
@@ -404,18 +404,18 @@ A: Yes, completely free and open source under MIT license.
 **Q: Can I self-host this?**
 A: Yes, it's just static files. Host anywhere that serves HTML.
 
-## 📜 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Created by [@autophage](https://github.com/autophage) and contributors
 - Built as a public good for the AI community
 - Supported by [0x42 Research](https://0x42r.io/)
 - Special thanks to all contributors and early adopters
 
-## 📞 Contact
+## Contact
 
 - **Email**: info@attest.ink
 - **GitHub**: [github.com/statusdothealth/attest.ink](https://github.com/statusdothealth/attest.ink)
