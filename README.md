@@ -1,376 +1,432 @@
-<div align="center">
-  <img src="assets/favicon.svg" alt="attest.ink logo" width="120" height="120" />
-  
-  # attest.ink
-  
-  **Beautiful AI Attribution Badges for the Modern Web**
-  
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-  [![Made with Claude](https://img.shields.io/badge/Made%20with-Claude%20AI-3b82f6?style=for-the-badge)](https://attest.ink)
-  
-  <br>
-  
+# <img src="assets/logo/circular-2-ai.svg" alt="attest.ink" width="40" height="40" align="left"> attest.ink - AI Content Attestation Protocol
 
-  
-  [Live Demo](https://attest.ink) • [Documentation](https://attest.ink/docs.html) • [Badge Showcase](https://attest.ink/badge-showcase.html) • [PNG Generator - COMING SOON](https://attest.ink/badge-generator.html)
-</div>
+A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. No servers, no tracking, no blockchain - just cryptographic proof that works everywhere.
 
----
+![AI Attestation Badge](https://attest.ink/assets/badges/ai-assisted.svg)
 
-## ✨ Overview
+## Overview
 
-attest.ink provides beautiful, customizable badges for transparent AI attribution. With 10+ styles, 6 size variants, and full dark mode support, you can clearly indicate when content is AI-assisted while maintaining your design aesthetic.
+attest.ink is an open-source protocol that enables transparent disclosure of AI involvement in content creation through:
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="https://img.shields.io/badge/10%2B-Badge%20Styles-blue?style=for-the-badge" alt="10+ Badge Styles" />
-      </td>
-      <td align="center">
-        <img src="https://img.shields.io/badge/6-Size%20Variants-green?style=for-the-badge" alt="6 Size Variants" />
-      </td>
-      <td align="center">
-        <img src="https://img.shields.io/badge/Dark%20Mode-Supported-purple?style=for-the-badge" alt="Dark Mode Supported" />
-      </td>
-    </tr>
-  </table>
-</div>
+- **Cryptographic Attestations**: Create tamper-proof records of AI usage
+- **Beautiful Badges**: Display verification badges that link to cryptographic proofs
+- **Complete Decentralization**: Works offline, no servers or blockchain required
+- **Privacy-First**: Keep prompts private while proving AI involvement
+- **Universal Compatibility**: Integrate with any platform or content type
 
-## 🚀 Quick Start
+## Key Features
 
-### Option 1: Simple PNG Badge (Easiest)
-```html
-<!-- No CSS required! -->
-<img src="https://attest.ink/badges/ai-glass-medium.png" 
-     alt="Made with AI" 
-     width="120" height="32">
+### For Content Creators
+- **Simple Creation**: Generate attestations in seconds at [attest.ink/create](https://attest.ink/create/)
+- **Multiple AI Models**: Support for 100+ models from OpenAI, Anthropic, Google, Meta, and more
+- **Flexible Roles**: Document if AI generated, assisted, or edited your content
+- **File Support**: Attest any content type - text, code, images, audio, video
+- **Digital Signatures**: Optional Ethereum wallet signatures for enhanced verification
+
+### For Developers
+- **Static Architecture**: Runs on GitHub Pages, Netlify, or any static host
+- **Client-Side Only**: All operations happen in the browser
+- **Simple Integration**: One-line badge embedding
+- **REST API**: Programmatic attestation creation via curl/HTTP
+- **Open Protocol**: MIT licensed, no vendor lock-in
+
+### For Verifiers
+- **One-Click Verification**: Click any badge to verify authenticity
+- **Content Hash Verification**: Verify content hasn't been modified
+- **Signature Validation**: Verify digital signatures when present
+- **Offline Verification**: Download and verify attestations locally
+
+## Quick Start
+
+### 1. Create an Attestation
+
+#### Web Interface
+Visit [attest.ink/create](https://attest.ink/create/) and fill out the form.
+
+#### API / Automation
+```bash
+# Create attestation via curl
+curl -s "https://attest.ink/api/create.html?content_name=My%20Blog%20Post&model=gpt-4&role=assisted&output=curl"
+
+# With content hash
+curl -s "https://attest.ink/api/create.html?content_name=My%20Article&content=$(cat article.txt | jq -sRr @uri)&model=claude-3-opus"
 ```
 
-### Option 2: Interactive HTML Badge
-```html
-<!-- Include CSS -->
-<link rel="stylesheet" href="https://attest.ink/css/badge-variants.css">
+### 2. Embed a Badge
 
-<!-- Add Badge -->
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass">
-    <svg class="ai-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12C16 14.2091 14.2091 16 12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="12" cy="12" r="2" fill="currentColor"/>
-        <path d="M12 6V8M12 16V18M18 12H16M8 12H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    <span>Made with AI</span>
+#### HTML
+```html
+<!-- Self-contained badge with full attestation data -->
+<a href="https://attest.ink/verify/?data=eyJ2ZXJzaW9uIj..." target="_blank">
+    <img src="https://attest.ink/assets/badges/gpt-4-generated.svg" alt="AI Generated with GPT-4" />
 </a>
 ```
 
-### Option 3: Markdown
+#### Markdown
 ```markdown
-[![Made with AI](https://attest.ink/badge/ai/glass/medium)](https://attest.ink)
+[![AI Generated](https://attest.ink/assets/badges/ai-generated.svg)](https://attest.ink/verify/?data=...)
 ```
 
-## 🎨 Features
+#### Dynamic Loading
+```html
+<div class="ai-attest-badge" data-attestation-url="https://example.com/attestation.json"></div>
+<script src="https://attest.ink/static/badge-renderer.js"></script>
+```
+
+### 3. Verify Content
+
+Click any attestation badge or visit [attest.ink/verify](https://attest.ink/verify/) to verify:
+- Attestation format and schema validity
+- Content hash (if original content provided)
+- Digital signatures (if present)
+- Timestamp and metadata
+
+## Attestation Schema
+
+### Version 2.0 (Current)
+```json
+{
+  "version": "2.0",
+  "id": "2025-01-16-abc123",
+  "content_name": "My Blog Post About Quantum Computing",
+  "content_hash": "sha256:b6a5c8d9e2f4a3b7c1d8e9f0a1b2c3d4...",
+  "document_type": "markdown",
+  "model": "gpt-4-turbo-2024-04-09",
+  "role": "assisted",
+  "author": "Dr. Jane Smith",
+  "timestamp": "2025-01-16T10:30:00Z",
+  "platform": "attest.ink",
+  "prompt": "Write an introduction to quantum computing",
+  "prompt_hash": "sha256:a1b2c3d4...",
+  "signature": {
+    "type": "wallet",
+    "value": "0x1234567890abcdef...",
+    "signer": "0x742d35Cc6634C0532925a3b844Bc9e7595f06fD3",
+    "message": "{\"content_hash\":\"sha256:...\",\"model\":\"gpt-4\",\"timestamp\":\"2025-01-16T10:30:00Z\"}"
+  }
+}
+```
+
+### Field Descriptions
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `version` | Yes | Schema version (currently "2.0") |
+| `id` | Yes | Unique identifier (format: YYYY-MM-DD-random) |
+| `content_name` | Yes | Human-readable name/title of the content |
+| `content_hash` | No | SHA-256 hash of the content (optional in v2.0) |
+| `document_type` | Yes | Type of content (text, markdown, code, image, etc.) |
+| `model` | Yes | AI model identifier |
+| `role` | Yes | How AI was used: generated, assisted, or edited |
+| `author` | No | Human author/creator name |
+| `timestamp` | Yes | ISO 8601 timestamp of attestation creation |
+| `platform` | Yes | Platform used to create attestation |
+| `prompt` | No | The prompt used (can be kept private) |
+| `prompt_hash` | No | SHA-256 hash of prompt if kept private |
+| `signature` | No | Digital signature object |
+
+### AI Roles
+
+- **generated**: Content was primarily created by AI
+- **assisted**: Human and AI collaborated on the content
+- **edited**: AI refined or improved human-created content
+
+## Badge Gallery
 
 ### Badge Styles
-<table>
-  <tr>
-    <td><b>Glass</b></td>
-    <td>Elegant transparency with blur effects</td>
-  </tr>
-  <tr>
-    <td><b>Solid</b></td>
-    <td>Bold and prominent design</td>
-  </tr>
-  <tr>
-    <td><b>Outline</b></td>
-    <td>Clean border-based style</td>
-  </tr>
-  <tr>
-    <td><b>Gradient</b></td>
-    <td>Modern color transitions</td>
-  </tr>
-  <tr>
-    <td><b>Neon</b></td>
-    <td>Eye-catching glow effects</td>
-  </tr>
-  <tr>
-    <td><b>Neumorphic</b></td>
-    <td>Soft 3D appearance</td>
-  </tr>
-  <tr>
-    <td><b>Glow</b></td>
-    <td>Subtle luminescence</td>
-  </tr>
-  <tr>
-    <td><b>Ghost</b></td>
-    <td>Minimal transparency</td>
-  </tr>
-  <tr>
-    <td><b>Minimal</b></td>
-    <td>Ultra-clean design</td>
-  </tr>
-  <tr>
-    <td><b>Mono</b></td>
-    <td>Monochromatic elegance</td>
-  </tr>
-</table>
 
-### Size Variants
-- `micro` - 20px height
-- `mini` - 24px height
-- `small` - 28px height
-- `medium` - 32px height (default)
-- `large` - 40px height
-- `xl` - 48px height
+#### Glass Morphism Badges
+Modern badges with blur and transparency effects:
+- `badge-glass` - Default glass style
+- `badge-glass-primary` - Primary color variant
+- `badge-glass-minimal` - Subtle, minimal design
 
-### Platform-Specific Badges
-- Generic AI
-- Claude
-- ChatGPT
-- Gemini
-- Midjourney
-- DALL-E
-- GitHub Copilot
-- Perplexity
-- Logo Only (icon without text)
+#### Legacy Badges
+Classic badge designs:
+- `badge-terminal` - Retro terminal style
+- `badge-neon` - Animated neon glow
+- `badge-rainbow` - Animated rainbow effect
+- `badge-matrix` - Digital rain animation
+- `badge-holographic` - Shimmer effect
 
-## 🛠️ Usage
+#### SVG Badges
+Pre-rendered badges for all major AI models:
+```
+https://attest.ink/assets/badges/{model}-{role}.svg
 
-### Basic Badge
-```html
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass">
-    <!-- SVG icon -->
-    <span>Made with AI</span>
-</a>
+Examples:
+- gpt-4-generated.svg
+- claude-assisted.svg
+- midjourney-generated.svg
 ```
 
-### Customization Examples
+### Supported AI Models
 
-#### Different Styles
-```html
-<!-- Gradient style -->
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-gradient">
-    <!-- SVG icon -->
-    <span>Made with AI</span>
-</a>
+Over 100 AI models across multiple providers:
 
-<!-- Neon style -->
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-neon">
-    <!-- SVG icon -->
-    <span>Made with AI</span>
-</a>
+- **OpenAI**: GPT-4, GPT-3.5, DALL-E 3, etc.
+- **Anthropic**: Claude 3 Opus, Claude 3 Sonnet, Claude 3 Haiku
+- **Google**: Gemini Pro, PaLM 2, Imagen
+- **Meta**: Llama 3, Code Llama
+- **Stability AI**: Stable Diffusion XL, SDXL Turbo
+- **Midjourney**: v6, v5.2, v5.1
+- **Mistral AI**: Large, Medium, Small, Mixtral
+- **Cohere**: Command R+, Command R
+- **And many more...**
+
+View the complete gallery at [attest.ink/showcase](https://attest.ink/showcase/)
+
+## Technical Architecture
+
+### Project Structure
+```
+attest.ink/
+├── index.html              # Homepage
+├── create/                 # Attestation creator
+├── verify/                 # Attestation verifier
+├── protocol/               # Protocol specification
+├── showcase/               # Badge gallery
+├── examples/               # Integration examples
+├── api/                    # API endpoints
+│   └── create.html        # Programmatic creation
+├── static/
+│   ├── attestation-tool.js # Core attestation logic
+│   ├── badge-renderer.js   # Badge rendering engine
+│   ├── ai-models.js        # AI model registry
+│   ├── style.css          # Main styles
+│   └── badge-styles.css   # Badge-specific styles
+├── assets/
+│   └── badges/            # Pre-rendered SVG badges
+└── attestations/          # Stored attestations (optional)
 ```
 
-#### Different Sizes
-```html
-<!-- Large badge -->
-<a href="https://attest.ink" class="ai-badge ai-badge-large ai-badge-solid">
-    <!-- SVG icon -->
-    <span>Made with AI</span>
-</a>
+### How It Works
 
-<!-- Micro badge -->
-<a href="https://attest.ink" class="ai-badge ai-badge-micro ai-badge-minimal">
-    <!-- SVG icon -->
-    <span>AI</span>
-</a>
+1. **Content Hashing**: Uses Web Crypto API to generate SHA-256 hashes
+2. **Data Storage**: Attestations encoded as base64 data URLs or JSON files
+3. **Verification**: Client-side validation of hashes and signatures
+4. **No Backend**: Everything runs in the browser using JavaScript
+
+### API Reference
+
+#### Create Attestation
+```
+GET https://attest.ink/api/create.html
+
+Parameters:
+- content_name (required): Name of the content
+- content: The actual content (for hash generation)
+- model: AI model used (default: gpt-4)
+- role: generated|assisted|edited (default: assisted)
+- document_type: Type of content (default: text)
+- author: Author name
+- prompt: The prompt used
+- prompt_private: true/false to hash the prompt
+- output: json|curl (default: json)
 ```
 
-#### Platform Specific
-```html
-<!-- Claude badge -->
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-glass ai-badge-claude">
-    <!-- SVG icon -->
-    <span>Claude AI</span>
-</a>
+#### JavaScript API
+```javascript
+// Create badge programmatically
+const badge = AttestInk.createBadgeSVG('gpt-4', 'generated');
 
-<!-- ChatGPT badge -->
-<a href="https://attest.ink" class="ai-badge ai-badge-medium ai-badge-gradient ai-badge-chatgpt">
-    <!-- SVG icon -->
-    <span>ChatGPT</span>
-</a>
+// Get badge URL
+const url = AttestInk.getBadgeUrl('claude-3-opus');
+
+// Render all badges on page
+AttestInk.renderBadges();
 ```
 
-### Positioning
-```css
-/* Bottom right (default) */
-.badge-position-bottom-right { 
-    position: absolute; 
-    bottom: 1rem; 
-    right: 1rem; 
-}
+## Development
 
-/* Other positions */
-.badge-position-bottom-left { 
-    position: absolute; 
-    bottom: 1rem; 
-    left: 1rem; 
-}
-
-.badge-position-top-right { 
-    position: absolute; 
-    top: 1rem; 
-    right: 1rem; 
-}
-
-.badge-position-top-left { 
-    position: absolute; 
-    top: 1rem; 
-    left: 1rem; 
-}
-```
-
-## 🌙 Dark Mode
-
-Badges automatically adapt to your site's theme:
-
-```css
-/* Automatic dark mode support */
-[data-theme="dark"] {
-    /* Badges will automatically adjust their colors */
-}
-
-/* Or use prefers-color-scheme */
-@media (prefers-color-scheme: dark) {
-    /* Badges adapt automatically */
-}
-```
-
-## 📦 Installation Options
-
-### PNG Badges (No Installation Required!)
-Simply use the image URL directly:
-```html
-<img src="https://attest.ink/badges/ai-glass-medium.png" alt="Made with AI">
-```
-[Browse all PNG badges →](https://attest.ink/badge-generator.html)
-
-### CDN (For Interactive Badges)
-```html
-<!-- Modern badges -->
-<link rel="stylesheet" href="https://attest.ink/css/badge-variants.css">
-
-<!-- Backward compatibility (optional) -->
-<link rel="stylesheet" href="https://attest.ink/css/badge-compatibility.css">
-```
-
-### Self-Hosted
-1. Download the CSS files from our [GitHub repository](https://github.com/statusdothealth/attest.ink)
-2. Include them in your project
-3. Customize CSS variables as needed
-
-### NPM (Coming Soon)
+### Local Development
 ```bash
-npm install @attest-ink/badges
+# Clone repository
+git clone https://github.com/statusdothealth/attest.ink.git
+cd attest.ink
+
+# Serve locally (any static server works)
+python -m http.server 8000
+# or
+npx serve
+# or
+php -S localhost:8000
 ```
 
-## 🔧 Advanced Integration
+### Testing
+- Open http://localhost:8000
+- Create test attestations
+- Verify badges render correctly
+- Test verification flow
 
-### React Component
-```jsx
-import { AIBadge } from '@attest-ink/react';
+### Deployment
+The site automatically deploys to GitHub Pages when changes are pushed to the main branch.
 
-function Article() {
-    return (
-        <article>
-            <h1>My AI-Assisted Article</h1>
-            <p>Content here...</p>
-            <AIBadge 
-                style="glass" 
-                size="medium" 
-                platform="claude" 
-            />
-        </article>
-    );
+To deploy elsewhere:
+1. Build not required (pure static files)
+2. Upload all files to your static host
+3. Configure your domain
+4. No server configuration needed
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md).
+
+### Ways to Contribute
+- Add new AI models to the registry
+- Improve badge designs
+- Add language translations
+- Write integration guides
+- Report bugs or suggest features
+
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Test locally
+5. Commit with clear messages
+6. Push to your fork
+7. Open a Pull Request
+
+## Documentation
+
+### Core Documentation
+- [Protocol Specification](https://attest.ink/protocol/) - Technical protocol details
+- [Badge Gallery](https://attest.ink/showcase/) - Complete badge collection
+- [Integration Examples](https://attest.ink/examples/) - Real-world usage examples
+- [API Documentation](https://attest.ink/api/create.html) - Programmatic access
+
+### Integration Guides
+
+#### WordPress
+```php
+// In your theme or plugin
+function add_ai_attestation_badge() {
+    echo '<a href="https://attest.ink/verify/?data=..." target="_blank">';
+    echo '<img src="https://attest.ink/assets/badges/ai-assisted.svg" alt="AI Assisted" />';
+    echo '</a>';
 }
 ```
 
-### Vue Component
-```vue
-<template>
-    <article>
-        <h1>My AI-Assisted Article</h1>
-        <p>Content here...</p>
-        <AIBadge 
-            :style="'glass'" 
-            :size="'medium'" 
-            :platform="'gemini'" 
-        />
-    </article>
-</template>
-
-<script>
-import { AIBadge } from '@attest-ink/vue';
-
-export default {
-    components: { AIBadge }
-};
-</script>
+#### React
+```jsx
+const AIBadge = ({ attestationUrl }) => (
+    <a href={attestationUrl} target="_blank" rel="noopener noreferrer">
+        <img src="https://attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" />
+    </a>
+);
 ```
 
-## 🆕 What's New
+#### LaTeX
+```latex
+\usepackage{hyperref}
+\href{https://attest.ink/verify/?data=...}{%
+    \includegraphics[width=3cm]{ai-attestation-badge.pdf}%
+}
+```
 
-### Version 2.0 - Complete Redesign
-- **Modern Design System**: Completely redesigned with glass morphism effects and minimalist aesthetics
-- **10+ Badge Styles**: From glass and gradient to neon and neumorphic
-- **Dark Mode Support**: Automatic theme detection with beautiful dark variants
-- **PNG Badge Generator**: Download pre-made badges for emails, documents, or non-web use
-- **Interactive Demo**: Real-time customization with content type previews
-- **Mobile Optimized**: Fully responsive design with mobile-first approach
-- **Backward Compatible**: Existing implementations continue to work seamlessly
-- **Performance Focused**: Pure CSS/SVG with no dependencies
-- **Accessibility**: WCAG compliant with proper ARIA labels
+## Security & Privacy
 
-## 🌐 Browser Support
+### Security Features
+- **Content Integrity**: SHA-256 hashes ensure content hasn't been modified
+- **Digital Signatures**: Optional cryptographic signatures for proof of authorship
+- **No Data Collection**: No analytics, tracking, or server-side storage
+- **Open Source**: Fully auditable codebase
 
-- ✅ Chrome/Edge (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Mobile browsers
-- ✅ IE11 (with compatibility CSS)
+### Privacy Features
+- **Private Prompts**: Keep prompts confidential while proving AI use
+- **Local Processing**: All operations happen in your browser
+- **No Account Required**: Create attestations anonymously
+- **Data Portability**: Export and backup all attestations
 
-## 🤝 Contributing
+## Use Cases
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+### Academic Papers
+- Disclose AI assistance in research
+- Maintain academic integrity
+- Provide verifiable proof for journals
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Blog Posts & Articles
+- Build trust with readers
+- Comply with disclosure requirements
+- Stand out with transparency
 
-## 📄 License
+### Code & Documentation
+- Document AI-assisted development
+- Track AI contributions
+- Maintain audit trails
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Creative Works
+- Attribute AI-generated art
+- Protect artistic integrity
+- Enable proper crediting
 
-## 🙏 Acknowledgments
+## Statistics
 
-- Designed with ❤️ for transparent AI attribution
-- Inspired by [shields.io](https://shields.io) and modern design systems
-- Built with pure CSS and SVG for maximum compatibility
-- Special thanks to all [contributors](https://github.com/statusdothealth/attest.ink/graphs/contributors)
+- **100+** Supported AI models
+- **15+** AI providers
+- **10+** Badge styles
+- **8** Content types
+- **3** Attestation roles
+- **0** Servers required
 
-## 📞 Contact
+## Roadmap
 
-- **Website**: [https://attest.ink](https://attest.ink)
+### Planned Features
+- [ ] Browser extension for one-click attestation
+- [ ] WordPress plugin
+- [ ] npm package for Node.js integration
+- [ ] Python library
+- [ ] Additional signature methods (PGP, DID)
+- [ ] Batch attestation creation
+- [ ] Attestation chains for derivative works
+
+### Under Consideration
+- IPFS integration for permanent storage
+- ENS integration for human-readable attestation IDs
+- WebAuthn support for hardware key signatures
+- Multi-language interface translations
+
+## FAQ
+
+**Q: Do I need a blockchain wallet?**
+A: No, digital signatures are optional. You can create attestations without any wallet.
+
+**Q: Where is my data stored?**
+A: Attestations are encoded in URLs or saved as JSON files. No central storage.
+
+**Q: Can I verify attestations offline?**
+A: Yes, download the attestation JSON and verify locally.
+
+**Q: Is this free to use?**
+A: Yes, completely free and open source under MIT license.
+
+**Q: Can I self-host this?**
+A: Yes, it's just static files. Host anywhere that serves HTML.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Created by [@autophage](https://github.com/autophage) and contributors
+- Built as a public good for the AI community
+- Supported by [0x42 Research](https://0x42r.io/)
+- Special thanks to all contributors and early adopters
+
+## Contact
+
 - **Email**: info@attest.ink
-- **GitHub**: [@statusdothealth/attest.ink](https://github.com/statusdothealth/attest.ink)
-- **Issues**: [Report a bug](https://github.com/statusdothealth/attest.ink/issues)
+- **GitHub**: [github.com/statusdothealth/attest.ink](https://github.com/statusdothealth/attest.ink)
+- **Issues**: [Report bugs or request features](https://github.com/statusdothealth/attest.ink/issues)
 
 ---
 
 <div align="center">
-  <p>
-    Made with
-    <a href="https://attest.ink">
-      <img src="https://img.shields.io/badge/Claude-AI-3b82f6?style=flat-square" alt="Claude AI" />
-    </a>
-    by the attest.ink team
-  </p>
-  
-  <p>
-    <a href="https://attest.ink">
-      <img src="https://img.shields.io/badge/Get%20Your%20Badge-attest.ink-blue?style=for-the-badge" alt="Get Your Badge" />
-    </a>
-  </p>
+    <img src="https://attest.ink/assets/badges/ai-assisted.svg" alt="AI Assisted" />
+    <br>
+    <em>This README was created with AI assistance and human oversight</em>
+    <br>
+    <strong>Made with transparency for the AI era</strong>
 </div>

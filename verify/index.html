@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Attestation - attest.ink</title>
+    <meta name="description" content="Verify AI content attestations">
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <meta name="theme-color" content="#111827">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/badge-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="/static/verify-signature.js"></script>
+    <script>
+        // Prevent theme flicker by setting theme before render
+        (function() {
+            const saved = localStorage.getItem('theme');
+            let theme = 'light';
+            if (saved) {
+                theme = saved;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = 'dark';
+            } else {
+                const hour = new Date().getHours();
+                if (hour >= 18 || hour < 6) {
+                    theme = 'dark';
+                }
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">D</button>
+    <div class="container">
+        <nav>
+            <div class="nav-inner">
+                <a href="/" class="logo">
+                    <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                    <span>attest.ink</span>
+                </a>
+                <ul>
+                    <li><a href="/create/">Create</a></li>
+                    <li><a href="/verify/" class="active">Verify</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">More</span>
+                        <div class="dropdown-menu">
+                            <a href="/protocol/">Protocol</a>
+                            <a href="/showcase/">Badges</a>
+                            <a href="/examples/">Examples</a>
+                            <a href="/developers/">Developer Docs</a>
+                            <a href="/faq.html">FAQ</a>
+                            <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main>
+            <h1>Verify AI Attestation</h1>
+
+            <div id="input-section">
+                <p>Paste an attestation JSON or provide a URL to verify its authenticity.</p>
+
+                <div class="form-group">
+                    <label for="attestation-input">Attestation JSON</label>
+                    <textarea id="attestation-input" rows="10" placeholder='Paste attestation JSON here...'></textarea>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">— OR —</div>
+
+                <div class="form-group">
+                    <label for="url-input">Attestation URL</label>
+                    <input type="url" id="url-input" placeholder="https://example.com/attestation.json">
+                </div>
+
+                <button id="verify-btn" class="btn">Verify Attestation</button>
+                <a href="/create/" class="btn btn-secondary" style="margin-left: 10px;">Back to Create</a>
+
+                <div style="margin-top: 30px;">
+                    <details>
+                        <summary style="cursor: pointer; color: #666;">What can be verified?</summary>
+                        <ul style="margin-top: 10px; color: #666;">
+                            <li>✓ Attestation format and schema</li>
+                            <li>✓ Ethereum wallet signatures</li>
+                            <li>✓ Content hash (if you provide the original content)</li>
+                            <li>✓ Timestamp validity</li>
+                            <li>✓ Signer identity</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div id="results-section" style="display: none;">
+                <h2>Verification Results</h2>
+                
+                <div id="verification-status" style="margin-bottom: 20px;"></div>
+
+                <div class="code-block">
+                    <pre id="attestation-display"></pre>
+                </div>
+
+                <div id="verification-details" style="margin-top: 20px;"></div>
+
+                <div id="content-verification" style="margin-top: 20px; display: none;">
+                    <h3>Verify Content Hash</h3>
+                    <p>To verify that the attestation matches the original content, paste the content below or upload a file:</p>
+                    
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label style="display: block; padding: 15px; background: var(--bg-panel); border: 2px dashed var(--border-color); border-radius: 8px; cursor: pointer; text-align: center;">
+                            <input type="file" id="content-verify-file" accept="*" style="display: none;">
+                            <span id="content-file-label" style="display: block;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 8px;">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                Click to upload file or drag and drop
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 10px 0; color: var(--text-secondary);">— OR —</div>
+                    
+                    <div class="form-group">
+                        <textarea id="content-verify-input" rows="6" placeholder="Paste original content to verify hash..."></textarea>
+                    </div>
+                    <button id="verify-content-btn" class="btn btn-secondary">Verify Content Hash</button>
+                    <div id="content-verify-result" style="margin-top: 10px;"></div>
+                </div>
+
+                <button id="verify-another" class="btn btn-secondary" style="margin-top: 20px;">Verify Another</button>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        let currentAttestation = null;
+
+        // Verify button click
+        document.getElementById('verify-btn').addEventListener('click', async function() {
+            const jsonInput = document.getElementById('attestation-input').value.trim();
+            const urlInput = document.getElementById('url-input').value.trim();
+
+            if (!jsonInput && !urlInput) {
+                alert('Please provide an attestation JSON or URL');
+                return;
+            }
+
+            let attestation;
+
+            try {
+                if (jsonInput) {
+                    attestation = JSON.parse(jsonInput);
+                } else if (urlInput) {
+                    // Check if it's an attest.ink verify URL
+                    const attestInkPattern = /https?:\/\/attest\.ink\/verify\/?\?id=([^&]+)/;
+                    const match = urlInput.match(attestInkPattern);
+                    
+                    if (match) {
+                        // Extract ID and load attestation
+                        const id = match[1];
+                        const loaded = await loadAttestationById(id);
+                        if (loaded) {
+                            attestation = loaded;
+                        } else {
+                            throw new Error('Attestation not found');
+                        }
+                    } else if (urlInput.startsWith('data:')) {
+                        // Check if it's a base64 data URL
+                        const base64 = urlInput.split(',')[1];
+                        attestation = JSON.parse(atob(base64));
+                    } else {
+                        const response = await fetch(urlInput);
+                        if (!response.ok) throw new Error('Failed to fetch attestation');
+                        attestation = await response.json();
+                    }
+                }
+            } catch (error) {
+                alert('Invalid attestation format or failed to fetch: ' + error.message);
+                return;
+            }
+
+            verifyAttestation(attestation);
+        });
+
+        function verifyAttestation(attestation) {
+            currentAttestation = attestation;
+            
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+            
+            // Display the attestation
+            document.getElementById('attestation-display').textContent = JSON.stringify(attestation, null, 2);
+
+            // Verification results
+            const results = [];
+            let overallValid = true;
+
+            // Check version
+            if (attestation.version === '1.0' || attestation.version === '2.0') {
+                results.push('<span class="status-valid">✓ Valid version (' + attestation.version + ')</span>');
+            } else {
+                results.push('<span class="status-invalid">✗ Unknown version: ' + (attestation.version || 'missing') + '</span>');
+                overallValid = false;
+            }
+
+            // Check required fields based on version
+            let requiredFields = [];
+            if (attestation.version === '2.0') {
+                requiredFields = ['id', 'content_name', 'model', 'timestamp'];
+            } else if (attestation.version === '1.0') {
+                requiredFields = ['id', 'content_hash', 'model', 'timestamp'];
+            } else {
+                // Default to v1.0 fields for unknown versions
+                requiredFields = ['id', 'content_hash', 'model', 'timestamp'];
+            }
+
+            requiredFields.forEach(field => {
+                if (attestation[field]) {
+                    results.push(`<span class="status-valid">✓ ${field} present</span>`);
+                } else {
+                    results.push(`<span class="status-invalid">✗ ${field} missing</span>`);
+                    overallValid = false;
+                }
+            });
+
+            // For v2.0, check content_hash as optional
+            if (attestation.version === '2.0') {
+                if (attestation.content_hash) {
+                    results.push('<span class="status-valid">✓ content_hash present (optional for v2.0)</span>');
+                } else {
+                    results.push('<span class="status-pending">ℹ️ content_hash not provided (optional for v2.0)</span>');
+                }
+            }
+
+            // Check timestamp validity
+            if (attestation.timestamp) {
+                const timestamp = new Date(attestation.timestamp);
+                if (!isNaN(timestamp.getTime())) {
+                    results.push('<span class="status-valid">✓ Valid timestamp: ' + timestamp.toLocaleString() + '</span>');
+                } else {
+                    results.push('<span class="status-invalid">✗ Invalid timestamp format</span>');
+                    overallValid = false;
+                }
+            }
+
+            // Check signature if present
+            if (attestation.signature) {
+                verifySignature(attestation, results);
+            } else {
+                results.push('<span class="status-pending">⚠️ No signature present (attestation is unsigned)</span>');
+            }
+
+            // Overall status
+            const statusDiv = document.getElementById('verification-status');
+            if (overallValid) {
+                statusDiv.innerHTML = '<div class="message message-success"><strong>✓ Valid Attestation</strong></div>';
+            } else {
+                statusDiv.innerHTML = '<div class="message message-error"><strong>✗ Invalid Attestation</strong></div>';
+            }
+
+            // Show details
+            document.getElementById('verification-details').innerHTML = results.join('<br>');
+
+            // Show content verification option
+            if (attestation.content_hash) {
+                document.getElementById('content-verification').style.display = 'block';
+            }
+        }
+        
+        // Verify signature
+        function verifySignature(attestation, results) {
+            const sig = attestation.signature;
+            
+            if (sig.type === 'ethereum') {
+                results.push(`<span class="status-info">🔏 Ethereum signature by ${sig.signer}</span>`);
+            } else if (sig.type === 'local') {
+                results.push(`<span class="status-info">🔑 Local signature (password-based)</span>`);
+            } else if (sig.type === 'hmac-sha256') {
+                results.push(`<span class="status-info">🔐 HMAC-SHA256 signature`);
+                if (attestation.signer) {
+                    results.push(`&nbsp;&nbsp;&nbsp;&nbsp;Signer: ${attestation.signer.name}${attestation.signer.id ? ' (ID: ' + attestation.signer.id + ')' : ''}`);
+                }
+                if (sig.value === 'UNSIGNED_HMAC_PLACEHOLDER') {
+                    results.push(`<span class="status-pending">&nbsp;&nbsp;&nbsp;&nbsp;⚠️ Awaiting server-side signing</span>`);
+                } else {
+                    results.push(`&nbsp;&nbsp;&nbsp;&nbsp;Signature: ${sig.value.substring(0, 20)}...`);
+                }
+                results.push('</span>');
+            } else {
+                results.push(`<span class="status-info">🔏 ${sig.type || 'Unknown'} signature</span>`);
+            }
+        }
+        
+        // Verify content hash
+        async function verifyContentHash(content) {
+            // Calculate hash
+            const encoder = new TextEncoder();
+            const data = encoder.encode(content);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const calculatedHash = 'sha256:' + hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            const resultDiv = document.getElementById('content-verify-result');
+            if (calculatedHash === currentAttestation.content_hash) {
+                resultDiv.innerHTML = '<span class="status-valid">✓ Content hash matches!</span>';
+            } else {
+                resultDiv.innerHTML = '<span class="status-invalid">✗ Content hash does not match<br>Expected: ' + currentAttestation.content_hash + '<br>Calculated: ' + calculatedHash + '</span>';
+            }
+        }
+        
+        document.getElementById('verify-content-btn').addEventListener('click', async function() {
+            const content = document.getElementById('content-verify-input').value;
+            if (!content) {
+                alert('Please paste the original content or upload a file');
+                return;
+            }
+            await verifyContentHash(content);
+        });
+        
+        // Handle file upload for content verification
+        document.getElementById('content-verify-file').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const fileLabel = document.getElementById('content-file-label');
+            fileLabel.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 8px;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <strong>${file.name}</strong><br>
+                <span style="font-size: 0.9em; color: var(--text-secondary);">File loaded - Click "Verify Content Hash" to check</span>
+            `;
+            
+            try {
+                const content = await file.text();
+                document.getElementById('content-verify-input').value = content;
+                
+                // Auto-verify if content is loaded
+                await verifyContentHash(content);
+            } catch (error) {
+                alert('Failed to read file. Please try again.');
+                console.error('File read error:', error);
+            }
+        });
+
+        // Verify another
+        document.getElementById('verify-another').addEventListener('click', function() {
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('attestation-input').value = '';
+            document.getElementById('url-input').value = '';
+            document.getElementById('content-verify-input').value = '';
+            document.getElementById('content-verify-result').innerHTML = '';
+        });
+
+        // Check URL parameter
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const attestationId = urlParams.get('id');
+            const attestationData = urlParams.get('data');
+            const attestationUrl = urlParams.get('url');
+            
+            if (attestationId) {
+                // Try to load from localStorage first (for demo purposes)
+                console.log(`Looking for attestation with ID: ${attestationId}`);
+                // Debug: Show all attestation keys in localStorage
+                const attestationKeys = Object.keys(localStorage).filter(key => key.startsWith('attestation_'));
+                if (attestationKeys.length > 0) {
+                    console.log('Available attestations in localStorage:', attestationKeys);
+                }
+                const storedAttestation = localStorage.getItem(`attestation_${attestationId}`);
+                if (storedAttestation) {
+                    console.log('Found attestation in localStorage');
+                    try {
+                        const attestation = JSON.parse(storedAttestation);
+                        verifyAttestation(attestation);
+                        return; // Don't try server if found in localStorage
+                    } catch (error) {
+                        console.error('Failed to parse stored attestation:', error);
+                        // Try to load from server
+                        loadAttestationFromServer(attestationId);
+                    }
+                } else {
+                    console.log('Attestation not found in localStorage, trying server...');
+                    // Try to load from server
+                    loadAttestationFromServer(attestationId);
+                }
+            } else if (attestationData) {
+                // Decode base64 attestation data
+                try {
+                    const attestation = JSON.parse(atob(attestationData));
+                    verifyAttestation(attestation);
+                } catch (error) {
+                    alert('Invalid attestation data');
+                }
+            } else if (attestationUrl) {
+                document.getElementById('url-input').value = attestationUrl;
+                document.getElementById('verify-btn').click();
+            }
+        });
+        
+        async function loadAttestationById(id) {
+            // First try localStorage
+            const stored = localStorage.getItem(`attestation-${id}`);
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (error) {
+                    console.error('Failed to parse stored attestation');
+                }
+            }
+            
+            // Then try server
+            try {
+                const response = await fetch(`/attestations/${id}.json`, {
+                    method: 'GET',
+                    cache: 'no-cache'
+                });
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.log('Failed to load from server');
+            }
+            
+            return null;
+        }
+        
+        async function loadAttestationFromServer(id) {
+            // Check if it's a legacy attestation in /1/, /2/, etc.
+            const legacyPaths = ['/1/', '/2/', '/3/', '/4/', '/5/'];
+            for (const path of legacyPaths) {
+                if (window.location.pathname.includes(path)) {
+                    // This is a legacy attestation page
+                    try {
+                        const response = await fetch(`${path}attestation.json`);
+                        if (response.ok) {
+                            const attestation = await response.json();
+                            verifyAttestation(attestation);
+                            return;
+                        }
+                    } catch (error) {
+                        console.error('Failed to load legacy attestation');
+                    }
+                }
+            }
+            
+            // Try to load from attestations directory (suppress 404 errors)
+            try {
+                const response = await fetch(`/attestations/${id}.json`, {
+                    method: 'GET',
+                    cache: 'no-cache'
+                });
+                if (response.ok) {
+                    const attestation = await response.json();
+                    verifyAttestation(attestation);
+                } else if (response.status === 404) {
+                    // Don't log 404 as error - it's expected in demo environment
+                    console.log(`Attestation ${id} not found on server (this is normal for local/demo use)`);
+                    // Show more detailed error message
+                    const errorMessage = `
+Attestation with ID "${id}" not found.
+
+This could be because:
+• The attestation was created in a different browser/device (localStorage is per-browser)
+• Browser storage was cleared
+• The ID is incorrect
+• You're using a short URL in a demo/local environment
+
+**To make short URLs work offline:**
+• Create and verify attestations in the same browser
+• Don't clear browser data/localStorage
+
+**For sharing attestations across devices:**
+1. Use the "Embed Badge" option (includes full attestation data)
+2. Use the full data URL instead of the short URL
+3. Save and share the attestation JSON file
+
+Note: Short URLs with server storage are coming soon for production use.`;
+                    
+                    alert(errorMessage.trim());
+                }
+            } catch (error) {
+                console.error('Failed to load attestation:', error);
+                alert('Failed to load attestation. Please try again or use the full data URL.');
+            }
+        }
+    </script>
+    <script src="/static/theme.js"></script>
+    <script src="/static/global-footer.js"></script>
+</body>
+</html>
