@@ -757,11 +757,6 @@ summary {
     border-radius: 4px;
 }
 
-.back-to-top.visible {
-    opacity: 0.9;
-    visibility: visible;
-}
-
 .back-to-top:hover {
     transform: translateY(-2px);
     box-shadow: 3px 5px 0 rgba(0, 0, 0, 0.3);
@@ -773,11 +768,6 @@ summary {
 .back-to-top:active {
     transform: translateY(0);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Subtle pulsing animation when visible */
-.back-to-top.visible {
-    animation: subtle-pulse 2s ease-in-out infinite;
 }
 
 @keyframes subtle-pulse {
