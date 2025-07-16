@@ -1,0 +1,213 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, v2-static-site ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  validate-attestations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Validate attestation files
+        run: |
+          # Validate all attestation JSON files
+          for file in attestations/v2/*.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file..."
+              node -e "
+                const fs = require('fs');
+                const content = fs.readFileSync('$file', 'utf8');
+                try {
+                  const attestation = JSON.parse(content);
+                  // Basic validation
+                  if (!attestation.version || !attestation.id || !attestation.content_hash) {
+                    throw new Error('Missing required fields');
+                  }
+                  console.log(' Valid attestation');
+                } catch (e) {
+                  console.error(' Invalid attestation:', e.message);
+                  process.exit(1);
+                }
+              "
+            fi
+          done
+          
+  build-stats:
+    runs-on: ubuntu-latest
+    needs: validate-attestations
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Generate statistics
+        run: |
+          # Count attestations and generate stats
+          echo "Generating attestation statistics..."
+          
+          # Create a stats.json file
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Count attestations
+            let v1Count = 0;
+            let v2Count = 0;
+            const models = new Set();
+            
+            // Count v2 attestations
+            const v2Dir = 'attestations/v2';
+            if (fs.existsSync(v2Dir)) {
+              const files = fs.readdirSync(v2Dir);
+              files.forEach(file => {
+                if (file.endsWith('.json')) {
+                  v2Count++;
+                  try {
+                    const content = fs.readFileSync(path.join(v2Dir, file), 'utf8');
+                    const attestation = JSON.parse(content);
+                    if (attestation.model) {
+                      models.add(attestation.model);
+                    }
+                  } catch (e) {}
+                }
+              });
+            }
+            
+            // Count legacy attestations (directories named with numbers)
+            for (let i = 1; i <= 999; i++) {
+              if (fs.existsSync(String(i))) {
+                v1Count++;
+              }
+            }
+            
+            const stats = {
+              total: v1Count + v2Count,
+              v1: v1Count,
+              v2: v2Count,
+              models: models.size,
+              lastUpdated: new Date().toISOString()
+            };
+            
+            fs.writeFileSync('static/stats.json', JSON.stringify(stats, null, 2));
+            console.log('Stats generated:', stats);
+          "
+          
+      - name: Upload stats artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stats
+          path: static/stats.json
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-stats
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Download stats artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stats
+          path: static/
+          
+      - name: Create 404 page
+        run: |
+          cat > 404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>404 - Page Not Found | attest.ink</title>
+              <link rel="stylesheet" href="/static/style.css">
+          </head>
+          <body>
+              <header>
+                  <nav>
+                      <div class="container">
+                          <a href="/" class="logo">attest.ink</a>
+                          <ul>
+                              <li><a href="/create/">Create</a></li>
+                              <li><a href="/view/">Verify</a></li>
+                              <li><a href="/developers/">Developers</a></li>
+                              <li><a href="/protocol/">Protocol</a></li>
+                          </ul>
+                      </div>
+                  </nav>
+              </header>
+              <main style="text-align: center; padding: 4rem 0;">
+                  <h1>404 - Page Not Found</h1>
+                  <p>The attestation or page you're looking for doesn't exist.</p>
+                  <a href="/" class="btn btn-primary">Go Home</a>
+              </main>
+          </body>
+          </html>
+          EOF
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Wait for deployment
+        run: sleep 30
+        
+      - name: Verify deployment
+        run: |
+          # Test key endpoints
+          urls=(
+            "https://attest.ink/"
+            "https://attest.ink/create/"
+            "https://attest.ink/view/"
+            "https://attest.ink/developers/"
+            "https://attest.ink/protocol/"
+            "https://attest.ink/static/badge-renderer.js"
+            "https://attest.ink/static/attestation-tool.js"
+          )
+          
+          for url in "${urls[@]}"; do
+            echo "Testing $url..."
+            if curl -f -s -o /dev/null "$url"; then
+              echo " $url is accessible"
+            else
+              echo " $url failed"
+              exit 1
+            fi
+          done
+          
+          echo "All endpoints verified successfully!"

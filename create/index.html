@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Attestation - attest.ink</title>
+    <meta name="description" content="Create a verifiable attestation for your AI-generated content">
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <meta name="theme-color" content="#111827">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/badge-styles.css">
+    <script src="/static/ai-models.js?v=2"></script>
+    <script>
+        // Prevent theme flicker by setting theme before render
+        (function() {
+            const saved = localStorage.getItem('theme');
+            let theme = 'light';
+            if (saved) {
+                theme = saved;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = 'dark';
+            } else {
+                const hour = new Date().getHours();
+                if (hour >= 18 || hour < 6) {
+                    theme = 'dark';
+                }
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">D</button>
+    <div class="container">
+        <nav>
+            <div class="nav-inner">
+                <a href="/" class="logo">
+                    <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                    <span>attest.ink</span>
+                </a>
+                <ul>
+                    <li><a href="/create/" class="active">Create</a></li>
+                    <li><a href="/verify/">Verify</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">More</span>
+                        <div class="dropdown-menu">
+                            <a href="/protocol/">Protocol</a>
+                            <a href="/showcase/">Badges</a>
+                            <a href="/examples/">Examples</a>
+                            <a href="/developers/">Developer Docs</a>
+                            <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main>
+            <h1>Create AI Attestation</h1>
+
+            <form id="attestation-form">
+                <div class="form-group">
+                    <label>Import Options</label>
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight: normal; display: block; margin-bottom: 10px; padding: 20px; background: var(--bg-panel); border: 2px dashed var(--border-color); border-radius: 8px; cursor: pointer; text-align: center;">
+                            <input type="file" id="import-file" accept=".json,.txt,.md,.html,.pdf,.tex,.js,.py,.jpg,.jpeg,.png,.gif,.mp3,.mp4" style="display: none;">
+                            <span id="import-label" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6;">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span style="font-size: 16px; font-weight: 500;">Click to upload file or drag and drop</span>
+                                <span style="font-size: 14px; color: var(--text-secondary);">Upload content, attestation JSON, or paste URL below</span>
+                            </span>
+                        </label>
+                        
+                        <div class="import-url-container" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+                            <input type="url" id="import-url" placeholder="Or paste URL to import content..." style="flex: 1;">
+                            <button type="button" id="import-url-btn" class="btn btn-secondary">Import URL</button>
+                        </div>
+                        
+                        <p style="font-size: 0.9em; color: var(--text-secondary); margin: 10px 0; text-align: center;">
+                            — or manually enter the details below —
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content-name">Content Name <span style="color: var(--color-danger);">*</span></label>
+                    <input type="text" id="content-name" name="content_name" placeholder="e.g., Blog Post: AI in Healthcare" required>
+                    <p style="font-size: 0.9em; color: var(--text-secondary); margin: 5px 0;">A descriptive name for your content</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Content (Optional)</label>
+                    <textarea id="content" name="content" rows="10" placeholder="Paste your content here (optional)"></textarea>
+                    <p style="font-size: 0.9em; color: var(--text-secondary); margin: 5px 0;">Paste content to generate hash. If omitted, only the content name will be attested.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="document-type">Document Type</label>
+                    <select id="document-type" name="document_type" required>
+                        <option value="">Select type...</option>
+                        <option value="text">Plain Text</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="html">HTML</option>
+                        <option value="website">Website</option>
+                        <option value="pdf">PDF</option>
+                        <option value="academic_paper">Academic Paper</option>
+                        <option value="latex">LaTeX</option>
+                        <option value="code">Source Code</option>
+                        <option value="image">Image</option>
+                        <option value="audio">Audio</option>
+                        <option value="video">Video</option>
+                        <option value="other">Other (specify)</option>
+                    </select>
+                    <input type="text" id="document-type-other" name="document_type_other" placeholder="Specify document type..." style="display: none; margin-top: 10px;">
+                </div>
+
+                <div class="form-group">
+                    <label for="model">AI Model</label>
+                    <select id="model" name="model" required>
+                        <option value="">Select model...</option>
+                    </select>
+                    <input type="text" id="model-other" name="model_other" placeholder="Specify model name..." style="display: none; margin-top: 10px;">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">AI Role</label>
+                    <select id="role" name="role" required>
+                        <option value="generated">AI Generated (100% AI)</option>
+                        <option value="assisted">AI Assisted (Human + AI collaboration)</option>
+                        <option value="edited">AI Edited (Human created, AI refined)</option>
+                        <option value="other">Other (specify)</option>
+                    </select>
+                    <input type="text" id="role-other" name="role_other" placeholder="Specify AI role..." style="display: none; margin-top: 10px;">
+                </div>
+
+                <div class="form-group">
+                    <label for="prompt">Prompt (Optional)</label>
+                    <textarea id="prompt" name="prompt" rows="4" placeholder="The prompt or instructions given to the AI"></textarea>
+                    <label style="font-weight: normal; margin-top: 5px;">
+                        <input type="checkbox" id="prompt-private" name="prompt_private" checked> 
+                        Keep prompt private (only hash will be included)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Author/Creator (Optional)</label>
+                    <input type="text" id="author" name="author" placeholder="Your name or identifier">
+                </div>
+
+                <div class="form-group">
+                    <label for="badge-style">Badge Style</label>
+                    <select id="badge-style" name="badge_style">
+                        <option value="default">Default (Standard)</option>
+                        <option value="glass">Glass Effect</option>
+                        <option value="glass-minimal">Minimalist</option>
+                        <option value="terminal">Terminal Style</option>
+                        <option value="neon">Neon Glow</option>
+                        <option value="rainbow">Rainbow</option>
+                        <option value="matrix">Matrix</option>
+                        <option value="holographic">Holographic</option>
+                        <option value="latex">LaTeX (Academic)</option>
+                    </select>
+                    <div id="badge-style-preview" style="margin-top: 10px; padding: 10px; background: var(--bg-panel); border: 2px solid var(--border-color); text-align: center;">
+                        <span class="ai-badge">Preview</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Digital Signature</label>
+                    <div class="section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <label style="font-weight: normal; display: block; margin-bottom: 0.5rem;">
+                            <input type="radio" name="sign-method" value="wallet" checked> 
+                            Ethereum Wallet (MetaMask, etc.)
+                        </label>
+                        <label style="font-weight: normal; display: block;">
+                            <input type="radio" name="sign-method" value="local"> 
+                            Local Signature (No wallet needed)
+                        </label>
+                    </div>
+                    <div id="wallet-section">
+                        <button type="button" id="connect-wallet" class="btn btn-secondary">Connect Ethereum Wallet</button>
+                        <div id="wallet-status" style="margin-top: 10px; color: var(--text-secondary);"></div>
+                        <p style="font-size: 0.9em; color: var(--text-secondary); margin: 10px 0;">
+                            <strong>No fees required!</strong> This only creates a digital signature - no blockchain transaction or gas fees involved.
+                        </p>
+                    </div>
+                    <div id="local-section" style="display: none;">
+                        <input type="password" id="signing-password" placeholder="Enter a password for signing" style="margin-bottom: 10px;">
+                        <p style="font-size: 0.9em; color: var(--text-secondary); margin: 5px 0;">Password is used to generate a unique signature</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <button type="submit" class="btn">Generate Attestation</button>
+                </div>
+            </form>
+
+            <div id="result-section" style="display: none; margin-top: 40px;">
+                <h2>Attestation Created</h2>
+                
+                <pre id="attestation-json"></pre>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button id="download-json" class="btn">Download JSON</button>
+                    <button id="copy-json" class="btn btn-secondary">Copy to Clipboard</button>
+                    <button id="create-another" class="btn btn-secondary">Create Another</button>
+                </div>
+
+                <div class="section">
+                    <h3>Verification Badge</h3>
+                    <p>Add this badge to your content to show AI was used:</p>
+                    
+                    <div id="badge-preview" style="margin: 20px 0;"></div>
+                    
+                    <div id="latex-section" style="display: none; margin-bottom: 20px;">
+                        <h4>LaTeX Code</h4>
+                        <pre id="latex-code" style="background: var(--bg-panel); padding: 15px; border-radius: 4px; overflow-x: auto;"></pre>
+                        <button id="copy-latex-code" class="btn btn-secondary" style="margin-top: 10px;">Copy LaTeX Code</button>
+                        
+                        <h4 style="margin-top: 20px;">Extended LaTeX with Footnote</h4>
+                        <pre id="latex-extended" style="background: var(--bg-panel); padding: 15px; border-radius: 4px; overflow-x: auto;"></pre>
+                        <button id="copy-latex-extended" class="btn btn-secondary" style="margin-top: 10px;">Copy Extended LaTeX</button>
+                    </div>
+                    
+                    <div id="embed-section">
+                        <h4>Option 1: Embed Badge (Self-Contained)</h4>
+                        <pre id="badge-embed-code"></pre>
+                        <button id="copy-embed-code" class="btn btn-secondary">Copy Embed Code</button>
+                    </div>
+                    
+                    <div id="link-section" style="margin-top: 20px;">
+                        <h4>Option 2: Direct Link</h4>
+                        <pre id="badge-link-code"></pre>
+                        <button id="copy-link-code" class="btn btn-secondary">Copy Link Code</button>
+                    </div>
+                    
+                    <div id="api-section" style="margin-top: 20px;">
+                        <h4>Option 3: API / Automation</h4>
+                        <p style="margin-bottom: 10px;">Create attestations programmatically using curl:</p>
+                        <pre id="api-curl-command" style="font-size: 0.9em;"></pre>
+                        <button id="copy-api-command" class="btn btn-secondary">Copy curl Command</button>
+                    </div>
+                </div>
+
+                <div class="message message-info" style="margin-top: 30px;">
+                    <strong>How it works:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Embed Badge:</strong> Self-contained HTML with full attestation data (works offline)</li>
+                        <li><strong>Direct Link:</strong> Short URL for easy sharing (e.g., attest.ink/verify/?id=2025-01-15-abc123)</li>
+                        <li>No hosting required - the embed includes all data</li>
+                        <li>Anyone can click to verify the attestation on attest.ink</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Note:</strong> Short URLs require the attestation to be stored on the server. For now, use the Embed Badge option for guaranteed portability, or save the attestation JSON file.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                        <span>attest.ink</span>
+                    </a>
+                    <p>Transparent AI attribution for the modern web</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="/showcase/">Badges</a>
+                    <a href="/examples/">Examples</a>
+                    <a href="/developers/">Documentation</a>
+                    <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
+                    <a href="mailto:info@attest.ink">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 <a href="https://0x42r.io/" target="_blank">0x42 Research</a>. 
+                    <a href="https://github.com/statusdothealth/attest.ink/blob/main/LICENSE" target="_blank">
+                        <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" style="vertical-align: middle; margin-left: 8px;">
+                    </a>
+                </p>
+                <a href="https://attest.ink/verify/?hash=5f4dcc3b5aa765d61d8327deb882cf99" class="ai-attestation-badge">
+                    <img src="/assets/badges/ai-generated.svg" alt="AI Generated" style="height: 20px; vertical-align: middle;">
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/attestation-tool.js"></script>
+    <script src="/static/badge-renderer.js"></script>
+    <script>
+        // Populate AI models dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelSelect = document.getElementById('model');
+            
+            // Add models grouped by provider
+            for (const [providerId, provider] of Object.entries(AI_MODELS)) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = provider.name;
+                
+                provider.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    optgroup.appendChild(option);
+                });
+                
+                modelSelect.appendChild(optgroup);
+            }
+            
+            // Add "Other" option at the end
+            const otherOption = document.createElement('option');
+            otherOption.value = 'other';
+            otherOption.textContent = 'Other (specify)';
+            modelSelect.appendChild(otherOption);
+        });
+    </script>
+    <script>
+        // Import handling
+        const importFileInput = document.getElementById('import-file');
+        const importLabel = document.getElementById('import-label');
+        const importUrlInput = document.getElementById('import-url');
+        const importUrlBtn = document.getElementById('import-url-btn');
+        const contentTextarea = document.getElementById('content');
+        const contentNameInput = document.getElementById('content-name');
+        
+        // Function to populate form fields from attestation JSON
+        function populateFromAttestation(attestation) {
+            // Set content name
+            if (attestation.content_name) {
+                contentNameInput.value = attestation.content_name;
+            }
+            
+            // Set document type
+            if (attestation.document_type) {
+                document.getElementById('document-type').value = attestation.document_type;
+                document.getElementById('document-type').dispatchEvent(new Event('change'));
+            }
+            
+            // Set model
+            if (attestation.model) {
+                document.getElementById('model').value = attestation.model;
+                document.getElementById('model').dispatchEvent(new Event('change'));
+            }
+            
+            // Set role
+            if (attestation.role) {
+                const roleSelect = document.getElementById('role');
+                // Check if it's a standard role
+                const standardRoles = ['generated', 'assisted', 'edited'];
+                if (standardRoles.includes(attestation.role)) {
+                    roleSelect.value = attestation.role;
+                } else {
+                    // Custom role
+                    roleSelect.value = 'other';
+                    roleSelect.dispatchEvent(new Event('change'));
+                    setTimeout(() => {
+                        document.getElementById('role-other').value = attestation.role;
+                    }, 100);
+                }
+            }
+            
+            // Set author
+            if (attestation.author) {
+                document.getElementById('author').value = attestation.author;
+            }
+            
+            // Set prompt
+            if (attestation.prompt) {
+                document.getElementById('prompt').value = attestation.prompt;
+                document.getElementById('prompt-private').checked = false;
+            } else if (attestation.prompt_hash) {
+                document.getElementById('prompt').value = '[Prompt was kept private - hash: ' + attestation.prompt_hash + ']';
+                document.getElementById('prompt-private').checked = true;
+            }
+            
+            // Update badge preview
+            updateBadgePreview();
+            
+            alert('Attestation data imported successfully! Review and modify as needed.');
+        }
+        
+        importFileInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                importLabel.innerHTML = `
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span style="font-size: 16px; font-weight: 500;">${file.name}</span>
+                    <span style="font-size: 14px; color: var(--text-secondary);">File loaded</span>
+                `;
+                
+                // Auto-fill content name from filename if empty
+                if (!contentNameInput.value) {
+                    const nameWithoutExt = file.name.replace(/\.[^/.]+$/, "");
+                    contentNameInput.value = nameWithoutExt;
+                }
+                
+                // Auto-detect document type based on file extension
+                const extension = file.name.toLowerCase().split('.').pop();
+                const documentTypeSelect = document.getElementById('document-type');
+                const badgeStyleSelect = document.getElementById('badge-style');
+                
+                const extensionToType = {
+                    'txt': 'text',
+                    'md': 'markdown',
+                    'html': 'html',
+                    'htm': 'html',
+                    'pdf': 'pdf',
+                    'tex': 'latex',
+                    'js': 'code',
+                    'py': 'code',
+                    'java': 'code',
+                    'cpp': 'code',
+                    'c': 'code',
+                    'cs': 'code',
+                    'php': 'code',
+                    'rb': 'code',
+                    'go': 'code',
+                    'rs': 'code',
+                    'json': 'code',
+                    'xml': 'code',
+                    'yaml': 'code',
+                    'yml': 'code',
+                    'jpg': 'image',
+                    'jpeg': 'image',
+                    'png': 'image',
+                    'gif': 'image',
+                    'bmp': 'image',
+                    'svg': 'image',
+                    'webp': 'image',
+                    'mp3': 'audio',
+                    'wav': 'audio',
+                    'ogg': 'audio',
+                    'm4a': 'audio',
+                    'flac': 'audio',
+                    'mp4': 'video',
+                    'avi': 'video',
+                    'mov': 'video',
+                    'wmv': 'video',
+                    'mkv': 'video',
+                    'webm': 'video'
+                };
+                
+                const detectedType = extensionToType[extension];
+                if (detectedType) {
+                    documentTypeSelect.value = detectedType;
+                    // Trigger change event to handle "other" input visibility
+                    documentTypeSelect.dispatchEvent(new Event('change'));
+                    
+                    // Auto-select LaTeX badge style for .tex files
+                    if (extension === 'tex') {
+                        badgeStyleSelect.value = 'latex';
+                        updateBadgePreview();
+                    }
+                }
+                
+                // Handle JSON attestation files specially
+                if (file.name.endsWith('.json')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            // Check if it's an attestation JSON
+                            if (data.version && data.model && (data.content_hash || data.content_name)) {
+                                populateFromAttestation(data);
+                            } else {
+                                // Just regular JSON content
+                                contentTextarea.value = e.target.result;
+                            }
+                        } catch (err) {
+                            // Not valid JSON, treat as text
+                            contentTextarea.value = e.target.result;
+                        }
+                    };
+                    reader.readAsText(file);
+                } else if (file.type.startsWith('text/') || 
+                    file.name.endsWith('.txt') || 
+                    file.name.endsWith('.md') || 
+                    file.name.endsWith('.tex') ||
+                    file.name.endsWith('.js') ||
+                    file.name.endsWith('.py')) {
+                    // Read other text files
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        contentTextarea.value = e.target.result;
+                    };
+                    reader.readAsText(file);
+                }
+            }
+        });
+        
+        // Drag and drop for import
+        const dropZone = importFileInput.parentElement;
+        
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropZone.style.background = 'var(--color-primary-light)';
+        });
+        
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dropZone.style.background = 'var(--bg-panel)';
+        });
+        
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.style.background = 'var(--bg-panel)';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                importFileInput.files = files;
+                const event = new Event('change', { bubbles: true });
+                importFileInput.dispatchEvent(event);
+            }
+        });
+        
+        // URL import functionality
+        importUrlBtn.addEventListener('click', async function() {
+            const url = importUrlInput.value.trim();
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            try {
+                importUrlBtn.textContent = 'Loading...';
+                importUrlBtn.disabled = true;
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch content');
+                }
+                
+                const contentType = response.headers.get('content-type');
+                const text = await response.text();
+                
+                // Try to parse as JSON first
+                if (contentType && contentType.includes('application/json')) {
+                    try {
+                        const data = JSON.parse(text);
+                        if (data.version && data.model && (data.content_hash || data.content_name)) {
+                            populateFromAttestation(data);
+                            importUrlInput.value = '';
+                            return;
+                        }
+                    } catch (e) {
+                        // Not attestation JSON, treat as content
+                    }
+                }
+                
+                // Use as content
+                contentTextarea.value = text;
+                
+                // Try to extract filename from URL
+                const urlPath = new URL(url).pathname;
+                const filename = urlPath.split('/').pop() || 'imported-content';
+                if (!contentNameInput.value) {
+                    contentNameInput.value = filename.replace(/\.[^/.]+$/, "");
+                }
+                
+                // Auto-detect type from URL extension
+                const extension = filename.toLowerCase().split('.').pop();
+                const extensionToType = {
+                    'txt': 'text',
+                    'md': 'markdown',
+                    'html': 'html',
+                    'json': 'code',
+                    'js': 'code',
+                    'py': 'code',
+                    'tex': 'latex'
+                };
+                
+                const detectedType = extensionToType[extension];
+                if (detectedType) {
+                    document.getElementById('document-type').value = detectedType;
+                    document.getElementById('document-type').dispatchEvent(new Event('change'));
+                }
+                
+                importUrlInput.value = '';
+                importLabel.innerHTML = `
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <span style="font-size: 16px; font-weight: 500;">Content imported from URL</span>
+                    <span style="font-size: 14px; color: var(--text-secondary);">${url}</span>
+                `;
+                
+            } catch (error) {
+                console.error('Import error:', error);
+                alert('Failed to import from URL. Make sure the URL is accessible and CORS-enabled.');
+            } finally {
+                importUrlBtn.textContent = 'Import URL';
+                importUrlBtn.disabled = false;
+            }
+        });
+        
+        // Handle custom selections
+        document.getElementById('document-type').addEventListener('change', function(e) {
+            const otherInput = document.getElementById('document-type-other');
+            otherInput.style.display = e.target.value === 'other' ? 'block' : 'none';
+            if (e.target.value === 'other') {
+                otherInput.required = true;
+            } else {
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        });
+
+        // Badge style preview
+        const badgeStyleSelect = document.getElementById('badge-style');
+        const badgePreview = document.getElementById('badge-style-preview');
+        
+        function updateBadgePreview() {
+            const style = badgeStyleSelect.value;
+            const modelSelect = document.getElementById('model');
+            const roleSelect = document.getElementById('role');
+            const modelId = modelSelect.value || 'gpt-4';
+            const role = roleSelect.value || 'generated';
+            
+            let badgeHtml = '';
+            if (style === 'default') {
+                // For default, try to use AttestInk if available, otherwise fallback to a simple badge
+                if (window.AttestInk && modelId && modelId !== 'other') {
+                    badgeHtml = window.AttestInk.createBadgeSVG(modelId, role);
+                } else {
+                    // Fallback badge for when AttestInk isn't loaded or model is custom
+                    const modelName = modelId === 'other' ? 'AI' : (modelId.split('-')[0] || 'AI').toUpperCase();
+                    const roleText = role === 'generated' ? 'GENERATED' : role === 'other' ? document.getElementById('role-other').value.toUpperCase() : role.toUpperCase();
+                    badgeHtml = `<span style="display: inline-flex; align-items: center; padding: 4px 12px; background: #2563eb; color: white; font-family: VT323, monospace; font-size: 16px; text-transform: uppercase; border-radius: 4px;">${modelName} ${roleText}</span>`;
+                }
+            } else if (style === 'glass') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-glass badge-glass-primary">AI ${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'glass-minimal') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-glass-minimal">${displayRole === 'generated' ? 'ai-generated' : 'ai-' + displayRole}</span>`;
+            } else if (style === 'terminal') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-legacy badge-terminal">AI_${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'neon') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-legacy badge-neon">AI ${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'rainbow') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-legacy badge-rainbow">AI ${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'matrix') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-legacy badge-matrix">AI ${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'holographic') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<span class="badge-legacy badge-holographic">AI ${displayRole.toUpperCase()}</span>`;
+            } else if (style === 'latex') {
+                const displayRole = role === 'other' ? document.getElementById('role-other').value : role;
+                badgeHtml = `<div style="font-family: monospace; background: var(--bg-panel); padding: 8px; border: 1px solid var(--border-color); font-size: 12px; color: var(--text-primary);">LaTeX: \\texttt{${displayRole.toUpperCase().replace('_', '-')}}</div>`;
+            }
+            
+            badgePreview.innerHTML = badgeHtml;
+        }
+        
+        badgeStyleSelect.addEventListener('change', updateBadgePreview);
+        document.getElementById('model').addEventListener('change', updateBadgePreview);
+        document.getElementById('role').addEventListener('change', updateBadgePreview);
+        
+        // Initial preview
+        setTimeout(updateBadgePreview, 100);
+        
+        // Update preview when custom role text changes (if element exists)
+        const roleOtherInput = document.getElementById('role-other');
+        if (roleOtherInput) {
+            roleOtherInput.addEventListener('input', updateBadgePreview);
+        }
+
+        document.getElementById('model').addEventListener('change', function(e) {
+            const otherInput = document.getElementById('model-other');
+            otherInput.style.display = e.target.value === 'other' ? 'block' : 'none';
+            if (e.target.value === 'other') {
+                otherInput.required = true;
+            } else {
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        });
+        
+        // Handle custom role selection
+        document.getElementById('role').addEventListener('change', function(e) {
+            const otherInput = document.getElementById('role-other');
+            otherInput.style.display = e.target.value === 'other' ? 'block' : 'none';
+            if (e.target.value === 'other') {
+                otherInput.required = true;
+            } else {
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+            updateBadgePreview();
+        });
+
+        // Signature method toggle
+        document.querySelectorAll('input[name="sign-method"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const walletSection = document.getElementById('wallet-section');
+                const localSection = document.getElementById('local-section');
+                
+                if (this.value === 'wallet') {
+                    walletSection.style.display = 'block';
+                    localSection.style.display = 'none';
+                } else {
+                    walletSection.style.display = 'none';
+                    localSection.style.display = 'block';
+                }
+            });
+        });
+
+        // MetaMask integration
+        let connectedAccount = null;
+
+        async function connectWallet() {
+            // Check if any ethereum provider exists
+            if (typeof window.ethereum === 'undefined') {
+                alert('Please install MetaMask to sign attestations with your Ethereum wallet.');
+                return;
+            }
+
+            let provider = window.ethereum;
+            
+            // Handle multiple providers (MetaMask, Phantom, etc.)
+            if (window.ethereum.providers && Array.isArray(window.ethereum.providers)) {
+                // Look for MetaMask specifically
+                provider = window.ethereum.providers.find((p) => p.isMetaMask);
+                
+                if (!provider) {
+                    // If MetaMask not found, use the first available provider
+                    provider = window.ethereum.providers[0];
+                    if (!confirm('MetaMask not detected. Another wallet was found. Continue anyway?')) {
+                        return;
+                    }
+                }
+            } else if (!window.ethereum.isMetaMask) {
+                // Single provider that's not MetaMask
+                if (!confirm('MetaMask not detected. Another wallet was found. Continue anyway?')) {
+                    return;
+                }
+            }
+
+            try {
+                // Request accounts with error handling
+                const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                
+                if (accounts && accounts.length > 0) {
+                    connectedAccount = accounts[0];
+                    // Store the provider for later use
+                    window.selectedProvider = provider;
+                    document.getElementById('wallet-status').textContent = `Connected: ${connectedAccount.slice(0, 6)}...${connectedAccount.slice(-4)}`;
+                    document.getElementById('connect-wallet').textContent = 'Wallet Connected';
+                    document.getElementById('connect-wallet').disabled = true;
+                }
+            } catch (error) {
+                console.log('Wallet connection error:', error);
+                if (error.code === 4001) {
+                    alert('Connection rejected. Please accept the connection request in your wallet.');
+                } else if (error.code === -32002) {
+                    alert('Please unlock your wallet and try again.');
+                } else {
+                    alert('Failed to connect wallet. Please try again or use the local signature option.');
+                }
+            }
+        }
+
+        document.getElementById('connect-wallet').addEventListener('click', connectWallet);
+
+        // Remove auto-connection to avoid wallet conflicts
+        // Users must manually click to connect their wallet
+
+        // Form submission
+        document.getElementById('attestation-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const content = formData.get('content');
+            const contentName = formData.get('content_name');
+            
+            // Calculate content hash if content is provided
+            let contentHash = null;
+            if (content && content.trim()) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(content);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                contentHash = 'sha256:' + hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            // Get document type
+            let documentType = formData.get('document_type');
+            if (documentType === 'other') {
+                documentType = formData.get('document_type_other');
+            }
+
+            // Get model
+            let model = formData.get('model');
+            if (model === 'other') {
+                model = formData.get('model_other');
+            }
+
+            // Get role
+            let role = formData.get('role');
+            if (role === 'other') {
+                role = formData.get('role_other');
+            }
+            
+            // Build attestation
+            const attestation = {
+                version: "2.0",
+                id: new Date().toISOString().split('T')[0] + '-' + Math.random().toString(36).substring(2, 8),
+                content_name: contentName,
+                document_type: documentType,
+                model: model,
+                role: role,
+                timestamp: new Date().toISOString(),
+                platform: "attest.ink"
+            };
+            
+            // Add content hash only if content was provided
+            if (contentHash) {
+                attestation.content_hash = contentHash;
+            }
+
+            // Add optional fields
+            const author = formData.get('author');
+            if (author) attestation.author = author;
+
+            const prompt = formData.get('prompt');
+            if (prompt) {
+                if (formData.get('prompt_private')) {
+                    // Hash the prompt
+                    const promptData = encoder.encode(prompt);
+                    const promptHashBuffer = await crypto.subtle.digest('SHA-256', promptData);
+                    const promptHashArray = Array.from(new Uint8Array(promptHashBuffer));
+                    attestation.prompt_hash = 'sha256:' + promptHashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                } else {
+                    attestation.prompt = prompt;
+                }
+            }
+
+            // Sign based on selected method
+            const signMethod = document.querySelector('input[name="sign-method"]:checked').value;
+            
+            if (signMethod === 'wallet') {
+                if (!connectedAccount) {
+                    alert('Please connect your Ethereum wallet first by clicking "Connect Ethereum Wallet"');
+                    return;
+                }
+                try {
+                    // Create message to sign (include content_name for v2.0)
+                    const messageData = {
+                        content_name: attestation.content_name,
+                        model: attestation.model,
+                        timestamp: attestation.timestamp
+                    };
+                    // Only include content_hash if it exists
+                    if (attestation.content_hash) {
+                        messageData.content_hash = attestation.content_hash;
+                    }
+                    const message = JSON.stringify(messageData);
+
+                    // Use the selected provider (MetaMask or other)
+                    const provider = window.selectedProvider || window.ethereum;
+                    
+                    // Request signature
+                    const signature = await provider.request({
+                        method: 'personal_sign',
+                        params: [message, connectedAccount]
+                    });
+
+                    attestation.signature = {
+                        type: 'ethereum',
+                        value: signature,
+                        signer: connectedAccount,
+                        message: message
+                    };
+                } catch (error) {
+                    console.error('Signing failed:', error);
+                    if (error.code === 4001) {
+                        alert('Signing rejected. Please approve the signature request in your wallet.');
+                        return;
+                    } else if (!confirm('Signing failed. Continue without signature?')) {
+                        return;
+                    }
+                }
+            } else if (signMethod === 'local') {
+                const password = document.getElementById('signing-password').value;
+                if (!password) {
+                    alert('Please enter a password for signing');
+                    return;
+                }
+                
+                try {
+                    // Create message to sign
+                    const message = JSON.stringify({
+                        content_hash: attestation.content_hash,
+                        model: attestation.model,
+                        timestamp: attestation.timestamp
+                    });
+                    
+                    // Generate key from password
+                    const enc = new TextEncoder();
+                    const keyMaterial = await crypto.subtle.importKey(
+                        'raw',
+                        enc.encode(password),
+                        'PBKDF2',
+                        false,
+                        ['deriveBits', 'deriveKey']
+                    );
+                    
+                    // Derive signing key
+                    const salt = enc.encode('attest.ink.v1.' + attestation.id);
+                    const key = await crypto.subtle.deriveKey(
+                        {
+                            name: 'PBKDF2',
+                            salt: salt,
+                            iterations: 100000,
+                            hash: 'SHA-256'
+                        },
+                        keyMaterial,
+                        { name: 'HMAC', hash: 'SHA-256', length: 256 },
+                        false,
+                        ['sign']
+                    );
+                    
+                    // Sign the message
+                    const signature = await crypto.subtle.sign(
+                        'HMAC',
+                        key,
+                        enc.encode(message)
+                    );
+                    
+                    // Convert to hex
+                    const sigArray = Array.from(new Uint8Array(signature));
+                    const sigHex = sigArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    
+                    // Create signer ID from password (hash it)
+                    const signerData = enc.encode('attest.ink.signer.' + password);
+                    const signerHash = await crypto.subtle.digest('SHA-256', signerData);
+                    const signerArray = Array.from(new Uint8Array(signerHash));
+                    const signerId = '0x' + signerArray.slice(0, 20).map(b => b.toString(16).padStart(2, '0')).join('');
+                    
+                    attestation.signature = {
+                        type: 'local',
+                        value: '0x' + sigHex,
+                        signer: signerId,
+                        message: message,
+                        algorithm: 'HMAC-SHA256-PBKDF2'
+                    };
+                } catch (error) {
+                    console.error('Local signing failed:', error);
+                    alert('Failed to create signature. Please try again.');
+                    return;
+                }
+            }
+
+            // Show result
+            document.getElementById('attestation-json').textContent = JSON.stringify(attestation, null, 2);
+            document.getElementById('attestation-form').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+
+            // Store for download
+            window.currentAttestation = attestation;
+            
+            // Store in localStorage for demo purposes
+            try {
+                localStorage.setItem(`attestation_${attestation.id}`, JSON.stringify(attestation));
+            } catch (e) {
+                console.log('Failed to store attestation in localStorage');
+            }
+
+            // Show badge preview and code
+            const badgePreview = document.getElementById('badge-preview');
+            const embedCodeEl = document.getElementById('badge-embed-code');
+            const linkCodeEl = document.getElementById('badge-link-code');
+            const latexSection = document.getElementById('latex-section');
+            const badgeStyle = formData.get('badge_style');
+            
+            // Create short URL using just the ID
+            const shortVerifyUrl = `https://attest.ink/verify/?id=${attestation.id}`;
+            
+            // Also create the full data URL for embedding (self-contained)
+            const attestationB64 = btoa(JSON.stringify(attestation));
+            const fullDataUrl = `https://attest.ink/verify/?data=${attestationB64}`;
+            
+            // Handle LaTeX style
+            if (badgeStyle === 'latex') {
+                latexSection.style.display = 'block';
+                badgePreview.innerHTML = '<div style="font-family: monospace; background: var(--bg-panel); padding: 10px; border: 1px solid var(--border-color); color: var(--text-primary);">LaTeX Badge (see code below)</div>';
+                
+                // Basic LaTeX code
+                const latexCode = `% AI Attestation
+\\section{AI Attestation}
+\\begin{center}
+\\fbox{\\small\\texttt{${attestation.role.toUpperCase().replace('_', '-')}}}
+\\end{center}
+
+\\noindent Verification URL: \\url{${shortVerifyUrl}}`;
+                
+                // Extended LaTeX with footnote
+                const latexExtended = `% AI Attestation
+\\section{AI Attestation}
+\\begin{center}
+\\fbox{\\small\\texttt{${attestation.role.toUpperCase().replace('_', '-')}}}
+\\end{center}
+
+\\noindent Verification URL: \\url{${shortVerifyUrl}}
+
+The ${attestation.role === 'generated' ? 'generation of content' : attestation.role === 'assisted' ? 'development and refinement' : 'editing'} in this work was ${attestation.role === 'generated' ? 'performed' : 'assisted'} using ${model === 'other' ? formData.get('model_other') : model}. What began as an experiment to explore the boundaries of AI-${attestation.role} research evolved into a fully-realized work. These tools served a role similar to LaTeX for typesetting or computational systems for verification, enabling more rigorous expression and validation of ideas. All core concepts, insights, and creative decisions are original human work.\\footnote{For detailed AI tool attribution and transparency, see \\url{${shortVerifyUrl}}.}`;
+                
+                document.getElementById('latex-code').textContent = latexCode;
+                document.getElementById('latex-extended').textContent = latexExtended;
+                
+                // Hide regular embed options for LaTeX
+                document.getElementById('embed-section').style.display = 'none';
+                document.getElementById('link-section').style.display = 'none';
+            } else {
+                latexSection.style.display = 'none';
+                document.getElementById('embed-section').style.display = 'block';
+                document.getElementById('link-section').style.display = 'block';
+                
+                // Create badge preview based on style
+                let badgeHtml = '';
+                if (badgeStyle === 'glass') {
+                    badgeHtml = `<span class="badge-glass badge-glass-primary">AI ${attestation.role.toUpperCase()}</span>`;
+                } else if (badgeStyle === 'glass-minimal') {
+                    badgeHtml = `<span class="badge-glass-minimal">${attestation.role === 'generated' ? 'ai-generated' : 'ai-' + attestation.role}</span>`;
+                } else if (badgeStyle === 'terminal') {
+                    badgeHtml = `<span class="badge-legacy badge-terminal">AI_${attestation.role.toUpperCase()}</span>`;
+                } else if (badgeStyle === 'neon') {
+                    badgeHtml = `<span class="badge-legacy badge-neon">AI ${attestation.role.toUpperCase()}</span>`;
+                } else if (badgeStyle === 'rainbow') {
+                    badgeHtml = `<span class="badge-legacy badge-rainbow">AI ${attestation.role.toUpperCase()}</span>`;
+                } else if (badgeStyle === 'matrix') {
+                    badgeHtml = `<span class="badge-legacy badge-matrix">AI ${attestation.role.toUpperCase()}</span>`;
+                } else if (badgeStyle === 'holographic') {
+                    badgeHtml = `<span class="badge-legacy badge-holographic">AI ${attestation.role.toUpperCase()}</span>`;
+                } else {
+                    // Default badge
+                    const svg = window.AttestInk ? window.AttestInk.createBadgeSVG(attestation.model, attestation.role) : '';
+                    badgeHtml = svg || `<span style="display: inline-flex; align-items: center; padding: 4px 12px; background: #2563eb; color: white; font-family: VT323, monospace; font-size: 16px; text-transform: uppercase; border-radius: 4px;">AI ${attestation.role.toUpperCase()}</span>`;
+                }
+                
+                badgePreview.innerHTML = badgeHtml;
+                
+                // Generate self-contained embed code (uses full data URL for portability)
+                const embedCode = `<!-- attest.ink AI Badge -->
+<a href="${fullDataUrl}" target="_blank" style="text-decoration: none;">
+    ${badgeHtml}
+</a>`;
+                
+                embedCodeEl.textContent = embedCode;
+                
+                // Generate direct link code (uses short URL)
+                linkCodeEl.textContent = shortVerifyUrl;
+            }
+            
+            // Generate curl command for API
+            const curlCommand = `curl -s "https://attest.ink/api/create.html?content_name=${encodeURIComponent(attestation.content_name)}&model=${encodeURIComponent(attestation.model)}&role=${encodeURIComponent(attestation.role)}&document_type=${encodeURIComponent(attestation.document_type)}&author=${encodeURIComponent(attestation.author || 'Anonymous')}&output=curl"`;
+            document.getElementById('api-curl-command').textContent = curlCommand;
+        });
+
+        // Download JSON
+        document.getElementById('download-json').addEventListener('click', function() {
+            const blob = new Blob([JSON.stringify(window.currentAttestation, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `attestation-${window.currentAttestation.id}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Copy to clipboard
+        document.getElementById('copy-json').addEventListener('click', async function() {
+            try {
+                await navigator.clipboard.writeText(JSON.stringify(window.currentAttestation, null, 2));
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy to Clipboard';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy to clipboard');
+            }
+        });
+
+        // Create another
+        document.getElementById('create-another').addEventListener('click', function() {
+            const keepInfo = confirm('Would you like to keep your author information and settings from the previous attestation?');
+            
+            if (keepInfo) {
+                // Store current values
+                const author = document.getElementById('author').value;
+                const documentType = document.getElementById('document-type').value;
+                const model = document.getElementById('model').value;
+                const role = document.getElementById('role').value;
+                const badgeStyle = document.getElementById('badge-style').value;
+                const signMethod = document.querySelector('input[name="sign-method"]:checked').value;
+                
+                // Reset form
+                document.getElementById('attestation-form').reset();
+                
+                // Restore preserved values
+                document.getElementById('author').value = author;
+                document.getElementById('document-type').value = documentType;
+                document.getElementById('model').value = model;
+                document.getElementById('role').value = role;
+                document.getElementById('badge-style').value = badgeStyle;
+                document.querySelector(`input[name="sign-method"][value="${signMethod}"]`).checked = true;
+                
+                // Handle custom model if "other" was selected
+                if (model === 'other') {
+                    const modelOther = document.getElementById('model-other');
+                    modelOther.style.display = 'block';
+                    modelOther.required = true;
+                    // Note: We can't restore the custom model text as it's not stored in the attestation
+                }
+                
+                // Update UI based on restored values
+                document.getElementById('document-type').dispatchEvent(new Event('change'));
+                document.getElementById('model').dispatchEvent(new Event('change'));
+                updateBadgePreview();
+                
+                // Restore wallet connection status if wallet was selected
+                if (signMethod === 'wallet' && connectedAccount) {
+                    document.getElementById('wallet-status').textContent = `Connected: ${connectedAccount.slice(0, 6)}...${connectedAccount.slice(-4)}`;
+                    document.getElementById('connect-wallet').textContent = 'Wallet Connected';
+                    document.getElementById('connect-wallet').disabled = true;
+                }
+            } else {
+                // Full reset
+                document.getElementById('attestation-form').reset();
+                connectedAccount = null;
+                document.getElementById('wallet-status').textContent = '';
+                document.getElementById('connect-wallet').textContent = 'Connect Ethereum Wallet';
+                document.getElementById('connect-wallet').disabled = false;
+                updateBadgePreview();
+            }
+            
+            document.getElementById('attestation-form').style.display = 'block';
+            document.getElementById('result-section').style.display = 'none';
+        });
+
+        // Copy embed code
+        document.getElementById('copy-embed-code').addEventListener('click', async function() {
+            const code = document.getElementById('badge-embed-code').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy Embed Code';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy embed code');
+            }
+        });
+        
+        // Copy link code
+        document.getElementById('copy-link-code').addEventListener('click', async function() {
+            const code = document.getElementById('badge-link-code').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy Link Code';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy link');
+            }
+        });
+        
+        // Copy API command
+        document.getElementById('copy-api-command').addEventListener('click', async function() {
+            const code = document.getElementById('api-curl-command').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy curl Command';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy command');
+            }
+        });
+        
+        // Copy LaTeX code
+        document.getElementById('copy-latex-code').addEventListener('click', async function() {
+            const code = document.getElementById('latex-code').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy LaTeX Code';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy LaTeX code');
+            }
+        });
+        
+        // Copy extended LaTeX
+        document.getElementById('copy-latex-extended').addEventListener('click', async function() {
+            const code = document.getElementById('latex-extended').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy Extended LaTeX';
+                }, 2000);
+            } catch (err) {
+                alert('Failed to copy extended LaTeX');
+            }
+        });
+    </script>
+    <script src="/static/theme.js"></script>
+    <script src="/static/back-to-top.js"></script>
+</body>
+</html>

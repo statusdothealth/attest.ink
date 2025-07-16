@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples - attest.ink</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <meta name="theme-color" content="#111827">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/badge-styles.css">
+    <script>
+        // Prevent theme flicker by setting theme before render
+        (function() {
+            const saved = localStorage.getItem('theme');
+            let theme = 'light';
+            if (saved) {
+                theme = saved;
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                theme = 'dark';
+            } else {
+                const hour = new Date().getHours();
+                if (hour >= 18 || hour < 6) {
+                    theme = 'dark';
+                }
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <style>
+        .example-container {
+            background: var(--bg-panel);
+            border: 2px solid var(--border-color);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .example-header {
+            background: var(--bg-secondary);
+            padding: 16px 24px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .example-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--pixel-primary);
+        }
+        
+        .example-content {
+            padding: 24px;
+        }
+        
+        /* Blog post example */
+        .blog-post {
+            max-width: 650px;
+            margin: 0 auto;
+            font-family: Georgia, serif;
+        }
+        
+        .blog-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .blog-title {
+            font-size: 36px;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+        
+        .blog-meta {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+        
+        .author-bio {
+            background: var(--bg-panel);
+            padding: 20px;
+            margin-top: 40px;
+            border-left: 4px solid var(--pixel-primary);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--border-color);
+            overflow: hidden;
+        }
+        
+        /* Academic paper */
+        .latex-paper {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Computer Modern', Georgia, serif;
+            line-height: 1.4;
+        }
+        
+        .latex-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .latex-authors {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        
+        .latex-section {
+            margin: 20px 0;
+        }
+        
+        .latex-section h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .latex-attestation {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            border: 1px solid #000;
+        }
+        
+        .latex-attestation code {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        /* Image gallery */
+        .gallery-item {
+            position: relative;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .gallery-image {
+            width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .image-badge-overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px;
+            border-radius: 4px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Code example */
+        .code-editor {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+        }
+        
+        .code-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        /* Social media */
+        .social-post {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .social-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .social-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1da1f2;
+        }
+        
+        .social-content {
+            padding: 0 15px 15px;
+        }
+        
+        .social-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Email signature */
+        .email-signature {
+            background: var(--bg-panel);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            max-width: 500px;
+        }
+        
+        .email-divider {
+            border-top: 2px solid var(--border-color);
+            margin: 15px 0;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .example-container {
+                margin: 20px 0;
+            }
+            
+            .example-header {
+                padding: 12px 16px;
+            }
+            
+            .example-header h3 {
+                font-size: 18px;
+            }
+            
+            .example-content {
+                padding: 16px;
+            }
+            
+            .blog-title {
+                font-size: 28px;
+                line-height: 1.2;
+            }
+            
+            .blog-content {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            
+            .blog-content p {
+                margin: 12px 0;
+            }
+            
+            .author-bio {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px;
+                gap: 16px;
+            }
+            
+            .author-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .gallery-item {
+                margin: 5px;
+            }
+            
+            .gallery-image {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                min-height: 200px;
+            }
+            
+            .image-badge-overlay img {
+                width: 100px;
+            }
+            
+            .code-editor {
+                padding: 12px;
+                font-size: 12px;
+                overflow-x: auto;
+            }
+            
+            .code-badge {
+                position: static;
+                margin-bottom: 10px;
+                display: inline-block;
+            }
+            
+            .social-post {
+                max-width: 100%;
+            }
+            
+            .email-signature {
+                max-width: 100%;
+                font-size: 13px;
+                padding: 16px;
+            }
+            
+            .latex-paper {
+                padding: 0 16px;
+            }
+            
+            .latex-title {
+                font-size: 20px;
+            }
+            
+            .latex-attestation {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .academic-citation {
+                padding: 12px;
+                font-size: 14px;
+            }
+            
+            .social-preview img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .integration-examples {
+                padding: 16px;
+            }
+            
+            .integration-example pre {
+                font-size: 12px;
+                padding: 12px;
+                overflow-x: auto;
+            }
+            
+            .integration-example h4 {
+                font-size: 18px;
+            }
+            
+            .email-preview {
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .example-header {
+                padding: 10px 12px;
+            }
+            
+            .example-header h3 {
+                font-size: 16px;
+            }
+            
+            .example-content {
+                padding: 12px;
+            }
+            
+            .blog-title {
+                font-size: 24px;
+            }
+            
+            .blog-content {
+                font-size: 15px;
+            }
+            
+            .author-bio {
+                padding: 12px;
+                gap: 12px;
+            }
+            
+            .gallery-image {
+                border-width: 1px;
+            }
+            
+            .image-badge-overlay {
+                bottom: 5px;
+                right: 5px;
+                padding: 2px;
+            }
+            
+            .image-badge-overlay img {
+                width: 80px;
+            }
+            
+            .code-editor {
+                padding: 10px;
+                font-size: 11px;
+            }
+            
+            .social-header {
+                padding: 12px;
+            }
+            
+            .social-avatar {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">D</button>
+    <div class="container">
+        <nav>
+            <div class="nav-inner">
+                <a href="/" class="logo">
+                    <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                    <span>attest.ink</span>
+                </a>
+                <ul>
+                    <li><a href="/create/">Create</a></li>
+                    <li><a href="/verify/">Verify</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">More</span>
+                        <div class="dropdown-menu">
+                            <a href="/protocol/">Protocol</a>
+                            <a href="/showcase/">Badges</a>
+                            <a href="/examples/">Examples</a>
+                            <a href="/developers/">Developer Docs</a>
+                            <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main>
+            <div class="hero">
+                <h1>Integration Examples</h1>
+                <p>See how AI attestation badges look in actual use cases</p>
+            </div>
+            
+            <!-- Blog Post with Footer Badge -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Blog Post with Author Bio Badge</h3>
+                </div>
+                <div class="example-content">
+                    <div class="blog-post">
+                        <div class="blog-header">
+                            <div class="blog-meta">Technology • 5 min read</div>
+                            <h1 class="blog-title">The Future of Quantum Computing</h1>
+                            <div class="blog-meta">January 15, 2025</div>
+                        </div>
+                        
+                        <div class="blog-content">
+                            <p>Quantum computing represents a paradigm shift in computational power. Unlike classical computers that process information in binary states, quantum computers leverage the principles of superposition and entanglement to perform calculations that would be impossible for traditional systems...</p>
+                            
+                            <p>Recent breakthroughs at major research institutions have brought us closer to practical quantum applications in cryptography, drug discovery, and climate modeling...</p>
+                        </div>
+                        
+                        <div class="author-bio">
+                            <div class="author-avatar">
+                                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="60" height="60" fill="var(--pixel-primary)"/>
+                                    <circle cx="30" cy="22" r="8" fill="white"/>
+                                    <path d="M15 45C15 36.7157 21.7157 30 30 30C38.2843 30 45 36.7157 45 45V60H15V45Z" fill="white"/>
+                                    <rect x="25" y="35" width="10" height="15" fill="var(--pixel-primary)"/>
+                                    <rect x="20" y="40" width="5" height="10" fill="white"/>
+                                    <rect x="35" y="40" width="5" height="10" fill="white"/>
+                                </svg>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>Dr. Pixel McByteson</strong>
+                                <p style="margin: 5px 0; font-size: 14px; color: var(--text-secondary);">Quantum Researcher & Science Writer</p>
+                            </div>
+                            <span class="badge-glass-minimal">ai-assisted</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Image with Badge Overlay -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>AI-Generated Image with Badge Overlay</h3>
+                </div>
+                <div class="example-content" style="text-align: center;">
+                    <div class="gallery-item">
+                        <img src="/assets/example/example.jpg" alt="AI Generated Landscape" class="gallery-image">
+                        <img src="/assets/badges/midjourney-generated.svg" alt="Midjourney Generated" width="120" height="24" style="position: absolute; bottom: 10px; right: 10px;">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Code with Badge -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Code Documentation with AI Badge</h3>
+                </div>
+                <div class="example-content">
+                    <div class="code-editor" style="position: relative;">
+                        <pre style="margin: 0;"><span style="color: #569cd6;">/**
+ * Authentication Service
+ * AI-Generated documentation
+ */</span>
+<span style="color: #569cd6;">export</span> <span style="color: #569cd6;">class</span> <span style="color: #4ec9b0;">AuthService</span> {
+  <span style="color: #608b4e;">// Authenticate user with credentials</span>
+  <span style="color: #569cd6;">async</span> <span style="color: #dcdcaa;">login</span>(<span style="color: #9cdcfe;">email</span>: <span style="color: #4ec9b0;">string</span>, <span style="color: #9cdcfe;">password</span>: <span style="color: #4ec9b0;">string</span>): <span style="color: #4ec9b0;">Promise</span>&lt;<span style="color: #4ec9b0;">User</span>&gt; {
+    <span style="color: #608b4e;">// Validate input parameters</span>
+    <span style="color: #569cd6;">if</span> (!<span style="color: #9cdcfe;">email</span> || !<span style="color: #9cdcfe;">password</span>) {
+      <span style="color: #569cd6;">throw</span> <span style="color: #569cd6;">new</span> <span style="color: #4ec9b0;">Error</span>(<span style="color: #ce9178;">'Email and password required'</span>);
+    }
+    
+    <span style="color: #608b4e;">// Hash password and verify against database</span>
+    <span style="color: #569cd6;">const</span> <span style="color: #9cdcfe;">hashedPassword</span> = <span style="color: #569cd6;">await</span> <span style="color: #dcdcaa;">bcrypt.hash</span>(<span style="color: #9cdcfe;">password</span>, <span style="color: #b5cea8;">10</span>);
+    <span style="color: #569cd6;">return</span> <span style="color: #569cd6;">await</span> <span style="color: #569cd6;">this</span>.<span style="color: #9cdcfe;">userRepository</span>.<span style="color: #dcdcaa;">findByCredentials</span>(<span style="color: #9cdcfe;">email</span>, <span style="color: #9cdcfe;">hashedPassword</span>);
+  }
+}</pre>
+                        <span class="badge-legacy badge-terminal" style="position: absolute; bottom: 10px; right: 10px;">AI_GENERATED</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Media Post -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Social Media Post with AI Disclosure</h3>
+                </div>
+                <div class="example-content">
+                    <div class="social-post">
+                        <div class="social-header">
+                            <div class="social-avatar"></div>
+                            <div>
+                                <div style="font-weight: bold;">TechInnovator</div>
+                                <div style="color: var(--text-secondary); font-size: 14px;">@techinnovator</div>
+                            </div>
+                        </div>
+                        <div class="social-content">
+                            <p>🚀 Excited to announce our new AI-powered analytics dashboard! Real-time insights, predictive modeling, and automated reporting all in one place.</p>
+                            <p>Check out the demo and see how it can transform your data workflow.</p>
+                            <p>#AI #DataScience #Innovation #TechLaunch</p>
+                        </div>
+                        <div class="social-footer">
+                            <div style="color: var(--text-secondary); font-size: 14px;">10:42 AM · Jan 15, 2025</div>
+                            <span class="badge-glass badge-glass-primary" style="font-size: 10px; padding: 2px 6px;">AI GENERATED</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Signature -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Email Signature with AI Disclosure</h3>
+                </div>
+                <div class="example-content">
+                    <div class="email-signature">
+                        <div>Best regards,</div>
+                        <div style="margin-top: 10px;">
+                            <strong>John Smith</strong><br>
+                            Senior Marketing Manager<br>
+                            TechCorp Inc.<br>
+                            john.smith@techcorp.com<br>
+                            +1 (555) 123-4567
+                        </div>
+                        <div class="email-divider"></div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-secondary);">
+                            <span>This email was composed with AI assistance</span>
+                            <img src="/assets/badges/claude-assisted.svg" alt="Claude Assisted" width="100" height="20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GitHub README -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>GitHub README with Badge</h3>
+                </div>
+                <div class="example-content">
+                    <div style="background: var(--bg-panel); padding: 20px; border: 1px solid var(--border-color); border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; position: relative;">
+                        <h1 style="font-size: 32px; margin: 0 0 16px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+                            awesome-quantum-computing
+                        </h1>
+                        <p style="color: var(--text-secondary);">A curated list of quantum computing resources, libraries, and tools</p>
+                        <div style="margin: 20px 0;">
+                            <span style="background: #0366d6; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px; margin-right: 8px;">quantum</span>
+                            <span style="background: #0366d6; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px; margin-right: 8px;">computing</span>
+                            <span style="background: #0366d6; color: white; padding: 4px 8px; border-radius: 3px; font-size: 12px;">awesome-list</span>
+                        </div>
+                        <p><strong>Note:</strong> This list was compiled with GPT-4 assistance for research and categorization. All entries have been manually verified.</p>
+                        <img src="/assets/badges/ai-assisted.svg" alt="AI Assisted" style="position: absolute; bottom: 20px; right: 20px;" width="140" height="30">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Website Footer -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Website Footer with Minimal Badge</h3>
+                </div>
+                <div class="example-content" style="padding: 0;">
+                    <footer style="background: #1a1a1a; color: #e5e7eb; padding: 40px; text-align: center;">
+                        <div style="max-width: 800px; margin: 0 auto;">
+                            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; margin-bottom: 30px;">
+                                <div>
+                                    <h4 style="color: white; margin-bottom: 10px;">Product</h4>
+                                    <div style="font-size: 14px; line-height: 2;">Features<br>Pricing<br>Documentation</div>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; margin-bottom: 10px;">Company</h4>
+                                    <div style="font-size: 14px; line-height: 2;">About<br>Blog<br>Careers</div>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; margin-bottom: 10px;">Legal</h4>
+                                    <div style="font-size: 14px; line-height: 2;">Privacy<br>Terms<br>Security</div>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px solid #374151; padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                <div style="font-size: 14px;">© 2025 TechCorp. All rights reserved.</div>
+                                <a href="#" class="badge-glass-minimal" style="color: rgba(255, 255, 255, 0.7); border-color: rgba(255, 255, 255, 0.2);">ai-assisted</a>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            
+            <!-- Academic Paper with LaTeX Style -->
+            <div class="example-container">
+                <div class="example-header">
+                    <h3>Academic Paper with AI Attestation Section</h3>
+                </div>
+                <div class="example-content">
+                    <div class="latex-paper">
+                        <div class="latex-title">
+                            Machine Learning Applications in Climate Prediction Models
+                        </div>
+                        <div class="latex-authors">
+                            Smith, J.¹, Johnson, M.², and Williams, K.³<br>
+                            ¹University of Cambridge ²MIT ³Stanford University
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>Abstract</h4>
+                            <p>This paper presents a novel approach to climate prediction using transformer-based neural networks. Our methodology demonstrates a 23% improvement in prediction accuracy compared to traditional models...</p>
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>1. Introduction</h4>
+                            <p>Climate modeling has traditionally relied on physics-based simulations. However, the complexity of Earth's climate system presents significant computational challenges...</p>
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>2. Methodology</h4>
+                            <p>We employed a transformer architecture with 1.2 billion parameters, trained on 40 years of climate data from multiple sources...</p>
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>3. Results</h4>
+                            <p>Our model achieved a mean absolute error of 0.82°C for temperature predictions and 12.3mm for precipitation forecasts...</p>
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>4. Discussion</h4>
+                            <p>The improved accuracy demonstrates the potential of neural architectures in climate modeling. Future work will explore ensemble methods...</p>
+                        </div>
+                        
+                        <div class="latex-section">
+                            <h4>Acknowledgments</h4>
+                            <p>We thank the Climate Data Initiative for providing access to historical datasets. This work was supported by NSF Grant #2024-1234.</p>
+                            
+                            <div class="latex-attestation" style="margin-top: 15px;">
+                                <strong>AI Attestation</strong><br>
+                                <code>AI-ASSISTED · attest.ink/attestation/2025-01-15-ml-climate</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink logo">
+                        <span>attest.ink</span>
+                    </a>
+                    <p>Transparent AI attribution for the modern web</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="/showcase/">Badges</a>
+                    <a href="/examples/">Examples</a>
+                    <a href="/developers/">Documentation</a>
+                    <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub</a>
+                    <a href="mailto:info@attest.ink">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 <a href="https://0x42r.io/" target="_blank">0x42 Research</a>. 
+                    <a href="https://github.com/statusdothealth/attest.ink/blob/main/LICENSE" target="_blank">
+                        <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" style="vertical-align: middle; margin-left: 8px;">
+                    </a>
+                </p>
+                <a href="https://attest.ink/verify/?hash=5f4dcc3b5aa765d61d8327deb882cf99" class="ai-attestation-badge">
+                    <img src="/assets/badges/ai-generated.svg" alt="AI Generated" style="height: 20px; vertical-align: middle;">
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="/static/theme.js"></script>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        background: var(--pixel-primary);
+        color: #ffffff;
+        border: 2px solid var(--pixel-primary);
+        padding: 12px 16px;
+        font-family: 'VT323', monospace;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 999;
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+        transition: all 0.1s ease;
+    " aria-label="Back to top">
+        ↑ TOP
+    </button>
+    
+    <script>
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Button hover effect
+        backToTopButton.addEventListener('mouseenter', () => {
+            backToTopButton.style.transform = 'translate(2px, 2px)';
+            backToTopButton.style.boxShadow = '2px 2px 0 rgba(0, 0, 0, 0.3)';
+        });
+        
+        backToTopButton.addEventListener('mouseleave', () => {
+            backToTopButton.style.transform = 'translate(0, 0)';
+            backToTopButton.style.boxShadow = '4px 4px 0 rgba(0, 0, 0, 0.3)';
+        });
+    </script>
+    <script src="/static/back-to-top.js"></script>
+</body>
+</html>

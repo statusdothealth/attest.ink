@@ -1,0 +1,15 @@
+<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circular Logo 2: AI Letters -->
+  <circle cx="30" cy="30" r="28" fill="#2563eb" stroke="none"/>
+  <g transform="translate(30, 30)">
+    <!-- A -->
+    <rect x="-14" y="4" width="4" height="8" fill="#ffffff"/>
+    <rect x="-10" y="0" width="4" height="4" fill="#ffffff"/>
+    <rect x="-6" y="-4" width="4" height="4" fill="#ffffff"/>
+    <rect x="-2" y="0" width="4" height="4" fill="#ffffff"/>
+    <rect x="2" y="4" width="4" height="8" fill="#ffffff"/>
+    <rect x="-10" y="4" width="12" height="4" fill="#ffffff"/>
+    <!-- I -->
+    <rect x="10" y="-4" width="4" height="16" fill="#ffffff"/>
+  </g>
+</svg>
