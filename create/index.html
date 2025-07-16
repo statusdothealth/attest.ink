@@ -344,6 +344,49 @@
             formHasChanges = formData.contentName || formData.content || formData.author || formData.prompt;
         }
         
+        // Function to save form and prepare for MetaMask
+        function saveFormAndPrepareForMetaMask() {
+            saveFormData();
+            // Set a flag to indicate we're coming from a MetaMask redirect
+            localStorage.setItem('metamaskRedirect', 'true');
+            // Also save that we want Ethereum signature selected
+            localStorage.setItem('selectEthereumSignature', 'true');
+            // Prevent default navigation briefly to ensure localStorage is saved
+            return true;
+        }
+        
+        // Make function available globally
+        window.saveFormAndPrepareForMetaMask = saveFormAndPrepareForMetaMask;
+        
+        // Function to open MetaMask mobile with better handling
+        function openMetaMaskMobile(universalLink, deepLink) {
+            // Save form data first
+            saveFormAndPrepareForMetaMask();
+            
+            // Try universal link first (more reliable)
+            window.location.href = universalLink;
+            
+            // Set a timeout to try deep link if universal link doesn't work
+            setTimeout(() => {
+                // Check if page is still visible (meaning the link didn't work)
+                if (!document.hidden) {
+                    // Try the deep link as fallback
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = deepLink;
+                    document.body.appendChild(iframe);
+                    
+                    // Clean up after a moment
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                    }, 1000);
+                }
+            }, 1500);
+        }
+        
+        // Make function available globally
+        window.openMetaMaskMobile = openMetaMaskMobile;
+        
         // Restore form data from localStorage
         function restoreFormData() {
             const savedData = localStorage.getItem('attestFormData');
@@ -376,6 +419,35 @@
                     console.error('Error restoring form data:', e);
                 }
             }
+            
+            // Check if we're in MetaMask browser and should select Ethereum signature
+            if (isMetaMaskMobile() && localStorage.getItem('selectEthereumSignature') === 'true') {
+                // Select Ethereum signature option
+                document.getElementById('signature-method').value = 'ethereum';
+                document.getElementById('wallet-section').style.display = 'block';
+                document.getElementById('local-section').style.display = 'none';
+                document.getElementById('hmac-section').style.display = 'none';
+                
+                // Clear the flag
+                localStorage.removeItem('selectEthereumSignature');
+                
+                // Show a message to the user
+                const statusDiv = document.getElementById('wallet-status');
+                statusDiv.style.display = 'block';
+                statusDiv.style.color = 'var(--color-success)';
+                statusDiv.innerHTML = '✅ MetaMask detected! Click "Connect Ethereum Wallet" to sign your attestation.';
+                
+                // Auto-scroll to the signature section after a brief delay
+                setTimeout(() => {
+                    const signatureSection = document.querySelector('.form-section:has(#signature-method)');
+                    if (signatureSection) {
+                        signatureSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 800);
+            }
+            
+            // Clear the redirect flag if set
+            localStorage.removeItem('metamaskRedirect');
         }
         
         // Add beforeunload warning to prevent accidental data loss
@@ -895,16 +967,18 @@
                 statusDiv.style.color = 'var(--color-warning)';
                 
                 const currentUrl = window.location.href;
-                const metamaskDeepLink = `metamask://dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
+                // For iOS, use the universal link as primary option
                 const metamaskUniversalLink = `https://metamask.app.link/dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
+                // Deep link as fallback
+                const metamaskDeepLink = `metamask://dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
                 
                 statusDiv.innerHTML = `
                     📱 MetaMask Mobile Detection<br><br>
-                    If you have MetaMask installed:<br>
-                    <a href="${metamaskDeepLink}" class="btn btn-secondary" style="display: block; margin: 10px auto; max-width: 300px;">Open in MetaMask App</a>
+                    <button class="btn btn-secondary" style="display: block; margin: 10px auto; max-width: 300px;" onclick="openMetaMaskMobile('${metamaskUniversalLink}', '${metamaskDeepLink}')">Open in MetaMask Browser</button>
                     <br>
-                    If the button above doesn't work:<br>
-                    <a href="${metamaskUniversalLink}" class="btn btn-secondary" style="display: block; margin: 10px auto; max-width: 300px;">Try Universal Link</a>
+                    <div style="font-size: 14px; color: var(--text-secondary);">
+                        This will open attest.ink in MetaMask's browser where you can sign with your wallet.
+                    </div>
                     <br>
                     Or use <strong>"Local Signature"</strong> below for a simpler option.
                 `;
@@ -931,9 +1005,10 @@
                             mobileMessage += 'Option 1: Open in MetaMask<br>';
                             // Create deep link to open current page in MetaMask
                             const currentUrl = window.location.href;
-                            const metamaskDeepLink = `https://metamask.app.link/dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
+                            const metamaskUniversalLink = `https://metamask.app.link/dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
+                            const metamaskDeepLink = isAndroid ? `metamask://dapp/${currentUrl.replace(/^https?:\/\//, '')}` : `metamask://dapp/${currentUrl.replace(/^https?:\/\//, '')}`;
                             
-                            mobileMessage += `<a href="${metamaskDeepLink}" class="btn btn-secondary" style="display: block; margin: 10px auto; max-width: 300px;">Open in MetaMask Browser</a><br>`;
+                            mobileMessage += `<button class="btn btn-secondary" style="display: block; margin: 10px auto; max-width: 300px;" onclick="openMetaMaskMobile('${metamaskUniversalLink}', '${metamaskDeepLink}')">Open in MetaMask Browser</button><br>`;
                             
                             mobileMessage += 'Option 2: Install MetaMask<br>';
                             if (isIOS) {
