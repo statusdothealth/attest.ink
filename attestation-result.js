@@ -23,17 +23,15 @@ function generateAttestationDisplay(attestation) {
         latexSection.style.display = 'block';
         badgePreview.innerHTML = '<div style="font-family: monospace; background: var(--bg-panel); padding: 10px; border: 1px solid var(--border-color); color: var(--text-primary);">LaTeX Badge (see code below)</div>';
         
-        // Basic LaTeX code
+        // Basic LaTeX code - now shows how to include the modular file
         const roleDisplay = attestation.role === 'edited' ? 'AI-ASSISTED' : attestation.role.toUpperCase().replace('_', '-');
-        const latexCode = `% AI Attestation
-\\section{AI Attestation}
-\\begin{center}
-\\fbox{\\small\\texttt{${roleDisplay}}}
-\\end{center}`;
+        const latexCode = `% Include AI Attestation section
+\\input{ai-attestation}`;
         
-        // Extended LaTeX with footnote
+        // Extended LaTeX - the content for ai-attestation.tex file
         const modelDisplay = attestation.model === 'human' ? 'Human' : attestation.model;
-        const latexExtended = `% AI Attestation
+        const latexExtended = `% ai-attestation.tex
+% AI Attestation section for inclusion in main document
 \\section{AI Attestation}
 \\begin{center}
 \\fbox{\\small\\texttt{${roleDisplay}}}
@@ -191,7 +189,7 @@ function initializeCopyButtons() {
                 await navigator.clipboard.writeText(code);
                 this.textContent = 'Copied!';
                 setTimeout(() => {
-                    this.textContent = 'Copy LaTeX Code';
+                    this.textContent = 'Copy Main File Code';
                 }, 2000);
             } catch (err) {
                 alert('Failed to copy LaTeX code');
@@ -208,7 +206,7 @@ function initializeCopyButtons() {
                 await navigator.clipboard.writeText(code);
                 this.textContent = 'Copied!';
                 setTimeout(() => {
-                    this.textContent = 'Copy Extended LaTeX';
+                    this.textContent = 'Copy ai-attestation.tex Content';
                 }, 2000);
             } catch (err) {
                 alert('Failed to copy LaTeX code');

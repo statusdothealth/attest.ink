@@ -107,13 +107,17 @@
                     
                     <div id="latex-section" style="display: none; margin-top: 20px;">
                         <h4>LaTeX Code</h4>
-                        <p>Basic version:</p>
+                        <p><strong>Step 1:</strong> Add this line to your main .tex file where you want the AI attestation to appear:</p>
                         <pre id="latex-code" style="font-size: 0.9em;"></pre>
-                        <button id="copy-latex-code" class="btn btn-secondary">Copy LaTeX Code</button>
+                        <button id="copy-latex-code" class="btn btn-secondary">Copy Main File Code</button>
                         
-                        <p style="margin-top: 15px;">Extended version with footnote:</p>
+                        <p style="margin-top: 15px;"><strong>Step 2:</strong> Create a file named <code>ai-attestation.tex</code> with this content:</p>
                         <pre id="latex-extended" style="font-size: 0.9em;"></pre>
-                        <button id="copy-latex-extended" class="btn btn-secondary">Copy Extended LaTeX</button>
+                        <button id="copy-latex-extended" class="btn btn-secondary">Copy ai-attestation.tex Content</button>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 4px;">
+                            <p style="margin: 0;"><strong>Note:</strong> This modular approach keeps your AI attestation in a separate file, making it easy to update or remove. Add <code>\clearpage</code> before the <code>\input</code> command if you want the attestation to start on a new page.</p>
+                        </div>
                     </div>
                     
                     <div id="markdown-section" style="display: none; margin-top: 20px;">
