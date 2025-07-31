@@ -1,0 +1,10 @@
+{
+  "name": "attest-ink-api",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@upstash/redis": "^1.28.0",
+    "nanoid": "^5.0.4",
+    "stripe": "^14.14.0"
+  }
+}

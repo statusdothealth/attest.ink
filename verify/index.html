@@ -181,18 +181,45 @@
                 if (jsonInput) {
                     attestation = JSON.parse(jsonInput);
                 } else if (urlInput) {
-                    // Check if it's an attest.ink verify URL
-                    const attestInkPattern = /https?:\/\/attest\.ink\/verify\/?\?id=([^&]+)/;
-                    const match = urlInput.match(attestInkPattern);
+                    // Check if it's a short URL (e.g., https://attest.ink/s/abc123)
+                    const shortUrlPattern = /https?:\/\/(?:.*\.)?attest\.ink\/s\/([a-z0-9]+)/i;
+                    const shortMatch = urlInput.match(shortUrlPattern);
                     
-                    if (match) {
-                        // Extract ID and load attestation
-                        const id = match[1];
-                        const loaded = await loadAttestationById(id);
-                        if (loaded) {
-                            attestation = loaded;
+                    if (shortMatch) {
+                        // Fetch the full data URL from the short URL API
+                        const shortId = shortMatch[1];
+                        const apiResponse = await fetch(`/api/s/${shortId}`);
+                        if (!apiResponse.ok) {
+                            throw new Error('Short URL not found or expired');
+                        }
+                        const data = await apiResponse.json();
+                        if (data.dataUrl) {
+                            // Process the data URL
+                            const parts = data.dataUrl.split(',');
+                            if (parts.length === 2 && parts[0].includes('base64')) {
+                                const base64 = parts[1];
+                                const decoded = atob(base64);
+                                attestation = JSON.parse(decoded);
+                            } else {
+                                throw new Error('Invalid data URL from short URL');
+                            }
                         } else {
-                            throw new Error('Attestation not found');
+                            throw new Error('No data URL in response');
+                        }
+                    } else if (urlInput.includes('/verify/?id=') || urlInput.includes('/verify?id=')) {
+                        // Check if it's an attest.ink verify URL with ID
+                        const attestInkPattern = /https?:\/\/attest\.ink\/verify\/?\?id=([^&]+)/;
+                        const match = urlInput.match(attestInkPattern);
+                        
+                        if (match) {
+                            // Extract ID and load attestation
+                            const id = match[1];
+                            const loaded = await loadAttestationById(id);
+                            if (loaded) {
+                                attestation = loaded;
+                            } else {
+                                throw new Error('Attestation not found');
+                            }
                         }
                     } else if (urlInput.startsWith('data:')) {
                         // Check if it's a base64 data URL
@@ -444,11 +471,35 @@
         });
 
         // Check URL parameter
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', async function() {
             const urlParams = new URLSearchParams(window.location.search);
             const attestationId = urlParams.get('id');
             const attestationData = urlParams.get('data');
             const attestationUrl = urlParams.get('url');
+            
+            // Also check if the path contains /s/ for short URLs
+            const pathMatch = window.location.pathname.match(/\/s\/([a-z0-9]+)/i);
+            if (pathMatch && !attestationId && !attestationData && !attestationUrl) {
+                // Handle short URL redirect
+                const shortId = pathMatch[1];
+                try {
+                    const response = await fetch(`/api/s/${shortId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.dataUrl) {
+                            // Set the URL input and trigger verification
+                            document.getElementById('url-input').value = data.dataUrl;
+                            document.getElementById('verify-btn').click();
+                            return;
+                        }
+                    }
+                    throw new Error('Short URL not found');
+                } catch (error) {
+                    alert('Short URL not found or expired. Please check the URL and try again.');
+                    document.getElementById('input-section').style.display = 'block';
+                    return;
+                }
+            }
             
             if (attestationId) {
                 // Try to load from localStorage first (for demo purposes)

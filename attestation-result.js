@@ -1,6 +1,6 @@
 // attestation-result.js - Logic for displaying attestation results
 
-function generateAttestationDisplay(attestation) {
+async function generateAttestationDisplay(attestation) {
     const badgePreview = document.getElementById('badge-preview');
     const embedCodeEl = document.getElementById('badge-embed-code');
     const linkCodeEl = document.getElementById('badge-link-code');
@@ -17,6 +17,129 @@ function generateAttestationDisplay(attestation) {
     // Also create the full data URL for embedding (self-contained)
     const attestationB64 = btoa(JSON.stringify(attestation));
     const fullDataUrl = `https://attest.ink/verify/?data=${attestationB64}`;
+    
+    // Try to create a shortened URL if we're on Vercel
+    let shortUrl = null;
+    let requiresPayment = false;
+    
+    if (window.location.hostname.includes('vercel.app') || window.location.hostname === 'attest.ink') {
+        try {
+            // Check localStorage for email or API key
+            const savedEmail = localStorage.getItem('attest_ink_email');
+            const savedApiKey = localStorage.getItem('attest_ink_api_key');
+            
+            const response = await fetch('/api/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    dataUrl: fullDataUrl,
+                    email: savedEmail,
+                    apiKey: savedApiKey
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                shortUrl = data.shortUrl;
+                
+                // Update the link code to show short URL
+                linkCodeEl.textContent = shortUrl;
+                
+                // Add a note about the permanent short URL
+                const shortUrlNote = document.createElement('div');
+                shortUrlNote.style.cssText = 'margin-top: 10px; font-size: 12px; color: var(--color-success);';
+                shortUrlNote.textContent = '✓ Permanent short URL created';
+                linkCodeEl.parentElement.appendChild(shortUrlNote);
+            } else if (response.status === 403 && data.requiresPayment) {
+                requiresPayment = true;
+                
+                // Show payment button instead of short URL
+                linkCodeEl.textContent = shortVerifyUrl;
+                
+                const paymentContainer = document.createElement('div');
+                paymentContainer.style.cssText = 'margin-top: 15px; padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;';
+                paymentContainer.innerHTML = `
+                    <p style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-secondary);">
+                        Want a permanent short URL? Get lifetime access for just $20.
+                    </p>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="email" id="payment-email" placeholder="Enter your email" 
+                               value="${savedEmail || ''}"
+                               style="flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border-color); 
+                                      border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
+                        <button id="purchase-short-urls" class="btn btn-primary" style="white-space: nowrap;">
+                            Get Lifetime Access - $20
+                        </button>
+                    </div>
+                    <p style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-secondary);">
+                        • Create unlimited permanent short URLs<br>
+                        • URLs never expire<br>
+                        • One-time payment, lifetime access
+                    </p>
+                `;
+                linkCodeEl.parentElement.appendChild(paymentContainer);
+                
+                // Add click handler for purchase button
+                document.getElementById('purchase-short-urls').addEventListener('click', async () => {
+                    const email = document.getElementById('payment-email').value.trim();
+                    if (!email) {
+                        alert('Please enter your email address');
+                        return;
+                    }
+                    
+                    // Save email for future use
+                    localStorage.setItem('attest_ink_email', email);
+                    
+                    const button = document.getElementById('purchase-short-urls');
+                    button.disabled = true;
+                    button.textContent = 'Processing...';
+                    
+                    try {
+                        const checkoutResponse = await fetch('/api/create-checkout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                email,
+                                attestationData: attestation
+                            })
+                        });
+                        
+                        const checkoutData = await checkoutResponse.json();
+                        
+                        if (checkoutData.alreadyPurchased) {
+                            // User already has access
+                            localStorage.setItem('attest_ink_api_key', checkoutData.apiKey);
+                            alert('Great news! You already have lifetime access. The page will now reload to create your short URL.');
+                            window.location.reload();
+                        } else if (checkoutData.checkoutUrl) {
+                            // Redirect to Stripe checkout
+                            window.location.href = checkoutData.checkoutUrl;
+                        } else {
+                            throw new Error('Failed to create checkout session');
+                        }
+                    } catch (error) {
+                        console.error('Checkout error:', error);
+                        alert('Failed to start checkout process. Please try again.');
+                        button.disabled = false;
+                        button.textContent = 'Get Lifetime Access - $20';
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Failed to create short URL:', error);
+            // Fall back to regular URL
+        }
+    }
+    
+    // If no short URL was created and no payment required, use the regular one
+    if (!shortUrl && !requiresPayment) {
+        linkCodeEl.textContent = shortVerifyUrl;
+    }
     
     // Handle LaTeX style
     if (badgeStyle === 'latex') {
@@ -92,17 +215,17 @@ This ${attestation.document_type === 'latex' ? 'paper' : 'work'} was ${attestati
         
         badgePreview.innerHTML = badgeHtml;
         
-        // Generate self-contained embed code (uses full data URL for portability)
+        // Generate embed code - use short URL if available, otherwise full data URL
+        const embedUrl = shortUrl || fullDataUrl;
         const embedCode = `<!-- attest.ink AI Badge -->
-<a href="${fullDataUrl}" target="_blank" style="text-decoration: none;">
+<a href="${embedUrl}" target="_blank" style="text-decoration: none;">
     ${badgeHtml}
 </a>`;
         
         embedCodeEl.textContent = embedCode;
     }
     
-    // Always set both URLs
-    linkCodeEl.textContent = shortVerifyUrl;
+    // Always set the data URL
     dataUrlEl.textContent = fullDataUrl;
     
     // Generate curl command for API
