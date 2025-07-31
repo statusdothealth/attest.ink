@@ -18,6 +18,9 @@ async function generateAttestationDisplay(attestation) {
     const attestationB64 = btoa(JSON.stringify(attestation));
     const fullDataUrl = `https://attest.ink/verify/?data=${attestationB64}`;
     
+    // Create a proper data URL for the API
+    const dataUrlForApi = `data:application/json;base64,${attestationB64}`;
+    
     // Try to create a shortened URL if we're on Vercel
     let shortUrl = null;
     let requiresPayment = false;
@@ -36,6 +39,8 @@ async function generateAttestationDisplay(attestation) {
             console.log('Attempting to create short URL...');
             console.log('Email:', savedEmail);
             console.log('API Key:', savedApiKey ? 'Present' : 'Not present');
+            console.log('Data URL length:', dataUrlForApi.length);
+            console.log('Data URL preview:', dataUrlForApi.substring(0, 100) + '...');
             
             const response = await fetch('/api/shorten', {
                 method: 'POST',
@@ -43,7 +48,7 @@ async function generateAttestationDisplay(attestation) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    dataUrl: fullDataUrl,
+                    dataUrl: dataUrlForApi,
                     email: savedEmail,
                     apiKey: savedApiKey
                 })
@@ -52,6 +57,10 @@ async function generateAttestationDisplay(attestation) {
             console.log('Response status:', response.status);
             const data = await response.json();
             console.log('Response data:', data);
+            
+            if (response.status === 400) {
+                console.error('Bad request error:', data.error);
+            }
             
             if (response.ok) {
                 shortUrl = data.shortUrl;
