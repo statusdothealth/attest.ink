@@ -13,11 +13,7 @@
     },
     {
       "source": "/s/:id",
-      "destination": "/verify/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/api/s/:id"
     }
   ]
 }

@@ -79,7 +79,9 @@ window.AttestModal = {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
+                    background: rgba(0, 0, 0, 0.75);
+                    backdrop-filter: blur(4px);
+                    -webkit-backdrop-filter: blur(4px);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -94,8 +96,9 @@ window.AttestModal = {
                     width: 90%;
                     max-height: 90vh;
                     overflow: hidden;
-                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
                     animation: slideUp 0.3s ease-out;
+                    border: 1px solid var(--border-color);
                 }
                 
                 .attest-modal-header {

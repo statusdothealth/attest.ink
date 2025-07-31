@@ -49,7 +49,6 @@ export default async function handler(req, res) {
             product_data: {
               name: 'attest.ink Lifetime Short URLs',
               description: 'Create unlimited permanent short URLs for your AI attestations',
-              images: ['https://www.attest.ink/assets/logo/circular-2-ai.svg'],
             },
             unit_amount: 2000, // $20.00
           },
