@@ -168,7 +168,11 @@ async function generateAttestationDisplay(attestation) {
                         }
                     } catch (error) {
                         console.error('Checkout error:', error);
-                        alert('Failed to start checkout process. Please try again.');
+                        if (window.AttestModal) {
+                            window.AttestModal.alert('Failed to start checkout process. Please try again.', 'Error');
+                        } else {
+                            alert('Failed to start checkout process. Please try again.');
+                        }
                         button.disabled = false;
                         button.textContent = 'Get Lifetime Access - $20';
                     }

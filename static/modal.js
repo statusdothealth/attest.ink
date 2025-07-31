@@ -78,6 +78,8 @@ window.AttestModal = {
         
         modalContent.appendChild(modalHeader);
         modalContent.appendChild(modalBody);
+        modalContent.style.opacity = '1';
+        modalContent.style.backgroundColor = 'var(--bg-main)';
         modal.appendChild(modalContent);
         
         // Add styles if not already present
@@ -100,7 +102,7 @@ window.AttestModal = {
                 }
                 
                 .attest-modal-content {
-                    background: var(--bg-primary);
+                    background: var(--bg-main);
                     border-radius: 12px;
                     max-width: 500px;
                     width: 90%;
@@ -110,6 +112,7 @@ window.AttestModal = {
                     animation: slideUp 0.3s ease-out;
                     border: 1px solid var(--border-color);
                     position: relative;
+                    opacity: 1 !important;
                 }
                 
                 .attest-modal-header {
