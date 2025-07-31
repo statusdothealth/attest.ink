@@ -18,6 +18,9 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Stripe configuration error' });
     }
     
+    // Log key prefix for debugging (safe to log the prefix)
+    console.log('Stripe key prefix:', process.env.STRIPE_SECRET_KEY.substring(0, 7));
+    
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const redis = getRedisClient();
     
@@ -32,6 +35,12 @@ export default async function handler(req, res) {
     }
 
     // Create Stripe checkout session
+    console.log('Creating checkout session for email:', email);
+    
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : 'https://www.attest.ink';
+    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -41,7 +50,7 @@ export default async function handler(req, res) {
             product_data: {
               name: 'attest.ink Lifetime Short URLs',
               description: 'Create unlimited permanent short URLs for your AI attestations',
-              images: ['https://attest.ink/assets/logo/circular-2-ai.svg'],
+              images: ['https://www.attest.ink/assets/logo/circular-2-ai.svg'],
             },
             unit_amount: 2000, // $20.00
           },
@@ -49,12 +58,12 @@ export default async function handler(req, res) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.VERCEL_URL || 'https://attest.ink'}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.VERCEL_URL || 'https://attest.ink'}/create/`,
+      success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/create/`,
       customer_email: email,
       metadata: {
         email: email,
-        attestationData: attestationData ? JSON.stringify(attestationData) : ''
+        attestationData: attestationData ? JSON.stringify(attestationData).substring(0, 500) : '' // Stripe has metadata size limits
       },
     });
 
