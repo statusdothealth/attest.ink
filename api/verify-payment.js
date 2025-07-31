@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { getRedisClient } from './lib/redis.js';
+import { sendApiKeyEmail } from './lib/email.js';
 import { customAlphabet } from 'nanoid';
 
 const generateApiKey = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 32);
@@ -80,11 +81,20 @@ export default async function handler(req, res) {
       }
     }
     
+    // Send email with API key (don't wait for it)
+    sendApiKeyEmail(email, apiKey).catch(err => {
+      console.error('Failed to send API key email:', err);
+    });
+    
+    // Get attestation ID from session metadata
+    const attestationId = session.metadata?.attestationId;
+    
     res.status(200).json({ 
       success: true, 
       apiKey,
       email,
-      shortUrl
+      shortUrl,
+      attestationId
     });
   } catch (error) {
     console.error('Error verifying payment:', error);

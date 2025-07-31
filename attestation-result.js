@@ -125,7 +125,8 @@ async function generateAttestationDisplay(attestation) {
                             },
                             body: JSON.stringify({
                                 email,
-                                attestationData: attestation
+                                attestationData: attestation,
+                                attestationId: attestation.id
                             })
                         });
                         

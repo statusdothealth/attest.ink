@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, attestationData } = req.body;
+    const { email, attestationData, attestationId } = req.body;
     
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
@@ -63,7 +63,8 @@ export default async function handler(req, res) {
       customer_email: email,
       metadata: {
         email: email,
-        attestationData: attestationData ? JSON.stringify(attestationData).substring(0, 500) : '' // Stripe has metadata size limits
+        attestationId: attestationId || '',
+        attestationData: attestationData ? JSON.stringify(attestationData).substring(0, 400) : '' // Stripe has metadata size limits
       },
     });
 
