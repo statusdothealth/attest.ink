@@ -46,7 +46,7 @@ export async function sendApiKeyEmail(email, apiKey) {
     html: `
       <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://www.attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 80px; height: 80px;">
+          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 80px; height: 80px;">
           <h1 style="margin: 20px 0; color: #111827;">Welcome to attest.ink Pro!</h1>
         </div>
         
@@ -81,7 +81,7 @@ export async function sendApiKeyEmail(email, apiKey) {
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 14px;">
           <p>Thank you for supporting attest.ink!</p>
           <p>
-            <a href="https://www.attest.ink" style="color: #3b82f6; text-decoration: none;">attest.ink</a> • 
+            <a href="https://attest.ink" style="color: #3b82f6; text-decoration: none;">attest.ink</a> • 
             <a href="https://github.com/statusdothealth/attest.ink" style="color: #3b82f6; text-decoration: none;">GitHub</a>
           </p>
         </div>

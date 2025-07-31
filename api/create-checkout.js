@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     console.log('Creating checkout session for email:', email);
     
     // Always use the production URL for checkout redirects
-    const baseUrl = 'https://www.attest.ink';
+    const baseUrl = 'https://attest.ink';
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
             product_data: {
               name: 'attest.ink Lifetime Short URLs',
               description: 'Create unlimited permanent short URLs for your AI attestations',
-              images: ['https://www.attest.ink/assets/logo/circular-2-ai.svg'],
+              images: ['https://attest.ink/assets/logo/circular-2-ai.svg'],
             },
             unit_amount: 2000, // $20.00
           },
