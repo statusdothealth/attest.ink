@@ -26,12 +26,14 @@ window.AttestModal = {
         logo.alt = 'attest.ink';
         logo.className = 'attest-modal-logo';
         
-        const thankYouText = document.createElement('span');
-        thankYouText.textContent = 'Thank you!';
-        thankYouText.style.cssText = 'font-size: 18px; font-weight: 600; color: var(--text-primary);';
-        
         logoContainer.appendChild(logo);
-        logoContainer.appendChild(thankYouText);
+        
+        if (options.headerText !== false) {
+            const headerText = document.createElement('span');
+            headerText.textContent = options.headerText || 'Thank you!';
+            headerText.style.cssText = 'font-size: 18px; font-weight: 600; color: var(--text-primary);';
+            logoContainer.appendChild(headerText);
+        }
         
         const closeBtn = document.createElement('button');
         closeBtn.className = 'attest-modal-close';

@@ -635,28 +635,56 @@
                 } else if (response.status === 404) {
                     // Don't log 404 as error - it's expected in demo environment
                     console.log(`Attestation ${id} not found on server (this is normal for local/demo use)`);
-                    // Show more detailed error message
-                    const errorMessage = `
-Attestation with ID "${id}" not found.
-
-This could be because:
-• The attestation was created in a different browser/device (localStorage is per-browser)
-• Browser storage was cleared
-• The ID is incorrect
-• You're using a short URL in a demo/local environment
-
-**To make short URLs work offline:**
-• Create and verify attestations in the same browser
-• Don't clear browser data/localStorage
-
-**For sharing attestations across devices:**
-1. Use the "Embed Badge" option (includes full attestation data)
-2. Use the full data URL instead of the short URL
-3. Save and share the attestation JSON file
-
-Note: Short URLs with server storage are coming soon for production use.`;
-                    
-                    alert(errorMessage.trim());
+                    // Show modal with payment information
+                    if (window.AttestModal) {
+                        const modalContent = `
+                            <div style="margin-bottom: 20px;">
+                                <strong>Attestation with ID "${id}" not found.</strong>
+                            </div>
+                            
+                            <div style="background: var(--bg-panel); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                <p style="margin: 0 0 10px 0; font-weight: 600;">This could be because:</p>
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    <li>The attestation was created in a different browser/device (localStorage is per-browser)</li>
+                                    <li>Browser storage was cleared</li>
+                                    <li>The ID is incorrect</li>
+                                    <li>You're using a short URL in a demo/local environment</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #64b5f6;">
+                                <p style="margin: 0 0 10px 0; font-weight: 600; color: #1565c0;">✨ Want permanent short URLs that work everywhere?</p>
+                                <p style="margin: 0 0 10px 0; color: #424242;">Get lifetime access to create unlimited permanent short URLs for just $20.</p>
+                                <ul style="margin: 0 0 15px 0; padding-left: 20px; color: #424242;">
+                                    <li>Short URLs that never expire</li>
+                                    <li>Works across all devices and browsers</li>
+                                    <li>One-time payment, lifetime access</li>
+                                </ul>
+                                <button onclick="window.location.href='/create/'" class="btn btn-primary" style="width: 100%;">
+                                    Get Lifetime Access - $20
+                                </button>
+                            </div>
+                            
+                            <div style="font-size: 14px; color: var(--text-secondary);">
+                                <p style="margin: 0 0 5px 0;"><strong>For sharing attestations across devices:</strong></p>
+                                <ol style="margin: 0; padding-left: 20px;">
+                                    <li>Use the "Embed Badge" option (includes full attestation data)</li>
+                                    <li>Use the full data URL instead of the short URL</li>
+                                    <li>Save and share the attestation JSON file</li>
+                                </ol>
+                            </div>
+                        `;
+                        
+                        window.AttestModal.show('', modalContent, {
+                            headerText: 'A message from www.attest.ink',
+                            buttons: [{
+                                text: 'OK',
+                                className: 'btn-primary'
+                            }]
+                        });
+                    } else {
+                        alert('Attestation not found. Please check the URL and try again.');
+                    }
                 }
             } catch (error) {
                 console.error('Failed to load attestation:', error);
@@ -664,6 +692,7 @@ Note: Short URLs with server storage are coming soon for production use.`;
             }
         }
     </script>
+    <script src="/static/modal.js"></script>
     <script src="/static/theme.js"></script>
     <script src="/static/mobile-nav.js"></script>
     <script src="/static/global-footer.js"></script>
