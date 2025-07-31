@@ -62,11 +62,8 @@ export default async function handler(req, res) {
     const stored = await redis.get(`url:${shortId}`);
     console.log('Verification - stored:', stored ? 'Success' : 'Failed');
     
-    // Return the short URL
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://www.attest.ink';
-    const shortUrl = `${baseUrl}/s/${shortId}`;
+    // Always use the production domain for short URLs
+    const shortUrl = `https://attest.ink/s/${shortId}`;
     
     res.status(200).json({ shortUrl, shortId });
   } catch (error) {
