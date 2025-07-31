@@ -56,11 +56,19 @@ export default async function handler(req, res) {
     await redis.set(`url:${shortId}:owner`, validUser);
     
     // Return the short URL
-    const shortUrl = `${process.env.VERCEL_URL || 'https://attest.ink'}/s/${shortId}`;
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : 'https://www.attest.ink';
+    const shortUrl = `${baseUrl}/s/${shortId}`;
     
     res.status(200).json({ shortUrl, shortId });
   } catch (error) {
     console.error('Error shortening URL:', error);
-    res.status(500).json({ error: 'Failed to shorten URL' });
+    console.error('Error details:', error.message);
+    console.error('Stack trace:', error.stack);
+    res.status(500).json({ 
+      error: 'Failed to shorten URL',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 }

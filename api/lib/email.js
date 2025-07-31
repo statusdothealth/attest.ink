@@ -4,16 +4,20 @@ let transporter;
 
 export function getEmailTransporter() {
   if (!transporter) {
-    const user = process.env.GMAIL_USER;
-    const pass = process.env.GMAIL_APP_PASSWORD;
+    const user = process.env.SMTP_USER || process.env.GMAIL_USER;
+    const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const port = process.env.SMTP_PORT || 587;
     
     if (!user || !pass) {
-      console.error('Gmail credentials not configured');
+      console.error('Email credentials not configured');
       return null;
     }
     
     transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host,
+      port: parseInt(port),
+      secure: port === '465', // true for 465, false for other ports
       auth: {
         user,
         pass
@@ -32,8 +36,11 @@ export async function sendApiKeyEmail(email, apiKey) {
     return false;
   }
   
+  const fromName = process.env.EMAIL_NAME || 'attest.ink';
+  const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER;
+  
   const mailOptions = {
-    from: `attest.ink <${process.env.GMAIL_USER}>`,
+    from: `${fromName} <${fromEmail}>`,
     to: email,
     subject: 'Your attest.ink API Key - Lifetime Access Activated! 🎉',
     html: `
