@@ -212,7 +212,7 @@
                     
                     if (countdown <= 0) {
                         clearInterval(timer);
-                        window.location.href = `/attestation-result.html?id=${attestationId}`;
+                        window.location.href = `/attestation-result.html?id=${attestationId}&payment_success=true`;
                     }
                 }, 1000);
             }

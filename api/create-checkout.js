@@ -37,9 +37,8 @@ export default async function handler(req, res) {
     // Create Stripe checkout session
     console.log('Creating checkout session for email:', email);
     
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://www.attest.ink';
+    // Always use the production URL for checkout redirects
+    const baseUrl = 'https://www.attest.ink';
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

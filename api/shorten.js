@@ -51,9 +51,16 @@ export default async function handler(req, res) {
       exists = await redis.exists(`url:${shortId}`);
     }
     
+    console.log('Generated short ID:', shortId);
+    console.log('Storing for user:', validUser);
+    
     // Store the mapping permanently (no expiration)
     await redis.set(`url:${shortId}`, dataUrl);
     await redis.set(`url:${shortId}:owner`, validUser);
+    
+    // Verify storage
+    const stored = await redis.get(`url:${shortId}`);
+    console.log('Verification - stored:', stored ? 'Success' : 'Failed');
     
     // Return the short URL
     const baseUrl = process.env.VERCEL_URL 

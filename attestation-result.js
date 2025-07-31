@@ -1,5 +1,19 @@
 // attestation-result.js - Logic for displaying attestation results
 
+// Check if we're coming back from a successful payment
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment_success') === 'true') {
+        // Show success message
+        if (window.AttestModal) {
+            window.AttestModal.alert('Payment successful! Your short URL is being created...', '🎉 Success');
+        }
+        // Remove the payment_success parameter from URL
+        const newUrl = window.location.pathname + '?id=' + urlParams.get('id');
+        window.history.replaceState({}, document.title, newUrl);
+    }
+});
+
 async function generateAttestationDisplay(attestation) {
     const badgePreview = document.getElementById('badge-preview');
     const embedCodeEl = document.getElementById('badge-embed-code');
@@ -106,7 +120,11 @@ async function generateAttestationDisplay(attestation) {
                 document.getElementById('purchase-short-urls').addEventListener('click', async () => {
                     const email = document.getElementById('payment-email').value.trim();
                     if (!email) {
-                        alert('Please enter your email address');
+                        if (window.AttestModal) {
+                            window.AttestModal.alert('Please enter your email address to continue.', 'Email Required');
+                        } else {
+                            alert('Please enter your email address');
+                        }
                         return;
                     }
                     
@@ -135,8 +153,13 @@ async function generateAttestationDisplay(attestation) {
                         if (checkoutData.alreadyPurchased) {
                             // User already has access
                             localStorage.setItem('attest_ink_api_key', checkoutData.apiKey);
-                            alert('Great news! You already have lifetime access. The page will now reload to create your short URL.');
-                            window.location.reload();
+                            if (window.AttestModal) {
+                                window.AttestModal.alert('Great news! You already have lifetime access. The page will now reload to create your short URL.', '🎉 Already Purchased');
+                                setTimeout(() => window.location.reload(), 2000);
+                            } else {
+                                alert('Great news! You already have lifetime access. The page will now reload to create your short URL.');
+                                window.location.reload();
+                            }
                         } else if (checkoutData.checkoutUrl) {
                             // Redirect to Stripe checkout
                             window.location.href = checkoutData.checkoutUrl;
@@ -159,8 +182,19 @@ async function generateAttestationDisplay(attestation) {
         }
     }
     
-    // If no short URL was created and no payment required, use the regular one
-    if (!shortUrl && !requiresPayment) {
+    // Handle URL display based on payment status
+    if (shortUrl) {
+        // User has paid and got a short URL
+        linkCodeEl.textContent = shortUrl;
+    } else if (requiresPayment) {
+        // User needs to pay - don't show URL or copy button
+        linkCodeEl.textContent = '';
+        const copyBtn = document.getElementById('copy-link-code');
+        if (copyBtn) {
+            copyBtn.style.display = 'none';
+        }
+    } else {
+        // Fallback to regular URL
         linkCodeEl.textContent = shortVerifyUrl;
     }
     
