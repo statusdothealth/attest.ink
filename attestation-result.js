@@ -26,7 +26,7 @@ async function generateAttestationDisplay(attestation) {
     
     // Check if we're on Vercel, attest.ink, or localhost (for development)
     if (window.location.hostname.includes('vercel.app') || 
-        window.location.hostname === 'attest.ink' || 
+        window.location.hostname.includes('attest.ink') || 
         window.location.hostname === 'localhost') {
         try {
             // Check localStorage for email or API key
