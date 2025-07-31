@@ -18,17 +18,27 @@ window.AttestModal = {
         const modalHeader = document.createElement('div');
         modalHeader.className = 'attest-modal-header';
         
+        const logoContainer = document.createElement('div');
+        logoContainer.style.cssText = 'display: flex; align-items: center; gap: 12px;';
+        
         const logo = document.createElement('img');
         logo.src = '/assets/logo/circular-2-ai.svg';
         logo.alt = 'attest.ink';
         logo.className = 'attest-modal-logo';
+        
+        const thankYouText = document.createElement('span');
+        thankYouText.textContent = 'Thank you!';
+        thankYouText.style.cssText = 'font-size: 18px; font-weight: 600; color: var(--text-primary);';
+        
+        logoContainer.appendChild(logo);
+        logoContainer.appendChild(thankYouText);
         
         const closeBtn = document.createElement('button');
         closeBtn.className = 'attest-modal-close';
         closeBtn.innerHTML = '×';
         closeBtn.onclick = () => this.close();
         
-        modalHeader.appendChild(logo);
+        modalHeader.appendChild(logoContainer);
         modalHeader.appendChild(closeBtn);
         
         const modalBody = document.createElement('div');
@@ -79,9 +89,7 @@ window.AttestModal = {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.75);
-                    backdrop-filter: blur(4px);
-                    -webkit-backdrop-filter: blur(4px);
+                    background: rgba(0, 0, 0, 0.5);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -99,6 +107,7 @@ window.AttestModal = {
                     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
                     animation: slideUp 0.3s ease-out;
                     border: 1px solid var(--border-color);
+                    position: relative;
                 }
                 
                 .attest-modal-header {
