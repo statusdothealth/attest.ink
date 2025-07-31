@@ -2,7 +2,6 @@ import Stripe from 'stripe';
 import { getRedisClient } from './lib/redis.js';
 import { customAlphabet } from 'nanoid';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const generateApiKey = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 32);
 
 export default async function handler(req, res) {
@@ -16,6 +15,13 @@ export default async function handler(req, res) {
     if (!sessionId) {
       return res.status(400).json({ error: 'Session ID is required' });
     }
+    
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not set');
+      return res.status(500).json({ error: 'Stripe configuration error' });
+    }
+    
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     // Retrieve the session from Stripe
     const session = await stripe.checkout.sessions.retrieve(sessionId);
