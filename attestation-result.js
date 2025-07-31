@@ -33,6 +33,10 @@ async function generateAttestationDisplay(attestation) {
             const savedEmail = localStorage.getItem('attest_ink_email');
             const savedApiKey = localStorage.getItem('attest_ink_api_key');
             
+            console.log('Attempting to create short URL...');
+            console.log('Email:', savedEmail);
+            console.log('API Key:', savedApiKey ? 'Present' : 'Not present');
+            
             const response = await fetch('/api/shorten', {
                 method: 'POST',
                 headers: {
@@ -45,7 +49,9 @@ async function generateAttestationDisplay(attestation) {
                 })
             });
             
+            console.log('Response status:', response.status);
             const data = await response.json();
+            console.log('Response data:', data);
             
             if (response.ok) {
                 shortUrl = data.shortUrl;
@@ -137,6 +143,8 @@ async function generateAttestationDisplay(attestation) {
             }
         } catch (error) {
             console.error('Failed to create short URL:', error);
+            console.error('Error details:', error.message);
+            console.error('Stack trace:', error.stack);
             // Fall back to regular URL
         }
     }
