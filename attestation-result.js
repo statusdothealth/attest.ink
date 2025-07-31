@@ -22,7 +22,12 @@ async function generateAttestationDisplay(attestation) {
     let shortUrl = null;
     let requiresPayment = false;
     
-    if (window.location.hostname.includes('vercel.app') || window.location.hostname === 'attest.ink') {
+    console.log('Current hostname:', window.location.hostname);
+    
+    // Check if we're on Vercel, attest.ink, or localhost (for development)
+    if (window.location.hostname.includes('vercel.app') || 
+        window.location.hostname === 'attest.ink' || 
+        window.location.hostname === 'localhost') {
         try {
             // Check localStorage for email or API key
             const savedEmail = localStorage.getItem('attest_ink_email');
