@@ -4,24 +4,25 @@ let transporter;
 
 export function getEmailTransporter() {
   if (!transporter) {
-    const user = process.env.SMTP_USER || process.env.GMAIL_USER;
-    const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
-    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
-    const port = process.env.SMTP_PORT || 587;
+    console.log('Creating email transporter...');
+    console.log('SMTP_HOST:', process.env.SMTP_HOST ? 'Present' : 'Missing');
+    console.log('SMTP_PORT:', process.env.SMTP_PORT || '587');
+    console.log('SMTP_USER:', process.env.SMTP_USER ? 'Present' : 'Missing');
+    console.log('SMTP_PASS:', process.env.SMTP_PASS ? 'Present' : 'Missing');
     
-    if (!user || !pass) {
-      console.error('Email credentials not configured');
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('SMTP_USER and SMTP_PASS environment variables are required');
       return null;
     }
     
     transporter = nodemailer.createTransport({
-      host,
-      port: parseInt(port),
-      secure: port === '465', // true for 465, false for other ports
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true',
       auth: {
-        user,
-        pass
-      }
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
     });
   }
   
@@ -43,7 +44,7 @@ export async function sendApiKeyEmail(email, apiKey) {
   }
   
   const fromName = process.env.EMAIL_NAME || 'attest.ink';
-  const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER;
+  const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
   
   const mailOptions = {
     from: `${fromName} <${fromEmail}>`,
@@ -96,11 +97,24 @@ export async function sendApiKeyEmail(email, apiKey) {
   };
   
   try {
-    await transporter.sendMail(mailOptions);
-    console.log('API key email sent to:', email);
+    console.log('Attempting to send email with options:', {
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject
+    });
+    
+    const info = await transporter.sendMail(mailOptions);
+    console.log('API key email sent successfully to:', email);
+    console.log('Message ID:', info.messageId);
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
+    console.error('Error details:', {
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode
+    });
     return false;
   }
 }
