@@ -29,10 +29,16 @@ export function getEmailTransporter() {
 }
 
 export async function sendApiKeyEmail(email, apiKey) {
+  console.log('sendApiKeyEmail called with email:', email);
   const transporter = getEmailTransporter();
   
   if (!transporter) {
     console.error('Email transporter not configured, skipping email');
+    console.error('Email environment variables check:');
+    console.error('SMTP_USER:', process.env.SMTP_USER ? 'Present' : 'Missing');
+    console.error('GMAIL_USER:', process.env.GMAIL_USER ? 'Present' : 'Missing');
+    console.error('SMTP_PASS:', process.env.SMTP_PASS ? 'Present' : 'Missing');
+    console.error('GMAIL_APP_PASSWORD:', process.env.GMAIL_APP_PASSWORD ? 'Present' : 'Missing');
     return false;
   }
   

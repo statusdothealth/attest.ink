@@ -75,15 +75,23 @@ export default async function handler(req, res) {
         await redis.set(`url:${shortId}`, dataUrl);
         await redis.set(`url:${shortId}:owner`, email);
         
-        shortUrl = `${process.env.VERCEL_URL || 'https://attest.ink'}/s/${shortId}`;
+        shortUrl = `https://attest.ink/s/${shortId}`;
       } catch (error) {
         console.error('Error creating short URL from attestation data:', error);
       }
     }
     
     // Send email with API key (don't wait for it)
-    sendApiKeyEmail(email, apiKey).catch(err => {
+    console.log('Attempting to send email to:', email);
+    sendApiKeyEmail(email, apiKey).then(success => {
+      if (success) {
+        console.log('Email sent successfully to:', email);
+      } else {
+        console.log('Email sending failed for:', email);
+      }
+    }).catch(err => {
       console.error('Failed to send API key email:', err);
+      console.error('Email error details:', err.message);
     });
     
     // Get attestation ID from session metadata
