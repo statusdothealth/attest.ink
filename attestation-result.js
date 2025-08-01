@@ -112,7 +112,7 @@ async function generateAttestationDisplay(attestation) {
                 paymentContainer.style.cssText = 'margin-top: 15px; padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;';
                 paymentContainer.innerHTML = `
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-secondary);">
-                        🔓 <strong>Unlock permanent short URLs</strong> - Get lifetime access for just $20.
+                        <strong>Unlock permanent short URLs</strong> - Get lifetime access for just $20.
                     </p>
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <input type="email" id="payment-email" placeholder="Enter your email" 
@@ -120,7 +120,7 @@ async function generateAttestationDisplay(attestation) {
                                style="flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border-color); 
                                       border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
                         <button id="purchase-short-urls" class="btn btn-primary" style="white-space: nowrap;">
-                            🚀 Get Lifetime Access - $20
+                            Get Lifetime Access - $20
                         </button>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-secondary);">
