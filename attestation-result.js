@@ -90,14 +90,29 @@ async function generateAttestationDisplay(attestation) {
             } else if (response.status === 403 && data.requiresPayment) {
                 requiresPayment = true;
                 
-                // Show payment button instead of short URL
-                linkCodeEl.textContent = shortVerifyUrl;
+                // Show blurred preview of short URL
+                linkCodeEl.innerHTML = `
+                    <span style="display: flex; align-items: center; gap: 10px;">
+                        <span style="filter: blur(3px); pointer-events: none; color: var(--text-secondary);">
+                            https://attest.ink/s/abc123
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 5px; color: var(--text-secondary); font-size: 14px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                                <path d="m3 12 18 0"/>
+                            </svg>
+                            Unlock ↓
+                        </span>
+                    </span>
+                `;
                 
                 const paymentContainer = document.createElement('div');
                 paymentContainer.style.cssText = 'margin-top: 15px; padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;';
                 paymentContainer.innerHTML = `
                     <p style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-secondary);">
-                        Want a permanent short URL? Get lifetime access for just $20.
+                        🔓 <strong>Unlock permanent short URLs</strong> - Get lifetime access for just $20.
                     </p>
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <input type="email" id="payment-email" placeholder="Enter your email" 
@@ -105,7 +120,7 @@ async function generateAttestationDisplay(attestation) {
                                style="flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border-color); 
                                       border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
                         <button id="purchase-short-urls" class="btn btn-primary" style="white-space: nowrap;">
-                            Get Lifetime Access - $20
+                            🚀 Get Lifetime Access - $20
                         </button>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-secondary);">
