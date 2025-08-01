@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { getRedisClient } from './lib/redis.js';
-import { sendApiKeyEmail } from './lib/email.js';
+import { sendApiKeyEmail, sendPaymentNotification } from './lib/email.js';
 import { customAlphabet } from 'nanoid';
 
 const generateApiKey = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 32);
@@ -81,17 +81,29 @@ export default async function handler(req, res) {
       }
     }
     
-    // Send email with API key (don't wait for it)
-    console.log('Attempting to send email to:', email);
+    // Send confirmation email to customer
+    console.log('Attempting to send confirmation email to customer:', email);
     sendApiKeyEmail(email, apiKey).then(success => {
       if (success) {
-        console.log('Email sent successfully to:', email);
+        console.log('Customer email sent successfully to:', email);
       } else {
-        console.log('Email sending failed for:', email);
+        console.log('Customer email sending failed for:', email);
       }
     }).catch(err => {
-      console.error('Failed to send API key email:', err);
-      console.error('Email error details:', err.message);
+      console.error('Failed to send customer email:', err);
+      console.error('Customer email error details:', err.message);
+    });
+
+    // Send notification email to founder
+    console.log('Sending payment notification to founder@status.health');
+    sendPaymentNotification(email, apiKey, session.amount_total / 100).then(success => {
+      if (success) {
+        console.log('Founder notification sent successfully');
+      } else {
+        console.log('Founder notification failed');
+      }
+    }).catch(err => {
+      console.error('Failed to send founder notification:', err);
     });
     
     // Get attestation ID from session metadata

@@ -118,3 +118,61 @@ export async function sendApiKeyEmail(email, apiKey) {
     return false;
   }
 }
+
+export async function sendPaymentNotification(customerEmail, apiKey, amount) {
+  console.log('sendPaymentNotification called for customer:', customerEmail);
+  const transporter = getEmailTransporter();
+  
+  if (!transporter) {
+    console.error('Email transporter not configured, skipping founder notification');
+    return false;
+  }
+  
+  const fromName = process.env.EMAIL_NAME || 'attest.ink';
+  const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
+  
+  const mailOptions = {
+    from: `${fromName} <${fromEmail}>`,
+    to: 'founder@status.health',
+    subject: 'New attest.ink Payment Received - $' + amount,
+    html: `
+      <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 80px; height: 80px;">
+          <h1 style="margin: 20px 0; color: #111827;">Payment Received!</h1>
+        </div>
+        
+        <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h2 style="margin-top: 0; color: #111827;">Payment Details</h2>
+          <p><strong>Customer:</strong> ${customerEmail}</p>
+          <p><strong>Amount:</strong> $${amount}</p>
+          <p><strong>API Key:</strong> <code style="background: #111827; color: #10b981; padding: 2px 4px; border-radius: 2px;">${apiKey}</code></p>
+          <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+        </div>
+        
+        <p style="color: #4b5563;">The customer now has lifetime access to create permanent short URLs.</p>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 14px;">
+          <p>attest.ink payment notification</p>
+        </div>
+      </div>
+    `
+  };
+  
+  try {
+    console.log('Sending founder notification to founder@status.health');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Founder notification sent successfully');
+    console.log('Message ID:', info.messageId);
+    return true;
+  } catch (error) {
+    console.error('Error sending founder notification:', error);
+    console.error('Error details:', {
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode
+    });
+    return false;
+  }
+}
