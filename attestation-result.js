@@ -90,23 +90,6 @@ async function generateAttestationDisplay(attestation) {
             } else if (response.status === 403 && data.requiresPayment) {
                 requiresPayment = true;
                 
-                // Show blurred preview of short URL
-                linkCodeEl.innerHTML = `
-                    <span style="display: flex; align-items: center; gap: 10px;">
-                        <span style="filter: blur(3px); pointer-events: none; color: var(--text-secondary);">
-                            https://attest.ink/s/abc123
-                        </span>
-                        <span style="display: flex; align-items: center; gap: 5px; color: var(--text-secondary); font-size: 14px;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 12l2 2 4-4"/>
-                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
-                                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
-                                <path d="m3 12 18 0"/>
-                            </svg>
-                            Unlock ↓
-                        </span>
-                    </span>
-                `;
                 
                 const paymentContainer = document.createElement('div');
                 paymentContainer.style.cssText = 'margin-top: 15px; padding: 15px; background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;';
@@ -206,11 +189,18 @@ async function generateAttestationDisplay(attestation) {
         // User has paid and got a short URL
         linkCodeEl.textContent = shortUrl;
     } else if (requiresPayment) {
-        // User needs to pay - don't show URL or copy button
-        linkCodeEl.textContent = '';
+        // User needs to pay - show grayed out preview
+        linkCodeEl.textContent = 'https://attest.ink/s/abc123';
+        linkCodeEl.style.opacity = '0.5';
+        linkCodeEl.style.filter = 'blur(1px)';
+        linkCodeEl.style.pointerEvents = 'none';
+        
         const copyBtn = document.getElementById('copy-link-code');
         if (copyBtn) {
-            copyBtn.style.display = 'none';
+            copyBtn.disabled = true;
+            copyBtn.style.opacity = '0.5';
+            copyBtn.style.cursor = 'not-allowed';
+            copyBtn.textContent = 'Unlock Required';
         }
     } else {
         // Fallback to regular URL
