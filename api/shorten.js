@@ -18,21 +18,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { dataUrl, apiKey, email } = req.body;
+    // Handle both 'url' and 'dataUrl' field names for backwards compatibility
+    const { dataUrl, url, apiKey, email } = req.body;
+    const actualDataUrl = dataUrl || url;
     
     console.log('Shorten request received:', {
-      hasDataUrl: !!dataUrl,
-      dataUrlLength: dataUrl?.length,
-      dataUrlPrefix: dataUrl?.substring(0, 50),
+      hasDataUrl: !!actualDataUrl,
+      dataUrlLength: actualDataUrl?.length,
+      dataUrlPrefix: actualDataUrl?.substring(0, 50),
       hasApiKey: !!apiKey,
       hasEmail: !!email
     });
     
-    if (!dataUrl) {
-      return res.status(400).json({ error: 'Missing dataUrl in request body' });
+    if (!actualDataUrl) {
+      return res.status(400).json({ error: 'Missing dataUrl or url in request body' });
     }
     
-    if (!dataUrl.startsWith('data:')) {
+    if (!actualDataUrl.startsWith('data:')) {
       return res.status(400).json({ error: 'Invalid data URL format - must start with "data:"' });
     }
 
@@ -57,7 +59,9 @@ export default async function handler(req, res) {
         const keyData = await redis.get(`api_key:${apiKey}`);
         console.log('API key data:', keyData ? 'Found' : 'Not found');
         if (keyData) {
-          validUser = JSON.parse(keyData).email;
+          // Upstash Redis returns objects directly, no need to parse
+          const data = typeof keyData === 'string' ? JSON.parse(keyData) : keyData;
+          validUser = data.email;
           console.log('Valid user from API key:', validUser);
         }
       } else if (email) {
@@ -98,7 +102,7 @@ export default async function handler(req, res) {
     console.log('Storing for user:', validUser);
     
     // Store the mapping permanently (no expiration)
-    await redis.set(`url:${shortId}`, dataUrl);
+    await redis.set(`url:${shortId}`, actualDataUrl);
     await redis.set(`url:${shortId}:owner`, validUser);
     
     // Verify storage
