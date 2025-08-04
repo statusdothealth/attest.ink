@@ -8,11 +8,32 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  console.log('Request headers:', req.headers);
+  console.log('Request body type:', typeof req.body);
+  console.log('Request body:', req.body);
+
+  // Ensure body is parsed
+  if (!req.body || typeof req.body === 'string') {
+    return res.status(400).json({ error: 'Request body must be JSON' });
+  }
+
   try {
     const { dataUrl, apiKey, email } = req.body;
     
-    if (!dataUrl || !dataUrl.startsWith('data:')) {
-      return res.status(400).json({ error: 'Invalid data URL' });
+    console.log('Shorten request received:', {
+      hasDataUrl: !!dataUrl,
+      dataUrlLength: dataUrl?.length,
+      dataUrlPrefix: dataUrl?.substring(0, 50),
+      hasApiKey: !!apiKey,
+      hasEmail: !!email
+    });
+    
+    if (!dataUrl) {
+      return res.status(400).json({ error: 'Missing dataUrl in request body' });
+    }
+    
+    if (!dataUrl.startsWith('data:')) {
+      return res.status(400).json({ error: 'Invalid data URL format - must start with "data:"' });
     }
 
     const redis = getRedisClient();
