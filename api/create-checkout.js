@@ -43,7 +43,10 @@ export default async function handler(req, res) {
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       payment_method_types: ['card'],
-      billing_address_collection: 'auto',
+      billing_address_collection: 'required',
+      automatic_tax: {
+        enabled: true,
+      },
       invoice_creation: {
         enabled: true,
       },
@@ -55,6 +58,7 @@ export default async function handler(req, res) {
               name: 'attest.ink Lifetime Short URLs',
               description: 'Create unlimited permanent short URLs for your AI attestations',
               images: ['https://attest.ink/assets/logo/circular-2-ai.svg'],
+              tax_code: 'txcd_10103000', // Software as a service (SaaS) - electronically supplied
             },
             unit_amount: 2000, // $20.00
           },
