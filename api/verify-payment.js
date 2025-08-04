@@ -92,6 +92,12 @@ export default async function handler(req, res) {
     }).catch(err => {
       console.error('Failed to send customer email:', err);
       console.error('Customer email error details:', err.message);
+      console.error('SMTP configuration:', {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        user: process.env.SMTP_USER ? 'Set' : 'Missing',
+        pass: process.env.SMTP_PASS ? 'Set' : 'Missing'
+      });
     });
 
     // Send notification email to founder
