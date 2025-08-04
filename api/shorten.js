@@ -36,23 +36,45 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid data URL format - must start with "data:"' });
     }
 
-    const redis = getRedisClient();
+    let redis;
+    try {
+      redis = getRedisClient();
+    } catch (error) {
+      console.error('Failed to get Redis client:', error);
+      return res.status(500).json({ 
+        error: 'Database connection failed',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
     
     // Verify API key or email
     let validUser = null;
     
-    if (apiKey) {
-      // Check if API key is valid
-      const keyData = await redis.get(`api_key:${apiKey}`);
-      if (keyData) {
-        validUser = JSON.parse(keyData).email;
+    try {
+      if (apiKey) {
+        // Check if API key is valid
+        console.log('Checking API key:', apiKey);
+        const keyData = await redis.get(`api_key:${apiKey}`);
+        console.log('API key data:', keyData ? 'Found' : 'Not found');
+        if (keyData) {
+          validUser = JSON.parse(keyData).email;
+          console.log('Valid user from API key:', validUser);
+        }
+      } else if (email) {
+        // Check if email has an API key
+        console.log('Checking email:', email);
+        const existingKey = await redis.get(`api_key:email:${email}`);
+        console.log('Email has API key:', existingKey ? 'Yes' : 'No');
+        if (existingKey) {
+          validUser = email;
+        }
       }
-    } else if (email) {
-      // Check if email has an API key
-      const existingKey = await redis.get(`api_key:email:${email}`);
-      if (existingKey) {
-        validUser = email;
-      }
+    } catch (error) {
+      console.error('Error checking user validation:', error);
+      return res.status(500).json({ 
+        error: 'Failed to validate user',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
     }
     
     if (!validUser) {
