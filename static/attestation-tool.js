@@ -162,7 +162,7 @@
             }
 
             this.currentAttestation = attestation;
-            this.showResult();
+            this.showResults();
         }
 
         async signContent(attestation, method) {
@@ -192,20 +192,6 @@
             preview.textContent = JSON.stringify(previewData, null, 2);
         }
 
-        showResult() {
-            this.form.style.display = 'none';
-            this.resultSection.style.display = 'block';
-
-            // Update embed code preview
-            const embedPreview = document.getElementById('embed-code-preview');
-            if (embedPreview) {
-                const filename = `attest-${this.currentAttestation.id}.json`;
-                embedPreview.textContent = `<div class="ai-attest-badge" 
-     data-attestation-url="/attestations/v2/${filename}">
-</div>
-<script src="https://attest.ink/static/badge-renderer.js"></script>`;
-            }
-        }
 
         initializeResultHandlers() {
             // Download JSON
