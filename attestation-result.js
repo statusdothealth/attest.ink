@@ -589,6 +589,70 @@ async function handlePaymentComplete() {
     
     if (!pendingAttestation) {
         console.error('No pending attestation found after payment');
+        // Still verify the payment to save the API key
+        try {
+            const verifyResponse = await fetch('/api/verify-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sessionId })
+            });
+            
+            const verifyData = await verifyResponse.json();
+            
+            if (verifyData.success && verifyData.apiKey) {
+                // Save API key
+                localStorage.setItem('attest_ink_api_key', verifyData.apiKey);
+                localStorage.setItem('attest_ink_email', verifyData.email);
+                
+                // Launch confetti
+                launchConfetti();
+                
+                // Check if a short URL was created from metadata
+                if (verifyData.shortUrl) {
+                    // Show success with short URL from metadata
+                    if (window.AttestModal) {
+                        window.AttestModal.showSuccess(
+                            `Payment successful! Your short URL has been created:<br><br>
+                            <div style="display: flex; gap: 10px; align-items: center; margin: 15px 0;">
+                                <input type="text" value="${verifyData.shortUrl}" readonly 
+                                       style="flex: 1; padding: 10px; font-family: monospace; background: var(--bg-input); 
+                                              border: 1px solid var(--border-color); border-radius: 4px;"
+                                       onclick="this.select()">
+                                <button onclick="navigator.clipboard.writeText('${verifyData.shortUrl}').then(() => {
+                                    this.textContent = 'Copied!';
+                                    setTimeout(() => this.textContent = 'Copy', 2000);
+                                })" class="btn btn-secondary">Copy</button>
+                            </div>`,
+                            'Thank you!'
+                        );
+                    }
+                    
+                    // Redirect to create page after a delay
+                    setTimeout(() => {
+                        window.location.href = '/create/';
+                    }, 5000);
+                } else {
+                    // Show success message without short URL
+                    if (window.AttestModal) {
+                        window.AttestModal.showSuccess(
+                            `Payment successful! You now have lifetime access to create short URLs.<br><br>
+                            Your API key has been saved and emailed to you.<br><br>
+                            <em>Note: The attestation data was lost during payment processing, but you can create new short URLs anytime.</em>`,
+                            'Thank you!'
+                        );
+                    }
+                    
+                    // Redirect to create page after a delay
+                    setTimeout(() => {
+                        window.location.href = '/create/';
+                    }, 4000);
+                }
+            }
+        } catch (error) {
+            console.error('Error verifying payment:', error);
+        }
         return;
     }
     

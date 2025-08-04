@@ -144,10 +144,10 @@
         const urlParams = new URLSearchParams(window.location.search);
         const attestationId = urlParams.get('id');
         
-        if (!attestationId) {
+        if (!attestationId && !urlParams.get('payment_complete')) {
             alert('No attestation ID provided');
             window.location.href = '/create/';
-        } else {
+        } else if (attestationId) {
             // Try to load from localStorage
             const storedAttestation = localStorage.getItem(`attestation-${attestationId}`);
             if (!storedAttestation) {
