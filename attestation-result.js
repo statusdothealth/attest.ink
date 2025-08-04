@@ -103,7 +103,7 @@ async function generateAttestationDisplay(attestation) {
                                style="flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border-color); 
                                       border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
                         <button id="purchase-short-urls" class="btn btn-primary" style="white-space: nowrap;">
-                            Get Lifetime Access - $20 + tax
+                            Get Lifetime Access - $20
                         </button>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-secondary);">
@@ -176,7 +176,7 @@ async function generateAttestationDisplay(attestation) {
                             alert('Failed to start checkout process. Please try again.');
                         }
                         button.disabled = false;
-                        button.textContent = 'Get Lifetime Access - $20 + tax';
+                        button.textContent = 'Get Lifetime Access - $20';
                     }
                 });
             }
@@ -550,7 +550,7 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
                 const payButton = document.querySelector('button[disabled]');
                 if (payButton) {
                     payButton.disabled = false;
-                    payButton.textContent = 'Get Lifetime Access - $20 + tax';
+                    payButton.textContent = 'Get Lifetime Access - $20';
                 }
             }
         });
@@ -564,7 +564,7 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
                     const payButton = document.querySelector('button[disabled]');
                     if (payButton) {
                         payButton.disabled = false;
-                        payButton.textContent = 'Get Lifetime Access - $20 + tax';
+                        payButton.textContent = 'Get Lifetime Access - $20';
                     }
                 }
             }

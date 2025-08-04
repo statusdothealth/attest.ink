@@ -46,6 +46,7 @@ export default async function handler(req, res) {
       automatic_tax: {
         enabled: true,
       },
+      billing_address_collection: 'auto',
       invoice_creation: {
         enabled: true,
       },
