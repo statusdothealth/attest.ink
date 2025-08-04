@@ -41,6 +41,7 @@ export default async function handler(req, res) {
     const baseUrl = 'https://attest.ink';
     
     const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
       payment_method_types: ['card'],
       billing_address_collection: 'auto',
       invoice_creation: {
@@ -61,8 +62,7 @@ export default async function handler(req, res) {
         },
       ],
       mode: 'payment',
-      success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/create/`,
+      return_url: `${baseUrl}/attestation-result.html?payment_complete={CHECKOUT_SESSION_ID}`,
       customer_email: email,
       metadata: {
         email: email,
@@ -71,7 +71,10 @@ export default async function handler(req, res) {
       },
     });
 
-    res.status(200).json({ checkoutUrl: session.url });
+    res.status(200).json({ 
+      clientSecret: session.client_secret,
+      checkoutUrl: session.url // Fallback for non-embedded mode
+    });
   } catch (error) {
     console.error('Error creating checkout session:', error);
     console.error('Error details:', error.message);

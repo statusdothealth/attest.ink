@@ -243,6 +243,16 @@ window.AttestModal = {
         });
     },
     
+    showSuccess: function(message, title = 'Success') {
+        this.show(title, message, {
+            headerText: 'Thank you!',
+            buttons: [{
+                text: 'OK',
+                className: 'btn-primary'
+            }]
+        });
+    },
+    
     confirm: function(message, title = '', onConfirm = () => {}, onCancel = () => {}) {
         this.show(title, message, {
             buttons: [

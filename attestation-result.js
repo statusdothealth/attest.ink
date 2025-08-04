@@ -133,6 +133,10 @@ async function generateAttestationDisplay(attestation) {
                     button.disabled = true;
                     button.textContent = 'Processing...';
                     
+                    // Store attestation data in sessionStorage for after payment
+                    sessionStorage.setItem('pending_attestation', JSON.stringify(attestation));
+                    sessionStorage.setItem('pending_attestation_email', email);
+                    
                     try {
                         const checkoutResponse = await fetch('/api/create-checkout', {
                             method: 'POST',
@@ -152,15 +156,15 @@ async function generateAttestationDisplay(attestation) {
                             // User already has access
                             localStorage.setItem('attest_ink_api_key', checkoutData.apiKey);
                             if (window.AttestModal) {
-                                window.AttestModal.alert('Great news! You already have lifetime access. The page will now reload to create your short URL.', '🎉 Already Purchased');
+                                window.AttestModal.alert('Great news! You already have lifetime access. The page will now reload to create your short URL.', 'Thank you!');
                                 setTimeout(() => window.location.reload(), 2000);
                             } else {
                                 alert('Great news! You already have lifetime access. The page will now reload to create your short URL.');
                                 window.location.reload();
                             }
-                        } else if (checkoutData.checkoutUrl) {
-                            // Redirect to Stripe checkout
-                            window.location.href = checkoutData.checkoutUrl;
+                        } else if (checkoutData.clientSecret) {
+                            // Show embedded checkout
+                            await showEmbeddedCheckout(checkoutData.clientSecret, email, attestation);
                         } else {
                             throw new Error('Failed to create checkout session');
                         }
@@ -200,7 +204,7 @@ async function generateAttestationDisplay(attestation) {
             copyBtn.disabled = true;
             copyBtn.style.opacity = '0.5';
             copyBtn.style.cursor = 'not-allowed';
-            copyBtn.textContent = 'Unlock Required';
+            copyBtn.textContent = 'Unlock with Payment';
         }
     } else {
         // Fallback to regular URL
@@ -433,6 +437,298 @@ function initializeCopyButtons() {
         });
     }
 }
+
+// Stripe embedded checkout functionality
+async function showEmbeddedCheckout(clientSecret, email, attestation) {
+    // Use test key for now - in production this should be configured
+    const stripe = window.Stripe('pk_test_51RnmhPCS9p44gPz1OJCQxT03PN5Vww2KZCW6zzKfJyW1qCF1fIgGxLbxe3cOgv4GHiM9ND0jvQOqrTTQQvGjbcGa00cKCt0Ugw');
+    
+    // Create modal for embedded checkout
+    const modal = document.createElement('div');
+    modal.id = 'checkout-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: var(--bg-main);
+        border-radius: 12px;
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow: auto;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    `;
+    
+    // Add header with Stripe branding
+    const header = document.createElement('div');
+    header.style.cssText = `
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    `;
+    header.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 32px; height: 32px;">
+            <span style="font-size: 18px; font-weight: 600;">Complete Your Purchase</span>
+        </div>
+        <button id="close-checkout" style="
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        " onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='none'">×</button>
+    `;
+    
+    // Add checkout container
+    const checkoutContainer = document.createElement('div');
+    checkoutContainer.id = 'checkout';
+    checkoutContainer.style.cssText = 'padding: 20px;';
+    
+    // Add powered by Stripe notice
+    const stripeNotice = document.createElement('div');
+    stripeNotice.style.cssText = `
+        padding: 15px 20px;
+        background: var(--bg-panel);
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        font-size: 14px;
+        color: var(--text-secondary);
+    `;
+    stripeNotice.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <svg width="50" height="20" viewBox="0 0 50 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.73126 7.58614C6.73126 6.62846 7.46924 6.24954 8.52593 6.24954C9.98147 6.24954 11.8171 6.6886 13.2724 7.48597V3.5429C11.6967 2.84477 10.1419 2.62573 8.52593 2.62573C4.67489 2.62573 2.11768 4.66008 2.11768 7.90691C2.11768 13.0949 9.16172 12.216 9.16172 14.4117C9.16172 15.5089 8.24303 15.8678 7.0864 15.8678C5.47082 15.8678 3.43366 15.1899 1.79768 14.3315V18.3344C3.53383 19.1324 5.29046 19.4114 7.0864 19.4114C11.0578 19.4114 13.8354 17.4366 13.8354 14.1306C13.8148 8.46551 6.73126 9.60423 6.73126 7.58614ZM18.5901 3.86453L18.1092 6.21516H16.0932V10.0384C16.0932 11.3364 16.6541 11.9749 17.832 11.9749C18.4284 11.9749 18.8296 11.8954 19.1694 11.7349L19.1899 15.4396C18.5901 15.6601 17.5708 15.8807 16.4949 15.8807C13.3755 15.8807 11.62 14.1224 11.62 11.116V2.06712L16.0932 1.20844V3.01518H19.0899L18.5901 3.86453ZM25.9008 2.62443C24.7066 2.62443 23.7904 3.00227 23.0513 3.82063L22.8118 3.00227H19.0522V19.1116H23.5261V17.6539C24.2462 18.3128 25.2248 18.6917 26.4423 18.6917C29.6012 18.6917 32.2789 16.2174 32.2789 10.6118C32.2584 5.56872 29.2614 2.62443 25.9008 2.62443ZM25.0993 14.9288C23.9628 14.9288 23.2236 14.4297 22.7631 13.8316L22.7426 13.6712V7.00753C23.2236 6.36923 23.9833 5.87014 25.1198 5.87014C26.8378 5.87014 28.0128 7.54716 28.0128 10.413C28.0128 13.3384 26.8583 14.9288 25.0993 14.9288ZM42.4359 10.1743C42.4359 14.5616 39.8794 18.7046 35.1672 18.7046C30.5139 18.7046 27.7566 14.9212 27.7566 10.652C27.7566 6.28392 30.3534 2.61981 35.0056 2.61981C38.1189 2.61981 40.4958 3.8983 41.7149 4.916L40.1955 7.82987C39.1584 7.0318 37.6799 6.31307 35.9423 6.31307C34.2043 6.31307 32.7264 7.11158 32.345 9.00769L42.3968 9.00769C42.4174 9.36662 42.4359 9.86532 42.4359 10.1743ZM32.4246 11.8411C32.6641 13.8575 34.0624 15.0548 35.9833 15.0548C37.2783 15.0548 38.1968 14.4363 38.4772 13.0194V12.0016L32.4041 12.0016L32.4246 11.8411Z" fill="#635BFF"/>
+            </svg>
+            Secure payment powered by Stripe
+        </div>
+    `;
+    
+    modalContent.appendChild(header);
+    modalContent.appendChild(checkoutContainer);
+    modalContent.appendChild(stripeNotice);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Initialize embedded checkout
+    try {
+        const checkout = await stripe.initEmbeddedCheckout({
+            clientSecret,
+        });
+        
+        // Mount checkout
+        checkout.mount('#checkout');
+        
+        // Handle close button
+        document.getElementById('close-checkout').addEventListener('click', () => {
+            if (confirm('Are you sure you want to cancel the payment process?')) {
+                modal.remove();
+                // Re-enable the payment button
+                const payButton = document.querySelector('button[disabled]');
+                if (payButton) {
+                    payButton.disabled = false;
+                    payButton.textContent = 'Get Lifetime Access - $20';
+                }
+            }
+        });
+        
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                if (confirm('Are you sure you want to cancel the payment process?')) {
+                    modal.remove();
+                    // Re-enable the payment button
+                    const payButton = document.querySelector('button[disabled]');
+                    if (payButton) {
+                        payButton.disabled = false;
+                        payButton.textContent = 'Get Lifetime Access - $20';
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Failed to initialize embedded checkout:', error);
+        modal.remove();
+        throw error;
+    }
+}
+
+// Handle payment completion
+async function handlePaymentComplete() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('payment_complete');
+    
+    if (!sessionId) return;
+    
+    // Get pending attestation data
+    const pendingAttestation = sessionStorage.getItem('pending_attestation');
+    const pendingEmail = sessionStorage.getItem('pending_attestation_email');
+    
+    if (!pendingAttestation) {
+        console.error('No pending attestation found after payment');
+        return;
+    }
+    
+    try {
+        // Verify payment
+        const verifyResponse = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionId })
+        });
+        
+        const verifyData = await verifyResponse.json();
+        
+        if (verifyData.success && verifyData.apiKey) {
+            // Save API key
+            localStorage.setItem('attest_ink_api_key', verifyData.apiKey);
+            localStorage.setItem('attest_ink_email', verifyData.email);
+            
+            // Clear pending data
+            sessionStorage.removeItem('pending_attestation');
+            sessionStorage.removeItem('pending_attestation_email');
+            
+            // Launch confetti
+            launchConfetti();
+            
+            // Create short URL with the original attestation data
+            const attestation = JSON.parse(pendingAttestation);
+            const dataUrl = `data:application/json;base64,${btoa(JSON.stringify(attestation))}`;
+            
+            const shortResponse = await fetch('/api/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    url: dataUrl,
+                    apiKey: verifyData.apiKey
+                })
+            });
+            
+            if (shortResponse.ok) {
+                const shortData = await shortResponse.json();
+                
+                // Show success modal with short URL
+                if (window.AttestModal) {
+                    window.AttestModal.showSuccess(
+                        `Payment successful! Your short URL has been created:<br><br>
+                        <div style="display: flex; gap: 10px; align-items: center; margin: 15px 0;">
+                            <input type="text" value="${shortData.shortUrl}" readonly 
+                                   style="flex: 1; padding: 10px; font-family: monospace; background: var(--bg-input); 
+                                          border: 1px solid var(--border-color); border-radius: 4px;"
+                                   onclick="this.select()">
+                            <button onclick="navigator.clipboard.writeText('${shortData.shortUrl}').then(() => {
+                                this.textContent = 'Copied!';
+                                setTimeout(() => this.textContent = 'Copy', 2000);
+                            })" class="btn btn-secondary">Copy</button>
+                        </div>`,
+                        'Thank you!'
+                    );
+                }
+                
+                // Reload page after a delay to show the short URL
+                setTimeout(() => {
+                    window.location.href = window.location.pathname + '?id=' + attestation.id;
+                }, 3000);
+            }
+        }
+    } catch (error) {
+        console.error('Error handling payment completion:', error);
+        if (window.AttestModal) {
+            window.AttestModal.alert('There was an error processing your payment. Please contact support if you were charged.', 'Error');
+        }
+    }
+}
+
+// Confetti animation
+function launchConfetti() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10001;';
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const confetti = [];
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff1493'];
+    
+    // Create confetti particles
+    for (let i = 0; i < 150; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: -10,
+            w: Math.random() * 10 + 5,
+            h: Math.random() * 5 + 3,
+            vx: Math.random() * 6 - 3,
+            vy: Math.random() * 3 + 2,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            angle: Math.random() * 360,
+            spin: Math.random() * 10 - 5
+        });
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        confetti.forEach((c, index) => {
+            c.y += c.vy;
+            c.x += c.vx;
+            c.angle += c.spin;
+            c.vy += 0.1; // gravity
+            
+            ctx.save();
+            ctx.translate(c.x + c.w/2, c.y + c.h/2);
+            ctx.rotate(c.angle * Math.PI / 180);
+            ctx.fillStyle = c.color;
+            ctx.fillRect(-c.w/2, -c.h/2, c.w, c.h);
+            ctx.restore();
+            
+            // Remove if off screen
+            if (c.y > canvas.height) {
+                confetti.splice(index, 1);
+            }
+        });
+        
+        if (confetti.length > 0) {
+            requestAnimationFrame(animate);
+        } else {
+            // Clean up canvas after animation
+            canvas.remove();
+        }
+    }
+    
+    animate();
+}
+
+// Check for payment completion on page load
+window.addEventListener('DOMContentLoaded', handlePaymentComplete);
 
 // Export functions for use in HTML
 window.generateAttestationDisplay = generateAttestationDisplay;
