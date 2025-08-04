@@ -45,9 +45,6 @@ export default async function handler(req, res) {
       payment_method_types: ['card'],
       automatic_tax: {
         enabled: true,
-        liability: {
-          type: 'self',
-        },
       },
       invoice_creation: {
         enabled: true,
