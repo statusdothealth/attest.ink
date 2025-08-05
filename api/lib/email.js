@@ -50,7 +50,10 @@ export async function sendApiKeyEmail(email, apiKey, paymentDetails = {}) {
   const subtotal = paymentDetails.amount || 20.00;
   const tax = paymentDetails.tax || 0;
   const total = subtotal + tax;
-  const invoiceNumber = paymentDetails.invoiceNumber || `INV-${Date.now()}`;
+  // Generate shorter invoice number (8 characters)
+  const timestamp = Date.now().toString(36).toUpperCase(); // Base36 timestamp
+  const random = Math.random().toString(36).substring(2, 5).toUpperCase(); // 3 random chars
+  const invoiceNumber = paymentDetails.invoiceNumber || `INV-${timestamp.slice(-5)}${random}`;
   const paymentDate = new Date().toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'long', 
@@ -73,15 +76,19 @@ export async function sendApiKeyEmail(email, apiKey, paymentDetails = {}) {
         <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
           <h2 style="margin-top: 0; color: #111827; font-size: 20px; margin-bottom: 20px;">Receipt</h2>
           
-          <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-            <div>
-              <p style="margin: 0; color: #6b7280; font-size: 14px;">Invoice Number</p>
-              <p style="margin: 0; color: #111827; font-weight: 600;">${invoiceNumber}</p>
-            </div>
-            <div style="text-align: right;">
-              <p style="margin: 0; color: #6b7280; font-size: 14px;">Date</p>
-              <p style="margin: 0; color: #111827; font-weight: 600;">${paymentDate}</p>
-            </div>
+          <div style="margin-bottom: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 0;">
+                  <p style="margin: 0; color: #6b7280; font-size: 14px;">Invoice Number</p>
+                  <p style="margin: 0; color: #111827; font-weight: 600;">${invoiceNumber}</p>
+                </td>
+                <td style="padding: 0; text-align: right;">
+                  <p style="margin: 0; color: #6b7280; font-size: 14px;">Date</p>
+                  <p style="margin: 0; color: #111827; font-weight: 600;">${paymentDate}</p>
+                </td>
+              </tr>
+            </table>
           </div>
           
           <div style="border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 20px 0; margin: 20px 0;">
@@ -186,9 +193,11 @@ export async function sendPaymentNotification(customerEmail, apiKey, amount) {
   const fromName = process.env.EMAIL_NAME || 'attest.ink';
   const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
   
+  const founderEmail = process.env.FOUNDER_EMAIL || 'founder@status.health';
+  
   const mailOptions = {
     from: `${fromName} <${fromEmail}>`,
-    to: 'founder@status.health',
+    to: founderEmail,
     subject: 'New attest.ink Payment Received - $' + amount,
     html: `
       <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const testPaymentDetails = {
     amount: 20.00,
     tax: 1.90,  // California tax example
-    invoiceNumber: 'INV-TEST123'
+    // Let the email function generate the invoice number
   };
 
   try {

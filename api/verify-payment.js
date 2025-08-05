@@ -114,7 +114,7 @@ export default async function handler(req, res) {
     const paymentDetails = {
       amount: subtotal,
       tax: tax,
-      invoiceNumber: session.invoice || `INV-${sessionId.slice(-8).toUpperCase()}`
+      invoiceNumber: session.invoice || undefined // Let email.js generate the short invoice number
     };
     
     console.log('Payment details for email:', paymentDetails);
