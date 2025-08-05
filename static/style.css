@@ -176,7 +176,7 @@ a:hover {
 nav {
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
-    margin: 16px 0;
+    margin: 16px;
     position: relative;
 }
 
