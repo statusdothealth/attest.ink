@@ -342,8 +342,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - [Protocol Specification](https://attest.ink/protocol/) - Technical protocol details
 - [Badge Gallery](https://attest.ink/showcase/) - Complete badge collection
 - [Integration Examples](https://attest.ink/examples/) - Real-world usage examples
-- [API Reference](docs/api-reference.md) - Complete API documentation
-- [CI/CD Automation Guide](docs/ci-cd-automation.md) - Pipeline integration guide
+- [API Reference](docs/api-reference.html) - Complete API documentation
+- [CI/CD Automation Guide](docs/ci-cd-automation.html) - Pipeline integration guide
 
 ### Integration Guides
 

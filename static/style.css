@@ -176,7 +176,7 @@ a:hover {
 nav {
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
-    margin: 16px;
+    margin: 16px 0;
     position: relative;
 }
 
@@ -920,6 +920,10 @@ summary {
         /* Better touch interaction */
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
+    }
+
+    nav {
+        margin: 16px;
     }
     
     /* Remove all borders from logo */
