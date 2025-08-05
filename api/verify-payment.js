@@ -24,8 +24,10 @@ export default async function handler(req, res) {
     
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-    // Retrieve the session from Stripe
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    // Retrieve the session from Stripe with expanded line items
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items', 'total_details']
+    });
     
     if (session.payment_status !== 'paid') {
       return res.status(400).json({ error: 'Payment not completed' });
@@ -82,21 +84,53 @@ export default async function handler(req, res) {
     }
     
     // Get payment details for the receipt
+    // When using line items for tax, we need to calculate the subtotal differently
+    let subtotal = 20.00; // Default price
+    let tax = 0;
+    
+    // Check if we have line items (when tax is added as separate line item)
+    if (session.line_items && session.line_items.data) {
+      const productItem = session.line_items.data.find(item => 
+        item.description?.includes('attest.ink') || 
+        item.price?.product?.name?.includes('attest.ink')
+      );
+      const taxItem = session.line_items.data.find(item => 
+        item.description?.includes('Tax') || 
+        item.price?.product?.name?.includes('Tax')
+      );
+      
+      if (productItem) {
+        subtotal = productItem.amount_total / 100;
+      }
+      if (taxItem) {
+        tax = taxItem.amount_total / 100;
+      }
+    } else if (session.amount_subtotal) {
+      // Fallback to session totals
+      subtotal = session.amount_subtotal / 100;
+      tax = session.total_details?.amount_tax ? session.total_details.amount_tax / 100 : 0;
+    }
+    
     const paymentDetails = {
-      amount: session.amount_subtotal / 100,
-      tax: session.total_details?.amount_tax ? session.total_details.amount_tax / 100 : 0,
+      amount: subtotal,
+      tax: tax,
       invoiceNumber: session.invoice || `INV-${sessionId.slice(-8).toUpperCase()}`
     };
     
+    console.log('Payment details for email:', paymentDetails);
+    console.log('Session total_details:', session.total_details);
+    
     // Send confirmation email to customer
     console.log('Attempting to send confirmation email to customer:', email);
-    sendApiKeyEmail(email, apiKey, paymentDetails).then(success => {
-      if (success) {
+    try {
+      const emailSent = await sendApiKeyEmail(email, apiKey, paymentDetails);
+      if (emailSent) {
         console.log('Customer email sent successfully to:', email);
       } else {
         console.log('Customer email sending failed for:', email);
+        console.error('Email transporter may not be configured properly');
       }
-    }).catch(err => {
+    } catch (err) {
       console.error('Failed to send customer email:', err);
       console.error('Customer email error details:', err.message);
       console.error('SMTP configuration:', {
@@ -105,7 +139,7 @@ export default async function handler(req, res) {
         user: process.env.SMTP_USER ? 'Set' : 'Missing',
         pass: process.env.SMTP_PASS ? 'Set' : 'Missing'
       });
-    });
+    }
 
     // Send notification email to founder
     console.log('Sending payment notification to founder@status.health');

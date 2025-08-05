@@ -133,6 +133,15 @@ async function generateAttestationDisplay(attestation) {
                         return;
                     }
                     
+                    if (!zipCode) {
+                        if (window.AttestModal) {
+                            window.AttestModal.alert('Please enter your ZIP code to calculate tax and continue.', 'ZIP Code Required');
+                        } else {
+                            alert('Please enter your ZIP code');
+                        }
+                        return;
+                    }
+                    
                     // Save email for future use
                     localStorage.setItem('attest_ink_email', email);
                     
@@ -459,6 +468,23 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
     // Use test key for now - in production this should be configured
     const stripe = window.Stripe('pk_test_51RnmhPCS9p44gPz1OJCQxT03PN5Vww2KZCW6zzKfJyW1qCF1fIgGxLbxe3cOgv4GHiM9ND0jvQOqrTTQQvGjbcGa00cKCt0Ugw');
     
+    // Add blur to the main content
+    const mainContent = document.body;
+    const blurOverlay = document.createElement('div');
+    blurOverlay.id = 'blur-overlay';
+    blurOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 9999;
+    `;
+    document.body.appendChild(blurOverlay);
+    
     // Create modal for embedded checkout
     const modal = document.createElement('div');
     modal.id = 'checkout-modal';
@@ -468,7 +494,6 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -562,12 +587,9 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
         document.getElementById('close-checkout').addEventListener('click', () => {
             if (confirm('Are you sure you want to cancel the payment process?')) {
                 modal.remove();
-                // Re-enable the payment button
-                const payButton = document.querySelector('button[disabled]');
-                if (payButton) {
-                    payButton.disabled = false;
-                    payButton.textContent = 'Get Lifetime Access - $20';
-                }
+                document.getElementById('blur-overlay')?.remove();
+                // Refresh the page to reset the state
+                window.location.reload();
             }
         });
         
@@ -576,18 +598,16 @@ async function showEmbeddedCheckout(clientSecret, email, attestation) {
             if (e.target === modal) {
                 if (confirm('Are you sure you want to cancel the payment process?')) {
                     modal.remove();
-                    // Re-enable the payment button
-                    const payButton = document.querySelector('button[disabled]');
-                    if (payButton) {
-                        payButton.disabled = false;
-                        payButton.textContent = 'Get Lifetime Access - $20';
-                    }
+                    document.getElementById('blur-overlay')?.remove();
+                    // Refresh the page to reset the state
+                    window.location.reload();
                 }
             }
         });
     } catch (error) {
         console.error('Failed to initialize embedded checkout:', error);
         modal.remove();
+        document.getElementById('blur-overlay')?.remove();
         throw error;
     }
 }
