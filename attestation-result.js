@@ -100,7 +100,11 @@ async function generateAttestationDisplay(attestation) {
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <input type="email" id="payment-email" placeholder="Enter your email" 
                                value="${savedEmail || ''}"
-                               style="flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border-color); 
+                               style="flex: 1; min-width: 150px; padding: 8px 12px; border: 1px solid var(--border-color); 
+                                      border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
+                        <input type="text" id="payment-zipcode" placeholder="ZIP code (for tax)" 
+                               maxlength="10"
+                               style="width: 130px; padding: 8px 12px; border: 1px solid var(--border-color); 
                                       border-radius: 4px; background: var(--bg-input); color: var(--text-primary);">
                         <button id="purchase-short-urls" class="btn btn-primary" style="white-space: nowrap;">
                             Get Lifetime Access - $20
@@ -109,7 +113,8 @@ async function generateAttestationDisplay(attestation) {
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: var(--text-secondary);">
                         • Create unlimited permanent short URLs<br>
                         • URLs never expire<br>
-                        • One-time payment, lifetime access
+                        • One-time payment, lifetime access<br>
+                        • California residents: sales tax will be added
                     </p>
                 `;
                 linkCodeEl.parentElement.appendChild(paymentContainer);
@@ -117,6 +122,8 @@ async function generateAttestationDisplay(attestation) {
                 // Add click handler for purchase button
                 document.getElementById('purchase-short-urls').addEventListener('click', async () => {
                     const email = document.getElementById('payment-email').value.trim();
+                    const zipCode = document.getElementById('payment-zipcode').value.trim();
+                    
                     if (!email) {
                         if (window.AttestModal) {
                             window.AttestModal.alert('Please enter your email address to continue.', 'Email Required');
@@ -133,6 +140,14 @@ async function generateAttestationDisplay(attestation) {
                     button.disabled = true;
                     button.textContent = 'Processing...';
                     
+                    // Update button text if California zip code
+                    if (zipCode && zipCode.length >= 2) {
+                        const prefix = parseInt(zipCode.substring(0, 2));
+                        if (prefix >= 90 && prefix <= 96) {
+                            button.textContent = 'Processing (+ CA tax)...';
+                        }
+                    }
+                    
                     // Store attestation data in sessionStorage for after payment
                     sessionStorage.setItem('pending_attestation', JSON.stringify(attestation));
                     sessionStorage.setItem('pending_attestation_email', email);
@@ -145,6 +160,7 @@ async function generateAttestationDisplay(attestation) {
                             },
                             body: JSON.stringify({
                                 email,
+                                zipCode,
                                 attestationData: attestation,
                                 attestationId: attestation.id
                             })

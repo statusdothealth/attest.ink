@@ -29,7 +29,7 @@ export function getEmailTransporter() {
   return transporter;
 }
 
-export async function sendApiKeyEmail(email, apiKey) {
+export async function sendApiKeyEmail(email, apiKey, paymentDetails = {}) {
   console.log('sendApiKeyEmail called with email:', email);
   const transporter = getEmailTransporter();
   
@@ -46,50 +46,105 @@ export async function sendApiKeyEmail(email, apiKey) {
   const fromName = process.env.EMAIL_NAME || 'attest.ink';
   const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
   
+  // Format payment details
+  const subtotal = paymentDetails.amount || 20.00;
+  const tax = paymentDetails.tax || 0;
+  const total = subtotal + tax;
+  const invoiceNumber = paymentDetails.invoiceNumber || `INV-${Date.now()}`;
+  const paymentDate = new Date().toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
   const mailOptions = {
     from: `${fromName} <${fromEmail}>`,
     to: email,
-    subject: 'Your attest.ink API Key - Lifetime Access Activated! 🎉',
+    subject: `attest.ink Receipt - Order ${invoiceNumber}`,
     html: `
-      <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 80px; height: 80px;">
-          <h1 style="margin: 20px 0; color: #111827;">Welcome to attest.ink Pro!</h1>
+      <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+        <!-- Header with Logo -->
+        <div style="text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid #e5e7eb;">
+          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 100px; height: 100px; margin-bottom: 20px;">
+          <h1 style="margin: 0; color: #111827; font-size: 28px;">Thank you for your purchase!</h1>
         </div>
         
-        <div style="background: #f3f4f6; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-          <h2 style="margin-top: 0; color: #111827;">Your API Key</h2>
-          <code style="display: block; background: #111827; color: #10b981; padding: 15px; border-radius: 4px; font-size: 16px; word-break: break-all;">
+        <!-- Receipt/Invoice Section -->
+        <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+          <h2 style="margin-top: 0; color: #111827; font-size: 20px; margin-bottom: 20px;">Receipt</h2>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <div>
+              <p style="margin: 0; color: #6b7280; font-size: 14px;">Invoice Number</p>
+              <p style="margin: 0; color: #111827; font-weight: 600;">${invoiceNumber}</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="margin: 0; color: #6b7280; font-size: 14px;">Date</p>
+              <p style="margin: 0; color: #111827; font-weight: 600;">${paymentDate}</p>
+            </div>
+          </div>
+          
+          <div style="border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 20px 0; margin: 20px 0;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #111827;">attest.ink lifetime short URLs</td>
+                <td style="padding: 8px 0; text-align: right; color: #111827;">$${subtotal.toFixed(2)}</td>
+              </tr>
+              ${tax > 0 ? `
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Tax (CA)</td>
+                <td style="padding: 8px 0; text-align: right; color: #6b7280;">$${tax.toFixed(2)}</td>
+              </tr>
+              ` : ''}
+              <tr style="font-weight: 600; font-size: 18px;">
+                <td style="padding: 12px 0; color: #111827; border-top: 2px solid #e5e7eb;">Total</td>
+                <td style="padding: 12px 0; text-align: right; color: #111827; border-top: 2px solid #e5e7eb;">$${total.toFixed(2)}</td>
+              </tr>
+            </table>
+          </div>
+          
+          <p style="margin: 0; color: #6b7280; font-size: 14px;">
+            <strong>Billed to:</strong> ${email}
+          </p>
+          <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 12px; font-style: italic;">
+            This charge will appear on your statement as "McBooBoo LLC" (<a href="https://mcbooboo.boo/" style="color: #3b82f6; text-decoration: none;">mcbooboo.boo</a>)
+          </p>
+        </div>
+        
+        <!-- API Key Section -->
+        <div style="background: #ecfdf5; border: 1px solid #10b981; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+          <h2 style="margin-top: 0; color: #065f46; font-size: 20px;">Your API Key</h2>
+          <code style="display: block; background: #111827; color: #10b981; padding: 15px; border-radius: 6px; font-size: 14px; word-break: break-all; font-family: monospace;">
             ${apiKey}
           </code>
+          <p style="margin-bottom: 0; margin-top: 15px; color: #065f46; font-size: 14px;">
+            Keep this key secure. It provides lifetime access to attest.ink's premium features.
+          </p>
         </div>
         
-        <h3 style="color: #111827;">What is this API key for?</h3>
-        <p style="color: #4b5563; line-height: 1.6;">
-          Your API key gives you lifetime access to create permanent short URLs for your AI attestations. 
-          It's automatically saved in your browser, but keep this email for backup access on other devices.
-        </p>
+        <!-- Quick Start Guide -->
+        <div style="background: #f3f4f6; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+          <h3 style="margin-top: 0; color: #111827;">Quick Start Guide</h3>
+          <ol style="color: #4b5563; line-height: 1.8; padding-left: 20px;">
+            <li>Your API key is automatically saved in your browser</li>
+            <li>Create attestations as normal - they'll now generate permanent URLs</li>
+            <li>Access from other devices by entering your email</li>
+            <li>For API access, include your key in requests</li>
+          </ol>
+        </div>
         
-        <h3 style="color: #111827;">How to use it:</h3>
-        <ul style="color: #4b5563; line-height: 1.8;">
-          <li><strong>Automatic:</strong> Your browser already has the key saved - just create attestations as normal!</li>
-          <li><strong>Other devices:</strong> The system will recognize your email and activate your access</li>
-          <li><strong>API access:</strong> Use this key for programmatic URL shortening</li>
-        </ul>
-        
-        <h3 style="color: #111827;">Your benefits:</h3>
-        <ul style="color: #4b5563; line-height: 1.8;">
-          <li>✓ Unlimited permanent short URLs</li>
-          <li>✓ URLs never expire</li>
-          <li>✓ One-time payment, lifetime access</li>
-          <li>✓ API access for automation</li>
-        </ul>
-        
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 14px;">
-          <p>Thank you for supporting attest.ink!</p>
-          <p>
-            <a href="https://attest.ink" style="color: #3b82f6; text-decoration: none;">attest.ink</a> • 
-            <a href="https://github.com/statusdothealth/attest.ink" style="color: #3b82f6; text-decoration: none;">GitHub</a>
+        <!-- Footer -->
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 14px;">
+          <p style="margin-bottom: 10px;">
+            <strong>attest.ink</strong> - Attestation Infrastructure for AI Content
+          </p>
+          <p style="margin-bottom: 20px;">
+            <a href="https://attest.ink" style="color: #3b82f6; text-decoration: none;">Website</a> • 
+            <a href="https://github.com/statusdothealth/attest.ink" style="color: #3b82f6; text-decoration: none;">GitHub</a> • 
+            <a href="mailto:support@attest.ink" style="color: #3b82f6; text-decoration: none;">Support</a>
+          </p>
+          <p style="color: #9ca3af; font-size: 12px;">
+            This is a receipt for your records. No action is required.
           </p>
         </div>
       </div>

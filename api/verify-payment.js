@@ -81,9 +81,16 @@ export default async function handler(req, res) {
       }
     }
     
+    // Get payment details for the receipt
+    const paymentDetails = {
+      amount: session.amount_subtotal / 100,
+      tax: session.total_details?.amount_tax ? session.total_details.amount_tax / 100 : 0,
+      invoiceNumber: session.invoice || `INV-${sessionId.slice(-8).toUpperCase()}`
+    };
+    
     // Send confirmation email to customer
     console.log('Attempting to send confirmation email to customer:', email);
-    sendApiKeyEmail(email, apiKey).then(success => {
+    sendApiKeyEmail(email, apiKey, paymentDetails).then(success => {
       if (success) {
         console.log('Customer email sent successfully to:', email);
       } else {
