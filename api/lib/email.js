@@ -65,7 +65,7 @@ export async function sendApiKeyEmail(email, apiKey, paymentDetails = {}) {
       <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
         <!-- Header with Logo -->
         <div style="text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 2px solid #e5e7eb;">
-          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 100px; height: 100px; margin-bottom: 20px;">
+          <img src="https://attest.ink/assets/logo/logo-256.png" alt="attest.ink" width="100" height="100" style="width: 100px; height: 100px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
           <h1 style="margin: 0; color: #111827; font-size: 28px;">Thank you for your purchase!</h1>
         </div>
         
@@ -193,7 +193,7 @@ export async function sendPaymentNotification(customerEmail, apiKey, amount) {
     html: `
       <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <img src="https://attest.ink/assets/logo/circular-2-ai.svg" alt="attest.ink" style="width: 80px; height: 80px;">
+          <img src="https://attest.ink/assets/logo/logo-256.png" alt="attest.ink" width="80" height="80" style="width: 80px; height: 80px;">
           <h1 style="margin: 20px 0; color: #111827;">Payment Received!</h1>
         </div>
         

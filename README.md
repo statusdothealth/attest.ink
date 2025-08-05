@@ -647,7 +647,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - Built as a public good for the AI community
 - Supported by [0x42 Research](https://0x42r.io/)
 - Special thanks to all early adopters
-- [Sponsors link if you're into it 🩵](https://github.com/sponsors/97115104/dashboard)
+- [Sponsors link if you're into it 🩵](https://github.com/sponsors/97115104)
 
 ## Contact
 
