@@ -2,7 +2,7 @@
 
 [![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](https://attest.ink/verify/?data=eyJ2ZXJzaW9uIjoiMi4wIiwiaWQiOiIyMDI1LTA3LTE2LTM0ZXpucyIsImNvbnRlbnRfbmFtZSI6ImltcG9ydGVkLWNvbnRlbnQiLCJkb2N1bWVudF90eXBlIjoid2Vic2l0ZSIsIm1vZGVsIjoiY2xhdWRlLTQtb3B1cyIsInJvbGUiOiJhc3Npc3RlZCIsInRpbWVzdGFtcCI6IjIwMjUtMDctMTZUMDI6NTI6MDYuNjU1WiIsInBsYXRmb3JtIjoiYXR0ZXN0LmluayIsImNvbnRlbnRfaGFzaCI6InNoYTI1NjplNWUzMDJmMzczOWViZjU4MTI5YWM5NGJlZGU4OTQ0ZGJhOGVkYWM3N2FlYzBmOGM2ZWQ1ZmY5ZGExOWYwMGJmIiwiYXV0aG9yIjoiMHg0MiBSZXNlYXJjaCIsInNpZ25hdHVyZSI6eyJ0eXBlIjoiZXRoZXJldW0iLCJ2YWx1ZSI6IjB4OTExODcwMGYzZDBiMGQ5M2RiMDQ4YTRkODNlZTk4MTZlZjI0NzEyNWJiN2ExMzNiYzA1MWM2NmIzZGZjNWE4OTRmMWRlYzY1OTMyNWRlNTViMWYxNGIyZmQxYzg1MjlkZjExM2E2OGYyZGE1ZjFiMzUwYjc5YzllMzgyMGQ5NTYxYiIsInNpZ25lciI6IjB4NzlhNzJhMDJiOWIxOTNjNDUyMGYyMmYyY2QyZDYzYTM1NGRmZTRkMyIsIm1lc3NhZ2UiOiJ7XCJjb250ZW50X25hbWVcIjpcImltcG9ydGVkLWNvbnRlbnRcIixcIm1vZGVsXCI6XCJjbGF1ZGUtNC1vcHVzXCIsXCJ0aW1lc3RhbXBcIjpcIjIwMjUtMDctMTZUMDI6NTI6MDYuNjU1WlwiLFwiY29udGVudF9oYXNoXCI6XCJzaGEyNTY6ZTVlMzAyZjM3MzllYmY1ODEyOWFjOTRiZWRlODk0NGRiYThlZGFjNzdhZWMwZjhjNmVkNWZmOWRhMTlmMDBiZlwifSJ9fQ==)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Deploy to GitHub Pages](https://github.com/statusdothealth/attest.ink/actions/workflows/deploy.yml/badge.svg)](https://github.com/statusdothealth/attest.ink/actions/workflows/deploy.yml)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-00E196)](https://attest.ink)
 [![GitHub stars](https://img.shields.io/github/stars/statusdothealth/attest.ink.svg?style=social)](https://github.com/statusdothealth/attest.ink)
 
 A decentralized, privacy-preserving protocol for creating verifiable attestations about AI involvement in content creation. It works offline and there's no servers or blockchain implementation required.
@@ -27,10 +27,11 @@ attest.ink is an open-source protocol that enables transparent disclosure of AI 
 - **Digital Signatures**: Optional Ethereum wallet signatures for enhanced verification
 
 ### For Developers
-- **Static Architecture**: Runs on GitHub Pages, Netlify, or any static host
+- **Static Architecture**: Runs on Vercel, Netlify, or any static host
 - **Client-Side Only**: All operations happen in the browser
 - **Simple Integration**: One-line badge embedding
 - **REST API**: Programmatic attestation creation via curl/HTTP
+- **CI/CD Ready**: Easy automation for build pipelines
 - **Open Protocol**: MIT licensed, no vendor lock-in
 
 ### For Verifiers
@@ -53,6 +54,11 @@ curl -s "https://attest.ink/api/create.html?content_name=My%20Blog%20Post&model=
 
 # With content hash
 curl -s "https://attest.ink/api/create.html?content_name=My%20Article&content=$(cat article.txt | jq -sRr @uri)&model=claude-3-opus"
+
+# Create permanent short URL (requires API key)
+curl -X POST https://attest.ink/api/shorten \
+  -H "Content-Type: application/json" \
+  -d '{"dataUrl": "data:application/json;base64,...", "apiKey": "ak_..."}'
 ```
 
 ### 2. Embed a Badge
@@ -167,14 +173,15 @@ Examples:
 
 Over 100 AI models across multiple providers:
 
-- **OpenAI**: GPT-4, GPT-3.5, DALL-E 3, etc.
-- **Anthropic**: Claude 3 Opus, Claude 3 Sonnet, Claude 3 Haiku
-- **Google**: Gemini Pro, PaLM 2, Imagen
-- **Meta**: Llama 3, Code Llama
-- **Stability AI**: Stable Diffusion XL, SDXL Turbo
-- **Midjourney**: v6, v5.2, v5.1
-- **Mistral AI**: Large, Medium, Small, Mixtral
+- **OpenAI**: GPT-5 (Coming Soon), GPT-4, GPT-3.5, DALL-E 3, etc.
+- **Anthropic**: Claude 4.1 Opus, Claude 4 Opus, Claude 3.5 Sonnet, Claude 3 Series
+- **Google**: Gemini 1.5 Pro, Gemini Ultra, PaLM 2
+- **Meta**: Llama 3 70B, Code Llama, Llama 2 Series
+- **Stability AI**: SDXL 1.0, Stable Diffusion 2.1
+- **Midjourney**: v6, v5.2, v5.1, Niji v6
+- **Mistral AI**: Large, Medium, Mixtral 8x22B
 - **Cohere**: Command R+, Command R
+- **xAI**: Grok 1.5
 - **And many more...**
 
 View the complete gallery at [attest.ink/showcase](https://attest.ink/showcase/)
@@ -210,7 +217,22 @@ attest.ink/
 3. **Verification**: Client-side validation of hashes and signatures
 4. **No Backend**: Everything runs in the browser using JavaScript
 
-### API Reference
+### Premium Features
+
+### Permanent Short URLs
+Create permanent short URLs for your attestations with lifetime access:
+- One-time payment of $20 for unlimited URLs
+- URLs never expire
+- API access for automation
+- Automatic receipt emails with API key
+
+### Features Include
+- Professional email receipts with invoice
+- California sales tax calculation (ZIP code based)
+- Secure payment processing via Stripe
+- API key for programmatic access
+
+## API Reference
 
 #### Create Attestation
 ```
@@ -226,6 +248,26 @@ Parameters:
 - prompt: The prompt used
 - prompt_private: true/false to hash the prompt
 - output: json|curl (default: json)
+```
+
+#### Shorten URL (Premium)
+```
+POST https://attest.ink/api/shorten
+
+Headers:
+- Content-Type: application/json
+
+Body:
+{
+  "dataUrl": "data:application/json;base64,...",
+  "apiKey": "ak_..." // Required for permanent URLs
+}
+
+Response:
+{
+  "shortUrl": "https://attest.ink/s/abc123",
+  "shortId": "abc123"
+}
 ```
 
 #### JavaScript API
@@ -263,13 +305,16 @@ php -S localhost:8000
 - Test verification flow
 
 ### Deployment
-The site automatically deploys to GitHub Pages when changes are pushed to the main branch.
+The site automatically deploys to Vercel when changes are pushed to the main branch.
 
 To deploy elsewhere:
 1. Build not required (pure static files)
 2. Upload all files to your static host
-3. Configure your domain
-4. No server configuration needed
+3. Configure your domain and environment variables:
+   - `STRIPE_SECRET_KEY` - For payment processing (optional)
+   - `SMTP_*` - For email notifications (optional)
+   - `REDIS_URL` - For short URL storage (optional)
+4. No server configuration needed for basic features
 
 ## Contributing
 
@@ -297,9 +342,161 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - [Protocol Specification](https://attest.ink/protocol/) - Technical protocol details
 - [Badge Gallery](https://attest.ink/showcase/) - Complete badge collection
 - [Integration Examples](https://attest.ink/examples/) - Real-world usage examples
-- [API Documentation](https://attest.ink/api/create.html) - Programmatic access
+- [API Reference](docs/api-reference.md) - Complete API documentation
+- [CI/CD Automation Guide](docs/ci-cd-automation.md) - Pipeline integration guide
 
 ### Integration Guides
+
+### CI/CD Automation
+
+#### GitHub Actions
+```yaml
+name: AI Attestation
+on: [push]
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Create AI Attestation
+        run: |
+          # Generate attestation for your README
+          ATTESTATION=$(curl -s "https://attest.ink/api/create.html?content_name=README&content=$(cat README.md | jq -sRr @uri)&model=gpt-4&role=assisted&output=json")
+          
+          # Extract the data URL
+          DATA_URL=$(echo $ATTESTATION | jq -r '.dataUrl')
+          
+          # Add badge to README
+          echo -e "\n\n[![AI Assisted](https://attest.ink/assets/badges/ai-assisted.svg)]($DATA_URL)" >> README.md
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Add AI attestation badge"
+          git push
+```
+
+#### GitLab CI/CD
+```yaml
+attest:
+  stage: deploy
+  script:
+    - |
+      # Create attestation for documentation
+      CONTENT=$(cat docs/*.md | base64 -w 0)
+      ATTESTATION=$(curl -X POST https://attest.ink/api/create.html \
+        -d "content_name=Documentation" \
+        -d "content=$CONTENT" \
+        -d "model=claude-3-opus" \
+        -d "role=assisted")
+      
+      # Save attestation
+      echo $ATTESTATION > attestation.json
+  artifacts:
+    paths:
+      - attestation.json
+```
+
+#### Jenkins Pipeline
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('AI Attestation') {
+            steps {
+                script {
+                    // Create attestation for build artifacts
+                    def content = readFile('dist/bundle.js')
+                    def attestation = sh(
+                        script: """curl -s 'https://attest.ink/api/create.html?content_name=Build&model=github-copilot&role=assisted&content=\${content}'""",
+                        returnStdout: true
+                    ).trim()
+                    
+                    // Save attestation
+                    writeFile file: 'dist/attestation.json', text: attestation
+                }
+            }
+        }
+    }
+}
+```
+
+#### Node.js/npm Scripts
+```json
+{
+  "scripts": {
+    "build": "webpack",
+    "attest": "node scripts/create-attestation.js",
+    "postbuild": "npm run attest"
+  }
+}
+```
+
+```javascript
+// scripts/create-attestation.js
+const fs = require('fs');
+const https = require('https');
+
+async function createAttestation() {
+  const content = fs.readFileSync('dist/main.js', 'utf8');
+  const params = new URLSearchParams({
+    content_name: 'Production Build',
+    content: content,
+    model: 'github-copilot',
+    role: 'assisted',
+    output: 'json'
+  });
+  
+  const response = await fetch(`https://attest.ink/api/create.html?${params}`);
+  const attestation = await response.json();
+  
+  // Add badge to README
+  const badge = `[![AI Assisted](https://attest.ink/assets/badges/ai-assisted.svg)](${attestation.dataUrl})`;
+  const readme = fs.readFileSync('README.md', 'utf8');
+  fs.writeFileSync('README.md', readme + '\n\n' + badge);
+}
+
+createAttestation();
+```
+
+#### Python Build Script
+```python
+#!/usr/bin/env python3
+import requests
+import json
+import hashlib
+
+def create_attestation(file_path, model="gpt-4"):
+    with open(file_path, 'r') as f:
+        content = f.read()
+    
+    # Create attestation
+    response = requests.get('https://attest.ink/api/create.html', params={
+        'content_name': file_path,
+        'content': content,
+        'model': model,
+        'role': 'generated',
+        'output': 'json'
+    })
+    
+    attestation = response.json()
+    
+    # Save attestation
+    with open(f'{file_path}.attestation.json', 'w') as f:
+        json.dump(attestation, f, indent=2)
+    
+    return attestation['verifyUrl']
+
+# Example usage in build script
+if __name__ == '__main__':
+    verify_url = create_attestation('src/main.py', 'github-copilot')
+    print(f"Attestation created: {verify_url}")
+```
+
+### Framework Integrations
 
 #### WordPress
 ```php
@@ -318,6 +515,39 @@ const AIBadge = ({ attestationUrl }) => (
         <img src="https://attest.ink/assets/badges/ai-generated.svg" alt="AI Generated" />
     </a>
 );
+```
+
+#### Vue.js
+```vue
+<template>
+  <a :href="attestationUrl" target="_blank">
+    <img src="https://attest.ink/assets/badges/ai-assisted.svg" alt="AI Assisted" />
+  </a>
+</template>
+
+<script>
+export default {
+  props: ['attestationUrl']
+}
+</script>
+```
+
+#### Next.js
+```jsx
+import Image from 'next/image';
+
+export default function AIBadge({ attestation }) {
+  return (
+    <a href={`https://attest.ink/verify/?data=${attestation}`} target="_blank">
+      <Image 
+        src="/ai-assisted-badge.svg" 
+        alt="AI Assisted"
+        width={120}
+        height={30}
+      />
+    </a>
+  );
+}
 ```
 
 #### LaTeX
