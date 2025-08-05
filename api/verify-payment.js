@@ -120,12 +120,14 @@ export default async function handler(req, res) {
     console.log('Payment details for email:', paymentDetails);
     console.log('Session total_details:', session.total_details);
     
-    // Send confirmation email to customer
+    // Send emails sequentially
     console.log('Attempting to send confirmation email to customer:', email);
+    let customerEmailSuccess = false;
     try {
       const emailSent = await sendApiKeyEmail(email, apiKey, paymentDetails);
       if (emailSent) {
         console.log('Customer email sent successfully to:', email);
+        customerEmailSuccess = true;
       } else {
         console.log('Customer email sending failed for:', email);
         console.error('Email transporter may not be configured properly');
@@ -141,17 +143,20 @@ export default async function handler(req, res) {
       });
     }
 
-    // Send notification email to founder
-    console.log('Sending payment notification to founder@status.health');
-    sendPaymentNotification(email, apiKey, session.amount_total / 100).then(success => {
-      if (success) {
-        console.log('Founder notification sent successfully');
-      } else {
-        console.log('Founder notification failed');
+    // Send notification email to founder only after customer email is complete
+    if (customerEmailSuccess) {
+      console.log('Sending payment notification to founder');
+      try {
+        const founderEmailSuccess = await sendPaymentNotification(email, apiKey, session.amount_total / 100);
+        if (founderEmailSuccess) {
+          console.log('Founder notification sent successfully');
+        } else {
+          console.log('Founder notification failed');
+        }
+      } catch (err) {
+        console.error('Failed to send founder notification:', err);
       }
-    }).catch(err => {
-      console.error('Failed to send founder notification:', err);
-    });
+    }
     
     // Get attestation ID from session metadata
     const attestationId = session.metadata?.attestationId;

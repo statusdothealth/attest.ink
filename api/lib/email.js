@@ -194,6 +194,7 @@ export async function sendPaymentNotification(customerEmail, apiKey, amount) {
   const fromEmail = process.env.EMAIL_FROM || process.env.SMTP_USER;
   
   const founderEmail = process.env.FOUNDER_EMAIL || 'founder@status.health';
+  console.log('Using founder email:', founderEmail);
   
   const mailOptions = {
     from: `${fromName} <${fromEmail}>`,
