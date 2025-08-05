@@ -14,6 +14,9 @@ const AI_MODELS = {
     openai: {
         name: "OpenAI",
         models: [
+            // GPT-5 Series (Coming Soon)
+            { id: "gpt-5", name: "GPT-5 (Coming Soon)", color: "#74aa9c" },
+            
             // GPT-4 Series
             { id: "gpt-4-turbo-2024-04-09", name: "GPT-4 Turbo (Apr 2024)", color: "#74aa9c" },
             { id: "gpt-4-0125-preview", name: "GPT-4 Turbo Preview", color: "#74aa9c" },
@@ -46,9 +49,13 @@ const AI_MODELS = {
         name: "Anthropic",
         models: [
             // Claude 4 Series
+            { id: "claude-4.1-opus", name: "Claude 4.1 Opus", color: "#d4a373" },
             { id: "claude-4-opus", name: "Claude 4 Opus", color: "#d4a373" },
             
-            // Claude 3 Opus Series
+            // Claude 3.5 Series
+            { id: "claude-3.5-sonnet", name: "Claude 3.5 Sonnet", color: "#d4a373" },
+            
+            // Claude 3 Series
             { id: "claude-3-opus-20240229", name: "Claude 3 Opus", color: "#d4a373" },
             { id: "claude-3-sonnet-20240229", name: "Claude 3 Sonnet", color: "#d4a373" },
             { id: "claude-3-haiku-20240307", name: "Claude 3 Haiku", color: "#d4a373" },

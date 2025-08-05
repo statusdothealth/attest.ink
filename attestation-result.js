@@ -619,6 +619,15 @@ async function handlePaymentComplete() {
     
     if (!sessionId) return;
     
+    // Check if we've already processed this payment session
+    const processedSessions = JSON.parse(localStorage.getItem('processed_payment_sessions') || '[]');
+    if (processedSessions.includes(sessionId)) {
+        console.log('Payment session already processed, redirecting...');
+        // Redirect to attestation creation page to avoid duplicate processing
+        window.location.href = '/';
+        return;
+    }
+    
     // Get pending attestation data
     const pendingAttestation = sessionStorage.getItem('pending_attestation');
     const pendingEmail = sessionStorage.getItem('pending_attestation_email');
@@ -638,6 +647,11 @@ async function handlePaymentComplete() {
             const verifyData = await verifyResponse.json();
             
             if (verifyData.success && verifyData.apiKey) {
+                // Mark this session as processed
+                const processedSessions = JSON.parse(localStorage.getItem('processed_payment_sessions') || '[]');
+                processedSessions.push(sessionId);
+                localStorage.setItem('processed_payment_sessions', JSON.stringify(processedSessions));
+                
                 // Save API key
                 localStorage.setItem('attest_ink_api_key', verifyData.apiKey);
                 localStorage.setItem('attest_ink_email', verifyData.email);
@@ -705,6 +719,11 @@ async function handlePaymentComplete() {
         const verifyData = await verifyResponse.json();
         
         if (verifyData.success && verifyData.apiKey) {
+            // Mark this session as processed
+            const processedSessions = JSON.parse(localStorage.getItem('processed_payment_sessions') || '[]');
+            processedSessions.push(sessionId);
+            localStorage.setItem('processed_payment_sessions', JSON.stringify(processedSessions));
+            
             // Save API key
             localStorage.setItem('attest_ink_api_key', verifyData.apiKey);
             localStorage.setItem('attest_ink_email', verifyData.email);

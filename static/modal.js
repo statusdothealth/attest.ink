@@ -247,7 +247,7 @@ window.AttestModal = {
     
     showSuccess: function(message, title = 'Success') {
         this.show(title, message, {
-            headerText: 'Thank you!',
+            headerText: false,  // Don't show header text to avoid duplicate
             buttons: [{
                 text: 'OK',
                 className: 'btn-primary'
