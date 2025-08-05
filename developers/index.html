@@ -12,6 +12,7 @@
     <meta name="theme-color" content="#111827">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/badge-styles.css">
+    <link rel="stylesheet" href="/static/dev-mobile-fix.css">
     <script src="/static/ai-models.js"></script>
     <script>
         // Prevent theme flicker by setting theme before render
@@ -588,6 +589,7 @@ if (attestation.version && attestation.id && attestation.content_name) {
 
                 <h3>Sharing Attestations</h3>
                 <p>For cross-device sharing, use these methods:</p>
+                <div class="table-wrapper">
                 <table class="api-table">
                     <thead>
                         <tr>
@@ -619,6 +621,8 @@ if (attestation.version && attestation.id && attestation.content_name) {
                         </tr>
                     </tbody>
                 </table>
+                </div>
+                </div>
             </section>
 
             <!-- API Reference -->
@@ -631,7 +635,8 @@ if (attestation.version && attestation.id && attestation.content_name) {
                     <p><span class="method-badge method-get">GET</span> <code>/api/create.html</code></p>
                     
                     <h4>Parameters</h4>
-                    <table class="api-table">
+                    <div class="table-wrapper">
+                <table class="api-table">
                         <thead>
                             <tr>
                                 <th>Parameter</th>
@@ -697,6 +702,7 @@ if (attestation.version && attestation.id && attestation.content_name) {
                             </tr>
                         </tbody>
                     </table>
+                </div>
 
                     <h4>Example Request</h4>
                     <pre class="code-example"><code>GET /api/create.html?content_name=Blog%20Post&model=claude-3-opus&role=assisted&author=Jane%20Smith</code></pre>
@@ -725,6 +731,7 @@ if (attestation.version && attestation.id && attestation.content_name) {
                 <p>Verification happens client-side by decoding and validating the attestation data.</p>
                 
                 <h4>URL Parameters</h4>
+                <div class="table-wrapper">
                 <table class="api-table">
                     <thead>
                         <tr>
@@ -747,6 +754,7 @@ if (attestation.version && attestation.id && attestation.content_name) {
                         </tr>
                     </tbody>
                 </table>
+                </div>
 
                 <h3 id="badge-generation">Badge Generation</h3>
                 <p>Generate badges dynamically using our JavaScript API.</p>
@@ -1094,6 +1102,7 @@ registerBlockType('attest-ink/badge', {
 }</code></pre>
 
                 <h3>Document Types</h3>
+                <div class="table-wrapper">
                 <table class="api-table">
                     <thead>
                         <tr>
@@ -1150,9 +1159,11 @@ registerBlockType('attest-ink/badge', {
                         </tr>
                     </tbody>
                 </table>
+                </div>
 
                 <h3>Signature Types</h3>
                 <p>Attestations can be signed using different methods:</p>
+                <div class="table-wrapper">
                 <table class="api-table">
                     <thead>
                         <tr>
@@ -1184,6 +1195,7 @@ registerBlockType('attest-ink/badge', {
                         </tr>
                     </tbody>
                 </table>
+                </div>
 
                 <h3>HMAC-SHA256 Signature Details</h3>
                 <p>For server-side HMAC signing, the data structure to sign is:</p>
@@ -1205,7 +1217,8 @@ const signature = crypto
                     <p><span class="method-badge method-post">POST</span> <code>/api/shorten</code></p>
                     
                     <h4>Request Body</h4>
-                    <table class="api-table">
+                    <div class="table-wrapper">
+                <table class="api-table">
                         <thead>
                             <tr>
                                 <th>Field</th>
@@ -1229,6 +1242,7 @@ const signature = crypto
                             </tr>
                         </tbody>
                     </table>
+                </div>
 
                     <h4>Example Request</h4>
                     <pre class="code-example"><code>curl -X POST https://attest.ink/api/shorten \
@@ -1541,6 +1555,7 @@ console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
 
     </div>
 
+    <script src="/static/global-footer.js"></script>
     <script src="/static/theme.js"></script>
     <script src="/static/mobile-nav.js"></script>
     <script src="/static/badge-renderer.js"></script>
@@ -1574,6 +1589,26 @@ console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
             
             tocLinks.forEach(link => {
                 link.style.fontWeight = link.getAttribute('href') === `#${current}` ? 'bold' : 'normal';
+            });
+        });
+        
+        // Add scroll indicators to tables
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableWrappers = document.querySelectorAll('.table-wrapper');
+            tableWrappers.forEach(wrapper => {
+                const table = wrapper.querySelector('table');
+                if (table && table.scrollWidth > wrapper.clientWidth) {
+                    wrapper.setAttribute('data-scrollable', 'true');
+                }
+                
+                // Update on resize
+                window.addEventListener('resize', () => {
+                    if (table && table.scrollWidth > wrapper.clientWidth) {
+                        wrapper.setAttribute('data-scrollable', 'true');
+                    } else {
+                        wrapper.removeAttribute('data-scrollable');
+                    }
+                });
             });
         });
     </script>
