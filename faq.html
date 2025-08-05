@@ -110,17 +110,7 @@
                             <li>Use an embed badge (contains all data)</li>
                             <li>Use a data URL (contains all data)</li>
                             <li>Share the attestation JSON file</li>
-                            <li>Wait for server storage support (coming soon)</li>
-                        </ul>
-                    </div>
-
-                    <div class="faq-item">
-                        <h3>What happens when I refresh the Create page?</h3>
-                        <p>When you refresh the Create page, you'll lose any unsaved progress. That's why we've added a warning that appears when you try to leave the page with unsaved data. To avoid losing work:</p>
-                        <ul>
-                            <li>Complete your attestation before refreshing</li>
-                            <li>Save your content elsewhere if you need to pause</li>
-                            <li>Use the browser's back button carefully</li>
+                            <li>Pay for and use short links</li>
                         </ul>
                     </div>
 
@@ -134,13 +124,14 @@
                             <li>Paste it into your paper where you want the badge</li>
                             <li>The badge includes a footnote with the verification URL</li>
                         </ol>
-                        <p><strong>Note about the hash validation challenge:</strong> Since the verification URL contains the attestation ID (which is based on the content hash), and you might want to include this URL in your paper, there's a circular dependency. Solutions:</p>
-                        <ul>
-                            <li><strong>Two-step approach:</strong> First generate the attestation without the URL in your paper to get the ID, then update your paper with the URL</li>
-                            <li><strong>Use placeholder:</strong> Include a placeholder like "[ATTESTATION_URL]" in your paper, generate the attestation, then replace the placeholder</li>
-                            <li><strong>Reference in bibliography:</strong> Don't include the URL in the main content, only in references/bibliography</li>
-                            <li><strong>Use data URL:</strong> Use the full data URL option which doesn't change based on content</li>
-                        </ul>
+                        <p><strong>Best practice for LaTeX papers:</strong> To avoid hash validation issues when including attestation URLs in your paper:</p>
+                        <ol>
+                            <li>Create a separate file called <code>ai-attestation.tex</code></li>
+                            <li>Put your attestation badge and URL in this separate file</li>
+                            <li>Include this file in your main paper using <code>\input{ai-attestation}</code></li>
+                            <li>Generate the attestation for your main content (excluding the ai-attestation.tex file)</li>
+                        </ol>
+                        <p>This approach keeps the attestation URL separate from the content being attested, avoiding circular dependency issues.</p>
                     </div>
 
                     <div class="faq-item">
