@@ -206,8 +206,12 @@
         
         .language-tab.active {
             background: var(--primary-color);
-            color: white;
+            color: white !important;
             border-color: var(--primary-color);
+        }
+        
+        [data-theme="dark"] .language-tab.active {
+            color: #111827 !important;
         }
         
         .code-example {
@@ -1079,6 +1083,8 @@ func main() {
         </footer>
     </div>
     
+    <script src="/static/theme.js"></script>
+    <script src="/static/mobile-nav.js"></script>
     <script src="/static/global-footer.js"></script>
     <script>
         // Language tab switching
