@@ -32,6 +32,7 @@
         })();
     </script>
     <style>
+        /* Additional styles for developer documentation */
         .code-example {
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
@@ -39,14 +40,6 @@
             margin: 16px 0;
             overflow-x: auto;
             font-family: 'Consolas', 'Monaco', monospace;
-            max-width: 100%;
-            word-wrap: break-word;
-        }
-        
-        .code-example code {
-            display: block;
-            overflow-x: auto;
-            white-space: pre;
         }
         
         .api-table {
@@ -65,11 +58,6 @@
         .api-table th {
             background: var(--bg-secondary);
             font-weight: bold;
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .api-table tr:hover {
-            background: var(--bg-panel);
         }
         
         .method-badge {
@@ -132,321 +120,21 @@
             border-radius: 4px;
         }
         
-        /* Fix long URLs and code */
-        pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-x: auto;
-            max-width: 100%;
-        }
-        
-        code {
-            word-wrap: break-word;
-        }
-        
-        /* Ensure all content respects container bounds */
-        main {
-            overflow-x: hidden;
-            max-width: 100%;
-        }
-        
-        .section {
-            overflow-x: auto;
-            max-width: 100%;
-        }
-        
-        /* Mobile Optimization */
+        /* Make tables responsive */
         @media (max-width: 768px) {
-            .hero {
-                padding: 20px 0;
-            }
-            
-            .hero h1 {
-                font-size: 28px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-            
-            .toc {
-                padding: 16px;
-                margin: 16px 0;
-            }
-            
-            .toc h2 {
-                font-size: 20px;
-            }
-            
-            .toc ul {
-                padding-left: 16px;
-            }
-            
-            .section {
-                padding: 16px;
-                margin: 16px 0;
-            }
-            
-            /* Make ALL tables responsive */
             table {
                 display: block;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
-                max-width: calc(100vw - 32px);
-                margin: 16px 0;
-            }
-            
-            /* Ensure param-table is also responsive */
-            .param-table,
-            table:not(.api-table) {
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                font-size: 14px;
-            }
-            
-            /* Prevent table cells from wrapping */
-            table th,
-            table td {
-                white-space: nowrap;
-                min-width: 100px;
-                padding: 8px;
-            }
-            
-            /* Fix code blocks in tables */
-            table code {
-                white-space: nowrap;
-                font-size: 11px;
-            }
-            
-            /* Ensure sections with tables don't overflow */
-            .section {
-                overflow-x: hidden;
-            }
-            
-            /* Fix API endpoint code blocks */
-            .api-endpoint {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .api-endpoint code {
-                font-size: 12px;
-            }
-            
-            .section h2 {
-                font-size: 24px;
-                margin-bottom: 16px;
-            }
-            
-            .section h3 {
-                font-size: 20px;
-                margin: 16px 0;
-            }
-            
-            .section h4 {
-                font-size: 18px;
-                margin: 12px 0;
             }
             
             .code-example {
-                padding: 8px;
-                margin: 12px 0;
-                font-size: 11px;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                max-width: calc(100vw - 32px);
-            }
-            
-            .code-example code {
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                white-space: pre;
-                min-width: 0;
-            }
-            
-            .api-table {
                 font-size: 14px;
-                margin: 16px 0;
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .api-table th,
-            .api-table td {
-                padding: 8px;
-                min-width: 100px;
-            }
-            
-            .method-badge {
-                font-size: 10px;
-                padding: 2px 6px;
-            }
-            
-            .warning,
-            .info {
                 padding: 12px;
-                margin: 12px 0;
-            }
-            
-            pre {
-                white-space: pre-wrap;
-                word-wrap: break-word;
-            }
-            
-            /* Stack navigation items on mobile */
-            nav ul {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            
-            nav li {
-                flex: 1 1 auto;
-            }
-            
-            .dropdown-menu {
-                position: fixed;
-                left: 0;
-                right: 0;
-                top: auto;
-                max-width: 100%;
-                margin: 0;
-                border-radius: 0;
-                border-left: none;
-                border-right: none;
-            }
-            
-            /* Better touch targets */
-            .toc a {
-                display: block;
-                padding: 8px 0;
-            }
-            
-            /* Improve readability */
-            body {
-                font-size: 16px;
-            }
-            
-            p {
-                line-height: 1.6;
-            }
-            
-            /* Fix long code examples */
-            .api-endpoint p code {
-                word-break: break-all;
-            }
-            
-            /* Mobile-friendly tables - Alternative view */
-            @media (max-width: 600px) {
-                /* Keep tables scrollable by default */
-                .api-table,
-                .param-table,
-                table {
-                    min-width: 500px;
-                }
-                
-                /* Add scroll indicator message */
-                table::after {
-                    content: '';
-                    display: block;
-                    height: 20px;
-                }
-                
-                /* Fix long URLs and code in cells */
-                table td code,
-                table td a {
-                    word-break: break-all;
-                    white-space: normal;
-                }
-                
-                /* Ensure type badges remain visible */
-                table .type-badge {
-                    white-space: nowrap;
-                }
-            }
-        }
-        
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 24px;
-            }
-            
-            .section h2 {
-                font-size: 20px;
-            }
-            
-            .code-example {
-                font-size: 11px;
-                padding: 8px;
-            }
-            
-            .logo {
-                font-size: 20px;
-            }
-            
-            .logo img {
-                width: 30px;
-                height: 30px;
-            }
-            
-            /* Additional mobile styles for developers page */
-            .code-example {
-                font-size: 12px;
-                padding: 12px;
-                overflow-x: auto;
-            }
-            
-            .api-table {
-                font-size: 14px;
-            }
-            
-            .api-table th,
-            .api-table td {
-                padding: 8px;
-                font-size: 13px;
             }
             
             .toc {
                 padding: 16px;
-                margin: 16px 0;
-            }
-            
-            .toc h3 {
-                font-size: 18px;
-            }
-            
-            .toc ul {
-                padding-left: 16px;
-            }
-            
-            .toc li {
-                font-size: 16px;
-                margin: 8px 0;
-            }
-            
-            .param-table {
-                font-size: 14px;
-            }
-            
-            .param-table th,
-            .param-table td {
-                padding: 8px;
-            }
-            
-            .section {
-                padding: 16px;
-            }
-            
-            h3 {
-                font-size: 20px;
-                margin-top: 24px;
-            }
-            
-            h4 {
-                font-size: 18px;
             }
         }
     </style>
@@ -489,27 +177,8 @@
                 <h2>Table of Contents</h2>
                 <ul>
                     <li><a href="#quick-start">Quick Start</a></li>
-                    <li><a href="#offline-functionality">Offline Functionality</a></li>
-                    <li><a href="#api-reference">API Reference</a>
-                        <ul>
-                            <li><a href="#create-attestation">Create Attestation</a></li>
-                            <li><a href="#verify-attestation">Verify Attestation</a></li>
-                            <li><a href="#badge-generation">Badge Generation</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#javascript-sdk">JavaScript SDK</a></li>
-                    <li><a href="#integration-guides">Integration Guides</a>
-                        <ul>
-                            <li><a href="#html-integration">HTML/CSS</a></li>
-                            <li><a href="#readme-integration">README/Markdown</a></li>
-                            <li><a href="#react-integration">React</a></li>
-                            <li><a href="#vue-integration">Vue.js</a></li>
-                            <li><a href="#wordpress-integration">WordPress</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#schema-reference">Schema Reference</a></li>
-                    <li><a href="#security">Security Considerations</a></li>
-                    <li><a href="#examples">Code Examples</a></li>
+                    <li><a href="#api-reference">API Reference</a></li>
+                    <li><a href="#integration-guides">Integration Guides</a></li>
                     <li><a href="#troubleshooting">Troubleshooting</a></li>
                 </ul>
             </div>
@@ -524,12 +193,7 @@
                 <pre class="code-example"><code>https://attest.ink/create/</code></pre>
 
                 <p>Or programmatically via our API:</p>
-                <pre class="code-example"><code>curl -s "https://attest.ink/api/create.html?content_name=My%20Article&model=gpt-4&role=assisted"
-
-# With API key for permanent short URLs
-curl -X POST https://attest.ink/api/shorten \
-  -H "Content-Type: application/json" \
-  -d '{"dataUrl": "data:...", "apiKey": "ak_your_api_key"}'</code></pre>
+                <pre class="code-example"><code>curl -s "https://attest.ink/api/create.html?content_name=My%20Article&model=gpt-4&role=assisted"</code></pre>
 
                 <h3>2. Embed a Badge</h3>
                 <p>Add this HTML to your page:</p>
@@ -538,90 +202,7 @@ curl -X POST https://attest.ink/api/shorten \
 &lt;/a&gt;</code></pre>
 
                 <h3>3. Verify</h3>
-                <p>Click any badge to verify the attestation, or use the API:</p>
-                <pre class="code-example"><code>// Decode the base64 data parameter
-const attestation = JSON.parse(atob(dataParam));
-
-// Verify structure and required fields
-if (attestation.version && attestation.id && attestation.content_name) {
-    console.log('Valid attestation');
-}</code></pre>
-            </section>
-
-            <!-- Offline Functionality -->
-            <section id="offline-functionality" class="section">
-                <h2>Offline Functionality & Storage Options</h2>
-                <p>attest.ink is designed to work both online and offline, providing flexibility for different use cases.</p>
-
-                <h3>How Embed Badges Work Offline</h3>
-                <p>Embed badges are self-contained HTML snippets that include the complete attestation data. This design enables:</p>
-                <ul>
-                    <li><strong>No External Dependencies:</strong> The badge contains all necessary data encoded in base64</li>
-                    <li><strong>Offline Verification:</strong> Anyone can verify the attestation without internet access</li>
-                    <li><strong>Permanent Availability:</strong> The attestation remains valid even if attest.ink is offline</li>
-                    <li><strong>Privacy:</strong> No external requests are made when displaying the badge</li>
-                </ul>
-
-                <h3>Embed Badge Structure</h3>
-                <pre class="code-example"><code>&lt;a href="https://attest.ink/verify/?data=eyJ2ZXJzaW9uIj..." 
-   target="_blank" 
-   style="text-decoration: none; display: inline-flex;"&gt;
-    &lt;img src="data:image/svg+xml;base64,..." 
-         alt="AI GENERATED" 
-         style="height: 32px;" /&gt;
-&lt;/a&gt;</code></pre>
-
-                <p>The embed badge consists of:</p>
-                <ul>
-                    <li><strong>Verification Link:</strong> Contains the full attestation data as a base64-encoded parameter</li>
-                    <li><strong>Badge Image:</strong> SVG image embedded as a data URL (no external image loading)</li>
-                    <li><strong>Styling:</strong> Inline styles ensure consistent appearance</li>
-                </ul>
-
-                <h3>Local Storage</h3>
-                <p>When creating attestations:</p>
-                <ul>
-                    <li>Attestations are saved to browser localStorage with key <code>attestation-{id}</code></li>
-                    <li>This enables verification of short URLs on the same device/browser</li>
-                    <li>localStorage is isolated per browser and domain</li>
-                </ul>
-
-                <h3>Sharing Attestations</h3>
-                <p>For cross-device sharing, use these methods:</p>
-                <div class="table-wrapper">
-                <table class="api-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Offline Support</th>
-                            <th>Best For</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Embed Badge</td>
-                            <td>✅ Full</td>
-                            <td>Websites, documentation, permanent records</td>
-                        </tr>
-                        <tr>
-                            <td>Data URL</td>
-                            <td>✅ Full</td>
-                            <td>Direct sharing, email, messaging</td>
-                        </tr>
-                        <tr>
-                            <td>JSON Export</td>
-                            <td>✅ Full</td>
-                            <td>Archival, bulk processing, custom integrations</td>
-                        </tr>
-                        <tr>
-                            <td>Short URL</td>
-                            <td>✅ Full (Premium)</td>
-                            <td>Permanent short URLs with $20 lifetime access</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-                </div>
+                <p>Click any badge to verify the attestation.</p>
             </section>
 
             <!-- API Reference -->
@@ -629,13 +210,12 @@ if (attestation.version && attestation.id && attestation.content_name) {
                 <h2>API Reference</h2>
                 <p>All API endpoints are client-side only and run entirely in your browser.</p>
 
-                <h3 id="create-attestation">Create Attestation</h3>
+                <h3>Create Attestation</h3>
                 <div class="api-endpoint">
                     <p><span class="method-badge method-get">GET</span> <code>/api/create.html</code></p>
                     
                     <h4>Parameters</h4>
-                    <div class="table-wrapper">
-                <table class="api-table">
+                    <table class="api-table">
                         <thead>
                             <tr>
                                 <th>Parameter</th>
@@ -646,175 +226,36 @@ if (attestation.version && attestation.id && attestation.content_name) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-label="Parameter"><code>content_name</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">Yes</td>
-                                <td data-label="Description">Name or title of the content</td>
+                                <td><code>content_name</code></td>
+                                <td>string</td>
+                                <td>Yes</td>
+                                <td>Name or title of the content</td>
                             </tr>
                             <tr>
-                                <td data-label="Parameter"><code>content</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">The actual content (for hash generation)</td>
+                                <td><code>model</code></td>
+                                <td>string</td>
+                                <td>No</td>
+                                <td>AI model ID (default: gpt-4)</td>
                             </tr>
                             <tr>
-                                <td data-label="Parameter"><code>model</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">AI model ID (default: gpt-4)</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>role</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">generated | assisted | edited | human (default: assisted)</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>document_type</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">Type of content (default: text)</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>author</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">Author name</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>prompt</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">The prompt used with the AI</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>prompt_private</code></td>
-                                <td data-label="Type">boolean</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">Hash the prompt instead of storing it</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Parameter"><code>output</code></td>
-                                <td data-label="Type">string</td>
-                                <td data-label="Required">No</td>
-                                <td data-label="Description">json | curl (default: json)</td>
+                                <td><code>role</code></td>
+                                <td>string</td>
+                                <td>No</td>
+                                <td>generated | assisted | edited | human</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
 
                     <h4>Example Request</h4>
-                    <pre class="code-example"><code>GET /api/create.html?content_name=Blog%20Post&model=claude-3-opus&role=assisted&author=Jane%20Smith</code></pre>
-
-                    <h4>Example Response</h4>
-                    <pre class="code-example"><code>{
-    "success": true,
-    "attestation": {
-        "version": "2.0",
-        "id": "2025-01-16-abc123",
-        "content_name": "Blog Post",
-        "model": "claude-3-opus",
-        "role": "assisted",
-        "author": "Jane Smith",
-        "timestamp": "2025-01-16T10:30:00Z",
-        "platform": "attest.ink"
-    },
-    "urls": {
-        "short": "https://attest.ink/verify/?id=2025-01-16-abc123",
-        "full": "https://attest.ink/verify/?data=eyJ2ZXJzaW9uIj..."
-    }
-}</code></pre>
+                    <pre class="code-example"><code>GET /api/create.html?content_name=Blog%20Post&model=claude-3-opus&role=assisted</code></pre>
                 </div>
-
-                <h3 id="verify-attestation">Verify Attestation</h3>
-                <p>Verification happens client-side by decoding and validating the attestation data.</p>
-                
-                <h4>URL Parameters</h4>
-                <div class="table-wrapper">
-                <table class="api-table">
-                    <thead>
-                        <tr>
-                            <th>Parameter</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Parameter"><code>data</code></td>
-                            <td data-label="Description">Base64-encoded attestation JSON</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Parameter"><code>id</code></td>
-                            <td data-label="Description">Short attestation ID (requires localStorage)</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Parameter"><code>url</code></td>
-                            <td data-label="Description">URL to fetch attestation JSON from</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-
-                <h3 id="badge-generation">Badge Generation</h3>
-                <p>Generate badges dynamically using our JavaScript API.</p>
-                
-                <pre class="code-example"><code>// Include the badge renderer
-&lt;script src="https://attest.ink/static/badge-renderer.js"&gt;&lt;/script&gt;
-
-// Create a badge programmatically
-const svg = AttestInk.createBadgeSVG('gpt-4', 'generated');
-document.getElementById('badge').innerHTML = svg;</code></pre>
-            </section>
-
-            <!-- JavaScript SDK -->
-            <section id="javascript-sdk" class="section">
-                <h2>JavaScript SDK</h2>
-                <p>The attest.ink JavaScript SDK provides utilities for creating and verifying attestations.</p>
-
-                <h3>Installation</h3>
-                <pre class="code-example"><code>&lt;script src="https://attest.ink/static/attestation-tool.js"&gt;&lt;/script&gt;
-&lt;script src="https://attest.ink/static/badge-renderer.js"&gt;&lt;/script&gt;</code></pre>
-
-                <h3>Core Functions</h3>
-                
-                <h4>AttestInk.createBadgeSVG(modelId, role)</h4>
-                <p>Creates an SVG badge for the specified model and role.</p>
-                <pre class="code-example"><code>const badge = AttestInk.createBadgeSVG('gpt-4-turbo', 'assisted');
-// Returns: &lt;svg...&gt;...&lt;/svg&gt;</code></pre>
-
-                <h4>AttestInk.getBadgeUrl(modelId)</h4>
-                <p>Returns the URL for a pre-rendered badge SVG.</p>
-                <pre class="code-example"><code>const url = AttestInk.getBadgeUrl('claude-3-opus');
-// Returns: https://attest.ink/assets/badges/claude-3-opus.svg</code></pre>
-
-                <h4>AttestInk.renderBadges()</h4>
-                <p>Automatically renders all badges on the page with class <code>ai-attest-badge</code>.</p>
-                <pre class="code-example"><code>&lt;div class="ai-attest-badge" 
-     data-model="gpt-4" 
-     data-role="generated"
-     data-attestation-url="/attestation.json"&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-    AttestInk.renderBadges();
-&lt;/script&gt;</code></pre>
-
-                <h4>AttestInk.verifyAttestation(attestation)</h4>
-                <p>Validates an attestation object structure.</p>
-                <pre class="code-example"><code>const isValid = AttestInk.verifyAttestation(attestationObject);
-// Returns: { valid: boolean, errors: string[] }</code></pre>
-
-                <h4>AttestInk.calculateHash(content)</h4>
-                <p>Calculates SHA-256 hash of content.</p>
-                <pre class="code-example"><code>const hash = await AttestInk.calculateHash('Hello, world!');
-// Returns: sha256:315f5bdb76d078c43b8ac0064e4a0164...</code></pre>
             </section>
 
             <!-- Integration Guides -->
             <section id="integration-guides" class="section">
                 <h2>Integration Guides</h2>
 
-                <h3 id="html-integration">HTML/CSS Integration</h3>
+                <h3>HTML/CSS Integration</h3>
                 <p>The simplest way to add attestation badges to any HTML page.</p>
 
                 <h4>Static Badge</h4>
@@ -826,648 +267,11 @@ document.getElementById('badge').innerHTML = svg;</code></pre>
          height="30" /&gt;
 &lt;/a&gt;</code></pre>
 
-                <h4>Dynamic Badge</h4>
-                <pre class="code-example"><code>&lt;!-- Dynamic badge with attestation data --&gt;
-&lt;div class="ai-attest-badge" 
-     data-attestation-url="https://example.com/attestation.json"&gt;
-&lt;/div&gt;
-
-&lt;script src="https://attest.ink/static/badge-renderer.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-    document.addEventListener('DOMContentLoaded', function() {
-        AttestInk.renderBadges();
-    });
-&lt;/script&gt;</code></pre>
-
-                <h4>Custom Styling</h4>
-                <pre class="code-example"><code>/* Position badge in bottom right */
-.ai-badge-container {
-    position: relative;
-}
-
-.ai-badge-container .ai-attest-badge {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}</code></pre>
-
-                <h3 id="readme-integration">README/Markdown Integration</h3>
-                <p>Add AI attestation badges to your README files and documentation. Two styles available:</p>
+                <h3>README/Markdown Integration</h3>
+                <p>Add AI attestation badges to your README files:</p>
                 
-                <h4>Shields.io Style (Recommended for GitHub)</h4>
-                <p>These badges match the standard GitHub badge style and work great alongside build status, license, and other project badges.</p>
-                
-                <h5>Basic Examples</h5>
-                <pre class="code-example"><code># Standard badge styles
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](YOUR_VERIFY_URL)
-[![AI Generated](https://img.shields.io/badge/AI-Generated-green)](YOUR_VERIFY_URL)
-[![AI Edited](https://img.shields.io/badge/AI-Edited-yellow)](YOUR_VERIFY_URL)
-
-# With model name
-[![GPT-4 Assisted](https://img.shields.io/badge/AI-GPT--4_Assisted-blue)](YOUR_VERIFY_URL)
-[![Claude 3 Opus](https://img.shields.io/badge/AI-Claude_3_Opus-purple)](YOUR_VERIFY_URL)
-
-# With emoji
-[![🤖 AI Assisted](https://img.shields.io/badge/🤖_AI-Assisted-blue)](YOUR_VERIFY_URL)</code></pre>
-                
-                <h5>Advanced Customization</h5>
-                <pre class="code-example"><code># Different styles
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=flat-square)](YOUR_VERIFY_URL)
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=for-the-badge)](YOUR_VERIFY_URL)
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?style=plastic)](YOUR_VERIFY_URL)
-
-# With logos
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?logo=openai&logoColor=white)](YOUR_VERIFY_URL)
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue?logo=anthropic&logoColor=white)](YOUR_VERIFY_URL)
-
-# Custom colors (use hex without #)
-[![AI Magic](https://img.shields.io/badge/AI-Magic-ff69b4)](YOUR_VERIFY_URL)
-[![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)](YOUR_VERIFY_URL)</code></pre>
-                
-                <h5>Complete README Example</h5>
-                <pre class="code-example"><code># My Awesome Project
-
-[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](https://attest.ink/verify/?data=...)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/user/repo/actions/workflows/ci.yml/badge.svg)](https://github.com/user/repo/actions)
-[![GitHub stars](https://img.shields.io/github/stars/user/repo.svg?style=social)](https://github.com/user/repo)
-
-This project was built with AI assistance...</code></pre>
-                
-                <h4>attest.ink Native Badges</h4>
-                <p>Use our pixel-art style badges for a unique, retro look:</p>
-                <pre class="code-example"><code>[![AI Generated](https://attest.ink/assets/badges/gpt-4-generated.svg)](YOUR_VERIFY_URL)
-[![AI Assisted](https://attest.ink/assets/badges/claude-3-opus-assisted.svg)](YOUR_VERIFY_URL)</code></pre>
-                
-                <div class="info">
-                    <h4>Creating Your Badge</h4>
-                    <ol>
-                        <li>Create your attestation at <a href="/create/">attest.ink/create</a></li>
-                        <li>Copy the verification URL from the result page</li>
-                        <li>Choose a badge style from above</li>
-                        <li>Replace <code>YOUR_VERIFY_URL</code> with your actual verification URL</li>
-                        <li>Add to your README.md file</li>
-                    </ol>
-                </div>
-
-                <h3 id="react-integration">React Integration</h3>
-                <p>Create a reusable React component for attestation badges.</p>
-
-                <pre class="code-example"><code>import React, { useEffect, useRef } from 'react';
-
-const AIAttestationBadge = ({ attestationUrl, model = 'gpt-4', role = 'assisted' }) => {
-    const badgeRef = useRef(null);
-
-    useEffect(() => {
-        // Load the badge renderer script
-        const script = document.createElement('script');
-        script.src = 'https://attest.ink/static/badge-renderer.js';
-        script.onload = () => {
-            if (window.AttestInk && badgeRef.current) {
-                badgeRef.current.innerHTML = window.AttestInk.createBadgeSVG(model, role);
-            }
-        };
-        document.body.appendChild(script);
-
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, [model, role]);
-
-    return (
-        &lt;a href={`https://attest.ink/verify/?url=${encodeURIComponent(attestationUrl)}`} 
-           target="_blank" 
-           rel="noopener noreferrer"&gt;
-            &lt;div ref={badgeRef} /&gt;
-        &lt;/a&gt;
-    );
-};
-
-export default AIAttestationBadge;</code></pre>
-
-                <h4>Usage</h4>
-                <pre class="code-example"><code>&lt;AIAttestationBadge 
-    attestationUrl="/attestations/blog-post.json"
-    model="claude-3-opus"
-    role="assisted"
-/&gt;</code></pre>
-
-                <h3 id="vue-integration">Vue.js Integration</h3>
-                <p>Vue component for attestation badges.</p>
-
-                <pre class="code-example"><code>&lt;template&gt;
-    &lt;a :href="verifyUrl" target="_blank" class="ai-attestation-badge"&gt;
-        &lt;div ref="badge"&gt;&lt;/div&gt;
-    &lt;/a&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-    name: 'AIAttestationBadge',
-    props: {
-        attestationUrl: String,
-        model: {
-            type: String,
-            default: 'gpt-4'
-        },
-        role: {
-            type: String,
-            default: 'assisted'
-        }
-    },
-    computed: {
-        verifyUrl() {
-            return `https://attest.ink/verify/?url=${encodeURIComponent(this.attestationUrl)}`;
-        }
-    },
-    mounted() {
-        this.loadBadgeRenderer();
-    },
-    methods: {
-        async loadBadgeRenderer() {
-            // Load script if not already loaded
-            if (!window.AttestInk) {
-                await this.loadScript('https://attest.ink/static/badge-renderer.js');
-            }
-            
-            // Create badge
-            if (window.AttestInk) {
-                this.$refs.badge.innerHTML = window.AttestInk.createBadgeSVG(this.model, this.role);
-            }
-        },
-        loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.body.appendChild(script);
-            });
-        }
-    }
-}
-&lt;/script&gt;</code></pre>
-
-                <h3 id="wordpress-integration">WordPress Integration</h3>
-                <p>Add AI attestation badges to your WordPress site.</p>
-
-                <h4>Shortcode Implementation</h4>
-                <pre class="code-example"><code>// Add to your theme's functions.php or a custom plugin
-
-function ai_attestation_badge_shortcode($atts) {
-    $atts = shortcode_atts(array(
-        'model' => 'gpt-4',
-        'role' => 'assisted',
-        'url' => '',
-        'data' => ''
-    ), $atts);
-    
-    $verify_url = 'https://attest.ink/verify/';
-    if ($atts['data']) {
-        $verify_url .= '?data=' . $atts['data'];
-    } elseif ($atts['url']) {
-        $verify_url .= '?url=' . urlencode($atts['url']);
-    }
-    
-    $badge_url = "https://attest.ink/assets/badges/{$atts['model']}-{$atts['role']}.svg";
-    
-    return sprintf(
-        '&lt;a href="%s" target="_blank" class="ai-attestation-badge"&gt;
-            &lt;img src="%s" alt="AI %s with %s" width="140" height="30" /&gt;
-        &lt;/a&gt;',
-        esc_url($verify_url),
-        esc_url($badge_url),
-        ucfirst($atts['role']),
-        strtoupper($atts['model'])
-    );
-}
-add_shortcode('ai_badge', 'ai_attestation_badge_shortcode');</code></pre>
-
-                <h4>Usage in Posts</h4>
-                <pre class="code-example"><code>[ai_badge model="claude-3-opus" role="assisted" url="https://example.com/attestation.json"]</code></pre>
-
-                <h4>Gutenberg Block</h4>
-                <pre class="code-example"><code>// Register block in your plugin
-registerBlockType('attest-ink/badge', {
-    title: 'AI Attestation Badge',
-    icon: 'shield',
-    category: 'common',
-    attributes: {
-        model: { type: 'string', default: 'gpt-4' },
-        role: { type: 'string', default: 'assisted' },
-        attestationUrl: { type: 'string' }
-    },
-    edit: (props) => {
-        // Block editor UI
-    },
-    save: (props) => {
-        // Frontend render
-    }
-});</code></pre>
-            </section>
-
-            <!-- Schema Reference -->
-            <section id="schema-reference" class="section">
-                <h2>Schema Reference</h2>
-                <p>Complete reference for the attestation schema version 2.0.</p>
-
-                <h3>Schema Structure</h3>
-                <pre class="code-example"><code>{
-    "version": "2.0",                    // Required: Schema version
-    "id": "2025-01-16-abc123",          // Required: Unique identifier
-    "content_name": "Blog Post Title",   // Required: Human-readable name
-    "content_hash": "sha256:...",        // Optional: SHA-256 hash of content
-    "document_type": "markdown",         // Required: Type of document
-    "model": "gpt-4-turbo",             // Required: AI model identifier or "human"
-    "role": "assisted",                  // Required: generated|assisted|edited|human
-    "author": "Jane Smith",              // Optional: Human author
-    "timestamp": "2025-01-16T10:30:00Z", // Required: ISO 8601 timestamp
-    "platform": "attest.ink",            // Required: Platform identifier
-    "prompt": "Write about...",          // Optional: AI prompt used
-    "prompt_hash": "sha256:...",         // Optional: Hashed prompt
-    "signature": {                       // Optional: Digital signature
-        "type": "ethereum|local|hmac-sha256", // Signature type
-        "value": "0x...",                // Signature value
-        "signer": "0x...",               // Signer address (ethereum)
-        "algorithm": "HMAC-SHA256",      // Algorithm (hmac-sha256)
-        "data_to_sign": "{...}"          // Data structure signed (hmac-sha256)
-        "message": "{...}"               // Signed message
-    },
-    "signer": {                          // Optional: Signer info (hmac-sha256)
-        "name": "Austin Harshberger",    // Signer name
-        "id": "97115104"                 // Optional: Signer ID
-    },
-    "generation_type": "human|ai"        // Optional: Generation type
-}</code></pre>
-
-                <h3>Document Types</h3>
-                <div class="table-wrapper">
-                <table class="api-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>File Extensions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Type"><code>text</code></td>
-                            <td data-label="Description">Plain text</td>
-                            <td data-label="File Extensions">.txt</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>markdown</code></td>
-                            <td data-label="Description">Markdown formatted text</td>
-                            <td data-label="File Extensions">.md</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>html</code></td>
-                            <td data-label="Description">HTML documents</td>
-                            <td data-label="File Extensions">.html, .htm</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>code</code></td>
-                            <td data-label="Description">Source code</td>
-                            <td data-label="File Extensions">.js, .py, .java, etc.</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>image</code></td>
-                            <td data-label="Description">Image files</td>
-                            <td data-label="File Extensions">.jpg, .png, .gif, etc.</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>audio</code></td>
-                            <td data-label="Description">Audio files</td>
-                            <td data-label="File Extensions">.mp3, .wav, etc.</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>video</code></td>
-                            <td data-label="Description">Video files</td>
-                            <td data-label="File Extensions">.mp4, .mov, etc.</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>pdf</code></td>
-                            <td data-label="Description">PDF documents</td>
-                            <td data-label="File Extensions">.pdf</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>latex</code></td>
-                            <td data-label="Description">LaTeX documents</td>
-                            <td data-label="File Extensions">.tex</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-
-                <h3>Signature Types</h3>
-                <p>Attestations can be signed using different methods:</p>
-                <div class="table-wrapper">
-                <table class="api-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Required Fields</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Type"><code>ethereum</code></td>
-                            <td data-label="Description">Ethereum wallet signature (MetaMask, etc.)</td>
-                            <td data-label="Required Fields">signature.value, signature.signer</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>local</code></td>
-                            <td data-label="Description">Password-based signature (client-side)</td>
-                            <td data-label="Required Fields">signature.value, signature.salt</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>hmac-sha256</code></td>
-                            <td data-label="Description">HMAC-SHA256 signature (server-side)</td>
-                            <td data-label="Required Fields">signature.value, signer.name</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Type"><code>none</code></td>
-                            <td data-label="Description">No signature (unsigned attestation)</td>
-                            <td data-label="Required Fields">N/A</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-
-                <h3>HMAC-SHA256 Signature Details</h3>
-                <p>For server-side HMAC signing, the data structure to sign is:</p>
-                <pre class="code-example"><code>const dataToSign = JSON.stringify({
-    content_name: attestation.content_name,
-    content_hash: attestation.content_hash,
-    timestamp: attestation.timestamp,
-    model: attestation.model
-});
-
-// Server-side signing
-const signature = crypto
-    .createHmac('sha256', signingKey)
-    .update(dataToSign)
-    .digest('hex');</code></pre>
-
-                <h3>Premium API: Short URL Creation</h3>
-                <div class="api-endpoint">
-                    <p><span class="method-badge method-post">POST</span> <code>/api/shorten</code></p>
-                    
-                    <h4>Request Body</h4>
-                    <div class="table-wrapper">
-                <table class="api-table">
-                        <thead>
-                            <tr>
-                                <th>Field</th>
-                                <th>Type</th>
-                                <th>Required</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>dataUrl</code></td>
-                                <td>string</td>
-                                <td>Yes</td>
-                                <td>The full data URL of the attestation</td>
-                            </tr>
-                            <tr>
-                                <td><code>apiKey</code></td>
-                                <td>string</td>
-                                <td>Yes</td>
-                                <td>Your premium API key (ak_...)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                    <h4>Example Request</h4>
-                    <pre class="code-example"><code>curl -X POST https://attest.ink/api/shorten \
-  -H "Content-Type: application/json" \
-  -d '{
-    "dataUrl": "data:application/json;base64,eyJ2ZXJzaW9uIj...",
-    "apiKey": "ak_your_api_key"
-  }'</code></pre>
-
-                    <h4>Example Response</h4>
-                    <pre class="code-example"><code>{
-    "success": true,
-    "shortUrl": "https://attest.ink/s/abc123",
-    "shortId": "abc123"
-}</code></pre>
-                </div>
-
-                <h3>AI Model Registry</h3>
-                <p>Access the complete list of supported AI models:</p>
-                <pre class="code-example"><code>// Get all supported models
-const models = window.AI_MODELS;
-
-// Example structure
-{
-    "openai": {
-        "name": "OpenAI",
-        "models": [
-            {
-                "id": "gpt-5",
-                "name": "GPT-5 (Coming Soon)",
-                "color": "#74aa9c"
-            },
-            {
-                "id": "gpt-4-turbo-2024-04-09",
-                "name": "GPT-4 Turbo (Apr 2024)",
-                "color": "#74aa9c"
-            },
-            // ... more models
-        ]
-    },
-    // ... more providers
-}</code></pre>
-            </section>
-
-            <!-- Security -->
-            <section id="security" class="section">
-                <h2>Security Considerations</h2>
-
-                <div class="warning">
-                    <strong>Important:</strong> Always validate attestations on the client side. Never trust attestation data without verification.
-                </div>
-
-                <h3>Content Hash Verification</h3>
-                <p>Always verify content hashes when possible:</p>
-                <pre class="code-example"><code>async function verifyContentHash(content, expectedHash) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(content);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const calculatedHash = 'sha256:' + hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    
-    return calculatedHash === expectedHash;
-}</code></pre>
-
-                <h3>Signature Verification</h3>
-                <p>For Ethereum wallet signatures:</p>
-                <pre class="code-example"><code>async function verifyWalletSignature(attestation) {
-    if (!attestation.signature || attestation.signature.type !== 'wallet') {
-        return false;
-    }
-    
-    const message = attestation.signature.message;
-    const signature = attestation.signature.value;
-    const expectedSigner = attestation.signature.signer;
-    
-    // Using ethers.js
-    const recoveredAddress = ethers.utils.verifyMessage(message, signature);
-    return recoveredAddress.toLowerCase() === expectedSigner.toLowerCase();
-}</code></pre>
-
-                <h3>Best Practices</h3>
-                <ul>
-                    <li>Always use HTTPS when fetching attestations</li>
-                    <li>Validate all required fields before trusting an attestation</li>
-                    <li>Implement rate limiting for API requests</li>
-                    <li>Store sensitive prompts as hashes, not plain text</li>
-                    <li>Use Content Security Policy (CSP) headers</li>
-                    <li>Sanitize any user-provided content before display</li>
-                </ul>
-            </section>
-
-            <!-- Code Examples -->
-            <section id="examples" class="section">
-                <h2>Code Examples</h2>
-
-                <h3>Complete HTML Example</h3>
-                <pre class="code-example"><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Blog Post with AI Attestation&lt;/title&gt;
-    &lt;style&gt;
-        .article-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;article&gt;
-        &lt;h1&gt;Understanding Quantum Computing&lt;/h1&gt;
-        &lt;p&gt;Content here...&lt;/p&gt;
-        
-        &lt;div class="article-footer"&gt;
-            &lt;span&gt;Published: January 16, 2025&lt;/span&gt;
-            &lt;a href="https://attest.ink/verify/?data=eyJ2ZXJzaW9uIj..." target="_blank"&gt;
-                &lt;img src="https://attest.ink/assets/badges/gpt-4-assisted.svg" 
-                     alt="AI Assisted with GPT-4" 
-                     width="140" 
-                     height="30" /&gt;
-            &lt;/a&gt;
-        &lt;/div&gt;
-    &lt;/article&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
-                <h3>Node.js Script Example</h3>
-                <pre class="code-example"><code>const fs = require('fs');
-const crypto = require('crypto');
-const fetch = require('node-fetch');
-
-async function createAttestation(contentPath, options = {}) {
-    // Read content
-    const content = fs.readFileSync(contentPath, 'utf8');
-    
-    // Calculate hash
-    const hash = crypto.createHash('sha256');
-    hash.update(content);
-    const contentHash = 'sha256:' + hash.digest('hex');
-    
-    // Create attestation
-    const params = new URLSearchParams({
-        content_name: options.title || 'Untitled',
-        content: content,
-        model: options.model || 'gpt-4',
-        role: options.role || 'assisted',
-        author: options.author || 'Anonymous'
-    });
-    
-    const response = await fetch(`https://attest.ink/api/create.html?${params}`);
-    const result = await response.json();
-    
-    // Save attestation
-    fs.writeFileSync(
-        contentPath.replace(/\.[^.]+$/, '.attestation.json'),
-        JSON.stringify(result.attestation, null, 2)
-    );
-    
-    console.log('Attestation created:', result.urls.full);
-    return result;
-}
-
-// Usage
-createAttestation('./blog-post.md', {
-    title: 'My Blog Post',
-    model: 'claude-3-opus',
-    role: 'assisted',
-    author: 'Jane Smith'
-});</code></pre>
-
-                <h3>Python Example</h3>
-                <pre class="code-example"><code>import hashlib
-import json
-import requests
-from datetime import datetime
-import base64
-
-def create_attestation(content_name, content=None, **kwargs):
-    """Create an AI attestation for content"""
-    
-    # Calculate content hash if content provided
-    content_hash = None
-    if content:
-        hash_obj = hashlib.sha256(content.encode('utf-8'))
-        content_hash = f"sha256:{hash_obj.hexdigest()}"
-    
-    # Build attestation
-    attestation = {
-        "version": "2.0",
-        "id": f"{datetime.now().strftime('%Y-%m-%d')}-{hashlib.md5(content_name.encode()).hexdigest()[:6]}",
-        "content_name": content_name,
-        "content_hash": content_hash,
-        "model": kwargs.get("model", "gpt-4"),
-        "role": kwargs.get("role", "assisted"),
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "platform": "attest.ink"
-    }
-    
-    # Add optional fields
-    for field in ["author", "document_type", "prompt"]:
-        if field in kwargs:
-            attestation[field] = kwargs[field]
-    
-    # Create verification URL
-    attestation_json = json.dumps(attestation)
-    encoded = base64.b64encode(attestation_json.encode()).decode()
-    verify_url = f"https://attest.ink/verify/?data={encoded}"
-    
-    return {
-        "attestation": attestation,
-        "verify_url": verify_url
-    }
-
-# Usage
-result = create_attestation(
-    "My Research Paper",
-    content="Full paper content here...",
-    model="claude-3-opus",
-    role="assisted",
-    author="Dr. Smith"
-)
-
-print(f"Verify at: {result['verify_url']}")</code></pre>
+                <pre class="code-example"><code>[![AI Assisted](https://img.shields.io/badge/AI-Assisted-blue)](https://attest.ink/verify/?data=...)
+[![AI Generated](https://attest.ink/assets/badges/gpt-4-generated.svg)](https://attest.ink/verify/?data=...)</code></pre>
             </section>
 
             <!-- Troubleshooting -->
@@ -1481,60 +285,13 @@ print(f"Verify at: {result['verify_url']}")</code></pre>
                     <p><strong>Problem:</strong> Badge doesn't appear on the page</p>
                     <p><strong>Solutions:</strong></p>
                     <ul>
-                        <li>Ensure the badge renderer script is loaded: <code>&lt;script src="https://attest.ink/static/badge-renderer.js"&gt;</code></li>
+                        <li>Ensure the badge renderer script is loaded</li>
                         <li>Check browser console for errors</li>
-                        <li>Verify the badge container has the correct class: <code>ai-attest-badge</code></li>
-                        <li>Call <code>AttestInk.renderBadges()</code> after DOM is loaded</li>
+                        <li>Verify the badge container has the correct class</li>
                     </ul>
                 </div>
 
-                <div class="info">
-                    <h4>Short URLs</h4>
-                    <p><strong>Premium Feature:</strong> Permanent short URLs require a $20 lifetime access purchase</p>
-                    <p><strong>Benefits:</strong></p>
-                    <ul>
-                        <li>Never expire - stored permanently on our servers</li>
-                        <li>Work across all devices and browsers</li>
-                        <li>Include API access for programmatic creation</li>
-                        <li>Professional email receipt with API key</li>
-                    </ul>
-                    <p><strong>Free Alternatives:</strong></p>
-                    <ul>
-                        <li>Use embed badges (self-contained HTML)</li>
-                        <li>Use the full data URL: <code>?data=...</code></li>
-                        <li>Save and host the attestation JSON file</li>
-                    </ul>
-                </div>
-
-                <div class="info">
-                    <h4>CORS Errors</h4>
-                    <p><strong>Problem:</strong> Cannot fetch attestation from external URL</p>
-                    <p><strong>Solutions:</strong></p>
-                    <ul>
-                        <li>Ensure the server hosting the attestation allows CORS</li>
-                        <li>Add appropriate CORS headers: <code>Access-Control-Allow-Origin: *</code></li>
-                        <li>Use the data URL method instead of fetching</li>
-                    </ul>
-                </div>
-
-                <h3>Debugging Tips</h3>
-                <pre class="code-example"><code>// Enable debug logging
-window.ATTEST_INK_DEBUG = true;
-
-// Check if attestation is valid
-console.log('Attestation valid?', AttestInk.verifyAttestation(attestation));
-
-// Manually create and log badge
-const badge = AttestInk.createBadgeSVG('gpt-4', 'generated');
-console.log('Badge SVG:', badge);
-
-// Check available models
-console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
-            </section>
-
-            <!-- Support -->
-            <section class="section">
-                <h2>Getting Help</h2>
+                <h3>Getting Help</h3>
                 <p>Need assistance? We're here to help!</p>
                 
                 <ul>
@@ -1545,10 +302,6 @@ console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
                     <li><strong>CI/CD Guide:</strong> <a href="/docs/ci-cd-automation.html">Automation Guide</a></li>
                     <li><strong>API Reference:</strong> <a href="/docs/api-reference.html">Complete API Docs</a></li>
                 </ul>
-                
-                <div class="info">
-                    <p><strong>Contributing:</strong> We welcome contributions! Check our <a href="https://github.com/statusdothealth/attest.ink" target="_blank">GitHub repository</a> for contribution guidelines.</p>
-                </div>
             </section>
         </main>
     </div>
@@ -1556,59 +309,6 @@ console.log('Available models:', Object.keys(window.AI_MODELS));</code></pre>
     <script src="/static/theme.js"></script>
     <script src="/static/mobile-nav.js"></script>
     <script src="/static/badge-renderer.js"></script>
-    <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Highlight current section in TOC
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
-            
-            let current = '';
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= 100 && rect.bottom > 100) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            tocLinks.forEach(link => {
-                link.style.fontWeight = link.getAttribute('href') === `#${current}` ? 'bold' : 'normal';
-            });
-        });
-        
-        // Add scroll indicators to tables
-        document.addEventListener('DOMContentLoaded', function() {
-            const tableWrappers = document.querySelectorAll('.table-wrapper');
-            tableWrappers.forEach(wrapper => {
-                const table = wrapper.querySelector('table');
-                if (table && table.scrollWidth > wrapper.clientWidth) {
-                    wrapper.setAttribute('data-scrollable', 'true');
-                }
-                
-                // Update on resize
-                window.addEventListener('resize', () => {
-                    if (table && table.scrollWidth > wrapper.clientWidth) {
-                        wrapper.setAttribute('data-scrollable', 'true');
-                    } else {
-                        wrapper.removeAttribute('data-scrollable');
-                    }
-                });
-            });
-        });
-    </script>
     <script src="/static/global-footer.js"></script>
 </body>
 </html>
